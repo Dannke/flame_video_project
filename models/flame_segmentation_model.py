@@ -272,7 +272,7 @@ class FlameSegmentationTrainer:
     def train_epoch(self, dataloader, criterion, optimizer):
         self.model.train()
         total_loss = 0
-        progress_bar = tqdm(dataloader, desc='Training')
+        progress_bar = tqdm(dataloader, desc='Training', ascii=True if os.name == 'nt' else False)
         for images, masks in progress_bar:
             try:
                 images = images.to(self.device, non_blocking=True)
@@ -298,7 +298,7 @@ class FlameSegmentationTrainer:
         total_loss = 0
         metrics = {'iou': [], 'dice': [], 'precision': [], 'recall': []}
         with torch.no_grad():
-            for images, masks in tqdm(dataloader, desc='Validation'):
+            for images, masks in tqdm(dataloader, desc='Validation', ascii=True if os.name == 'nt' else False):
                 try:
                     images = images.to(self.device, non_blocking=True)
                     masks = masks.to(self.device, non_blocking=True)
@@ -1179,92 +1179,6 @@ def load_trained_model(model_path='flame_unet.pth', device='cuda', use_temporal=
     except Exception as e:
         print(f"Ошибка при загрузке модели: {e}")
         return None
-
-
-# ============= УТИЛИТЫ ДЛЯ ТЕСТИРОВАНИЯ =============
-
-def test_model_on_folder(model, test_folder, device='cuda', img_size=(256, 256), save_results=True):
-    """
-    Тестирует модель на папке с изображениями и создает наложения предсказаний
-    """
-    model.eval()
-    image_extensions = ['*.jpg', '*.jpeg', '*.png', '*.bmp']
-
-    test_images = []
-    for ext in image_extensions:
-        test_images.extend(glob.glob(os.path.join(test_folder, ext)))
-
-    if len(test_images) == 0:
-        print(f"Не найдено изображений в {test_folder}")
-        return
-
-    print(f"Найдено {len(test_images)} изображений для тестирования")
-
-    results_folder = 'test_results'
-    if save_results:
-        os.makedirs(results_folder, exist_ok=True)
-
-    for i, img_path in enumerate(tqdm(test_images, desc="Обработка изображений")):
-        try:
-            original_image, pred_mask = predict_single_image(
-                model, img_path, device=device, img_size=img_size
-            )
-
-            if save_results:
-                # Сохраняем результат
-                filename = os.path.splitext(os.path.basename(img_path))[0]
-                result_path = os.path.join(
-                    results_folder, f"{filename}_result.png")
-
-                # Создаем композитное изображение: оригинал + наложение
-                fig, axes = plt.subplots(1, 2, figsize=(12, 6))
-
-                # Оригинальное изображение
-                axes[0].imshow(original_image)
-                axes[0].set_title('Оригинал', fontsize=12)
-                axes[0].axis('off')
-
-                # Создаем наложение предсказания на оригинал
-                image_normalized = original_image.astype(np.float32) / 255.0
-                overlay = image_normalized.copy()
-                flame_mask = pred_mask > 127
-                # Полупрозрачное красное наложение для пламени
-                overlay[flame_mask] = overlay[flame_mask] * \
-                    0.6 + np.array([1.0, 0.2, 0.2]) * 0.4
-
-                axes[1].imshow(overlay)
-                axes[1].set_title(
-                    'Предсказание модели (наложение)', fontsize=12)
-                axes[1].axis('off')
-
-                plt.tight_layout()
-                plt.savefig(result_path, dpi=200,
-                            bbox_inches='tight', facecolor='white')
-                plt.close()
-
-        except Exception as e:
-            print(f"Ошибка при обработке {img_path}: {e}")
-
-    print(f"Результаты сохранены в папку: {results_folder}")
-
-    # Открываем папку с результатами в системном проводнике
-    try:
-        import platform
-
-        system = platform.system()
-        if system == "Windows":
-            os.startfile(results_folder)
-        elif system == "Darwin":  # macOS
-            os.system(f'open "{results_folder}"')
-        else:  # Linux
-            os.system(f'xdg-open "{results_folder}"')
-
-        print(f"Папка с результатами открыта: {results_folder}")
-
-    except Exception as e:
-        print(f"Не удалось автоматически открыть папку: {e}")
-        print(f"Вы можете открыть папку вручную: {results_folder}")
-
 
 if __name__ == "__main__":
     # Пример использования

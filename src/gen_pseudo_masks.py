@@ -29,7 +29,8 @@ def gen_masks_temporal(frames_dir, masks_out_dir, polygon=None,
                        min_flicker_frames=5,     # Минимум кадров для анализа мерцания
                        use_color_filter=True,    # Использовать цветовой фильтр
                        confidence_threshold=20.0,  # Минимальная уверенность для "пламени"
-                       flame_percent_threshold=0.2):  # Минимальный процент для "пламени"
+                       flame_percent_threshold=0.2,  # Минимальный процент для "пламени"
+                       negative_keep_ratio=0.05):   # Доля % кадров без пламени
     """
     Генерация масок пламени с улучшенным временным анализом
 
@@ -56,6 +57,12 @@ def gen_masks_temporal(frames_dir, masks_out_dir, polygon=None,
             print("No frames found in", frames_dir)
             return
 
+        # --- вычислим лимит на negative (no_flame) кадры ---
+        max_no_flame_to_keep = max(
+            0, int(len(frames) * float(negative_keep_ratio)))
+        kept_no_flame = 0
+        processed_no_flame = 0
+
         if use_roi is None:
             use_roi = bool(polygon) and len(polygon) > 2
         else:
@@ -72,6 +79,8 @@ def gen_masks_temporal(frames_dir, masks_out_dir, polygon=None,
         print(f"  - ROI: {'задан' if use_roi else 'не используется'}")
         print(f"  - Порог уверенности: {confidence_threshold}%")
         print(f"  - Порог площади пламени: {flame_percent_threshold}%")
+        print(
+            f"  - negative_keep_ratio: {negative_keep_ratio} -> max_no_flame_to_keep={max_no_flame_to_keep}")
 
         # Инициализация буфера кадров
         frame_buffer = deque(maxlen=buffer_size)
@@ -124,10 +133,29 @@ def gen_masks_temporal(frames_dir, masks_out_dir, polygon=None,
             else:
                 flame_status = "uncertain"
 
-            # Сохранение маски
-            mask_filename = f"mask_{i:06d}.png"
-            mask_path = os.path.join(masks_out_dir, mask_filename)
-            cv2.imwrite(mask_path, mask)
+           # Сохранение маски — но применяем ограничение на no_flame
+            save_mask = True
+            if flame_status == "no_flame":
+                processed_no_flame += 1
+                if kept_no_flame < max_no_flame_to_keep:
+                    kept_no_flame += 1
+                    save_mask = True
+                else:
+                    # Превышен лимит negative — не сохраняем маску и удаляем кадр,
+                    # чтобы не засорять датасет лишними negative-кадрами.
+                    save_mask = False
+
+            if save_mask:
+                mask_filename = f"mask_{i:06d}.png"
+                mask_path = os.path.join(masks_out_dir, mask_filename)
+                cv2.imwrite(mask_path, mask)
+            else:
+                # удаляем исходный кадр (либо можно переместить в отдельную папку)
+                try:
+                    if os.path.exists(frame_path):
+                        os.remove(frame_path)
+                except Exception:
+                    pass
 
             # Обновление статистики
             total_flame_percent += flame_percent
@@ -209,7 +237,8 @@ def gen_masks_temporal(frames_dir, masks_out_dir, polygon=None,
                 'min_flicker_frames': min_flicker_frames,
                 'use_color_filter': use_color_filter,
                 'confidence_threshold': confidence_threshold,
-                'flame_percent_threshold': flame_percent_threshold
+                'flame_percent_threshold': flame_percent_threshold,
+                'negative_keep_ratio': negative_keep_ratio
             }
         )
 
