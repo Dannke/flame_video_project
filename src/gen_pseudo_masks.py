@@ -242,11 +242,11 @@ def save_detailed_statistics_with_params(output_dir, flame_percentages, confiden
                 filename = os.path.basename(frame_paths[i]) if i < len(
                     frame_paths) else f"frame_{i:06d}.jpg"
                 if status == 'flame':
-                    status_symbol = '🔥'
+                    status_symbol = 'FLAME'
                 elif status == 'no_flame':
-                    status_symbol = '❄️'
+                    status_symbol = 'CLEAR'
                 else:
-                    status_symbol = '❓'
+                    status_symbol = '?????'
                 f.write(
                     f"{i:5d} | {flame_pct:6.2f} | {conf:11.1f} | {status:8s} {status_symbol} | {filename}\n")
 
@@ -307,11 +307,11 @@ def save_detailed_statistics(output_dir, flame_percentages, confidences, statuse
                 filename = os.path.basename(frame_paths[i]) if i < len(
                     frame_paths) else f"frame_{i:06d}.jpg"
                 if status == 'flame':
-                    status_symbol = '🔥'
+                    status_symbol = 'FLAME'
                 elif status == 'no_flame':
-                    status_symbol = '❄️'
+                    status_symbol = 'CLEAR'
                 else:
-                    status_symbol = '❓'
+                    status_symbol = '?????'
                 f.write(
                     f"{i:5d} | {flame_pct:6.2f} | {conf:11.1f} | {status:8s} {status_symbol} | {filename}\n")
 
@@ -391,6 +391,144 @@ def create_quality_previews(frames_dir, masks_dir, count=10):
         cv2.imwrite(preview_path, overlay)
 
     print(f"Создано {len(indices)} превью в папке: {preview_dir}")
+
+
+def create_combined_previews(all_frames_dirs, all_masks_dirs, video_names,
+                             output_dir="data/flame_preview", samples_per_video=10):
+    """
+    Создание объединенных превью для всех видео одновременно
+
+    Args:
+        all_frames_dirs: список папок с кадрами
+        all_masks_dirs: список папок с масками  
+        video_names: список названий видео
+        output_dir: папка для сохранения превью
+        samples_per_video: количество образцов на видео
+    """
+    os.makedirs(output_dir, exist_ok=True)
+
+    all_stats = {
+        'total_frames': 0,
+        'total_masks': 0,
+        'all_flame_percentages': [],
+        'video_stats': {}
+    }
+
+    preview_count = 0
+
+    for video_idx, (frames_dir, masks_dir, video_name) in enumerate(zip(all_frames_dirs, all_masks_dirs, video_names)):
+        frames = sorted(glob.glob(os.path.join(frames_dir, "*.jpg")))
+        masks = sorted(glob.glob(os.path.join(masks_dir, "*.png")))
+
+        if len(frames) == 0 or len(masks) == 0:
+            print(f"Пропускаем {video_name}: нет кадров или масок")
+            continue
+
+        print(f"Создание превью для {video_name}: {len(frames)} кадров")
+
+        # Выбираем образцы равномерно
+        min_count = min(len(frames), len(masks))
+        indices = [min(i * min_count // samples_per_video, min_count-1)
+                   for i in range(min(samples_per_video, min_count))]
+
+        video_flame_percentages = []
+
+        for sample_idx, frame_idx in enumerate(indices):
+            try:
+                frame = cv2.imread(frames[frame_idx])
+                mask = cv2.imread(masks[frame_idx], cv2.IMREAD_GRAYSCALE)
+                if frame is None or mask is None:
+                    continue
+
+                # Приводим к стандартному размеру
+                target_height, target_width = RESIZE_TO[1], RESIZE_TO[0]
+                frame_resized = cv2.resize(
+                    frame, (target_width, target_height))
+                mask_resized = cv2.resize(mask, (target_width, target_height))
+
+                # Создаем наложение
+                mask_colored = np.zeros_like(frame_resized)
+                mask_colored[:, :, 2] = mask_resized
+                mask_colored[:, :, 1] = mask_resized // 2
+
+                overlay = cv2.addWeighted(
+                    frame_resized, 0.7, mask_colored, 0.3, 0)
+
+                # Вычисляем процент пламени
+                flame_percent = (cv2.countNonZero(mask_resized) /
+                                 (mask_resized.shape[0] * mask_resized.shape[1])) * 100
+                video_flame_percentages.append(flame_percent)
+
+                # Добавляем текст с информацией о видео
+                text = f"{video_name} Frame {frame_idx}: Flame {flame_percent:.1f}%"
+                text_size = cv2.getTextSize(
+                    text, cv2.FONT_HERSHEY_SIMPLEX, 0.8, 2)[0]
+                cv2.rectangle(overlay, (5, 5),
+                              (text_size[0] + 10, 35), (0, 0, 0), -1)
+                cv2.putText(overlay, text, (10, 25),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
+
+                # Сохраняем с уникальным именем
+                preview_path = os.path.join(output_dir,
+                                            f"combined_preview_{video_idx:02d}_{sample_idx:03d}_frame_{frame_idx:06d}.jpg")
+                cv2.imwrite(preview_path, overlay)
+                preview_count += 1
+
+            except Exception as e:
+                print(
+                    f"Ошибка при создании превью для {video_name}, кадр {frame_idx}: {e}")
+
+        # Обновляем статистику
+        all_stats['total_frames'] += len(frames)
+        all_stats['total_masks'] += len(masks)
+        all_stats['all_flame_percentages'].extend(video_flame_percentages)
+        all_stats['video_stats'][video_name] = {
+            'frames': len(frames),
+            'masks': len(masks),
+            'avg_flame_percent': np.mean(video_flame_percentages) if video_flame_percentages else 0,
+            'samples_created': len(video_flame_percentages)
+        }
+
+        print(
+            f"✓ Создано {len(video_flame_percentages)} превью для {video_name}")
+
+    # Сохраняем общую статистику
+    if all_stats['all_flame_percentages']:
+        stats_file = os.path.join(
+            output_dir, "combined_preview_statistics.txt")
+        with open(stats_file, 'w', encoding='utf-8') as f:
+            f.write("ОБЪЕДИНЕННАЯ СТАТИСТИКА ПРЕВЬЮ ДЕТЕКЦИИ ПЛАМЕНИ\n")
+            f.write("=" * 60 + "\n\n")
+
+            f.write("ОБЩАЯ ИНФОРМАЦИЯ:\n")
+            f.write(f"Всего видео: {len(video_names)}\n")
+            f.write(f"Всего кадров: {all_stats['total_frames']}\n")
+            f.write(f"Всего масок: {all_stats['total_masks']}\n")
+            f.write(f"Всего превью: {preview_count}\n\n")
+
+            flame_percentages = all_stats['all_flame_percentages']
+            f.write("СТАТИСТИКА ПО ПЛАМЕНИ:\n")
+            f.write(f"Средний процент: {np.mean(flame_percentages):.2f}%\n")
+            f.write(f"Медиана: {np.median(flame_percentages):.2f}%\n")
+            f.write(
+                f"Стандартное отклонение: {np.std(flame_percentages):.2f}%\n")
+            f.write(f"Минимум: {min(flame_percentages):.2f}%\n")
+            f.write(f"Максимум: {max(flame_percentages):.2f}%\n\n")
+
+            f.write("СТАТИСТИКА ПО ВИДЕО:\n")
+            f.write("-" * 40 + "\n")
+            for video_name, stats in all_stats['video_stats'].items():
+                f.write(f"{video_name}:\n")
+                f.write(f"  Кадров: {stats['frames']}\n")
+                f.write(f"  Масок: {stats['masks']}\n")
+                f.write(
+                    f"  Средний % пламени: {stats['avg_flame_percent']:.2f}%\n")
+                f.write(f"  Превью создано: {stats['samples_created']}\n\n")
+
+        print(f"\nОбъединенная статистика сохранена: {stats_file}")
+
+    print(f"Всего создано {preview_count} объединенных превью в: {output_dir}")
+    return preview_count > 0
 
 
 def analyze_flame_detection_results(masks_dir, frames_dir=None):

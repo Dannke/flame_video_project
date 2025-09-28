@@ -14,6 +14,12 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 import random
 
+MODEL_EXPORT_DIR = os.path.join('results', 'models')
+os.makedirs(MODEL_EXPORT_DIR, exist_ok=True)
+
+TRAINING_HISTORY_DIR = os.path.join('results', 'training_history')
+os.makedirs(TRAINING_HISTORY_DIR, exist_ok=True)
+
 
 def safe_ReduceLROnPlateau(optimizer, mode='min', patience=5, factor=0.5):
     try:
@@ -400,47 +406,62 @@ class FlameSegmentationTrainer:
 
         plt.tight_layout()
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        plt.savefig(
-            f'training_history_{timestamp}.png', dpi=150, bbox_inches='tight')
+        plt.savefig(os.path.join(TRAINING_HISTORY_DIR, f'training_history_{timestamp}.png'), dpi=150, bbox_inches='tight')
         plt.show()
 
 
 # ---------------- Safe checkpoint loader helper ----------------
 
 def _safe_torch_load(path, map_location='cpu', allow_unsafe=False):
-    """Robust loader that tries weights-only loading first and falls back if allowed."""
+    """
+    Robust loader for checkpoints:
+      - try weights-only load (safe)
+      - if fails, try allowlisting numpy objects and load full pickle inside safe_globals
+      - if allow_unsafe=True, fallback to full load (weights_only=False)
+    """
     import torch
     try:
-        return torch.load(path, map_location=map_location)
-    except Exception as e:
-        msg = str(e)
-        try:
-            return torch.load(path, map_location=map_location, weights_only=True)
-        except TypeError:
-            pass
-        except Exception:
-            pass
+        # Явно пробуем безопасную загрузку только весов
+        return torch.load(path, map_location=map_location, weights_only=True)
+    except Exception as orig_exc:
+        # Попробуем allowlist numpy-объекты, которые часто мешают (dtype, multiarray.scalar)
         try:
             import numpy as _np
+            allowed = []
+            if hasattr(_np, 'dtype'):
+                allowed.append(_np.dtype)
+            # попытка получить multiarray.scalar (если присутствует)
             try:
-                torch.serialization.add_safe_globals(
-                    [_np._core.multiarray.scalar])
+                core = getattr(_np, '_core', None)
+                if core is not None:
+                    ma = getattr(core, 'multiarray', None)
+                    if ma is not None and hasattr(ma, 'scalar'):
+                        allowed.append(ma.scalar)
             except Exception:
-                try:
-                    torch.serialization.safe_globals(
-                        [_np._core.multiarray.scalar])
-                except Exception:
-                    pass
-            return torch.load(path, map_location=map_location)
-        except Exception:
-            if allow_unsafe:
-                try:
-                    return torch.load(path, map_location=map_location, weights_only=False)
-                except Exception:
-                    pass
-            raise e
+                pass
 
-# ============= ОБЪЕДИНЕНИЕ ДАННЫХ ИЗ 2 ВИДЕО =============
+            # Если присутствуют API safe_globals / add_safe_globals — используем их
+            if hasattr(torch.serialization, 'safe_globals'):
+                with torch.serialization.safe_globals(allowed):
+                    return torch.load(path, map_location=map_location, weights_only=False)
+            elif hasattr(torch.serialization, 'add_safe_globals'):
+                torch.serialization.add_safe_globals(allowed)
+                return torch.load(path, map_location=map_location, weights_only=False)
+        except Exception:
+            # ничего — идём дальше к опасному варианту
+            pass
+
+        # Финальный fallback: если пользователь явно разрешил небезопасную загрузку
+        if allow_unsafe:
+            try:
+                return torch.load(path, map_location=map_location, weights_only=False)
+            except Exception:
+                pass
+
+        # если ничего не помогло — пробросим исходную ошибку
+        raise orig_exc
+
+# ============= ОБЪЕДИНЕНИЕ ДАННЫХ ИЗ НЕСКОЛЬКИХ ИСТОЧНИКОВ =============
 
 
 def combine_multiple_datasets(frames_dirs, masks_dirs):
@@ -528,6 +549,10 @@ def visualize_results(model, val_dataset, device='cuda', num_samples=10, save_pa
         save_path: путь для сохранения изображения (опционально)
         img_size: размер изображений
     """
+    import os as _os
+    import platform as _platform
+    from datetime import datetime
+
     model.eval()
 
     # Случайно выбираем образцы из валидационной выборки
@@ -596,41 +621,29 @@ def visualize_results(model, val_dataset, device='cuda', num_samples=10, save_pa
 
     plt.tight_layout()
 
-    # Создаем папку для результатов
+   # Создаем папку для результатов
     results_dir = 'data/model_results'
-    os.makedirs(results_dir, exist_ok=True)
+    _os.makedirs(results_dir, exist_ok=True)
 
-    # Сохраняем результат
-    if save_path:
-        final_path = save_path
-    else:
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        final_path = os.path.join(
-            results_dir, f'model_results_visualization_{timestamp}.png')
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    save_path = _os.path.join(results_dir, f'comparison_grid_{timestamp}.png')
+    plt.savefig(save_path, dpi=200, bbox_inches='tight', facecolor='white')
+    print(f"Comparison grid saved to: {save_path}")
 
-    plt.savefig(final_path, dpi=200, bbox_inches='tight', facecolor='white')
-    print(f"Visualization saved to: {final_path}")
-
-    # Вместо plt.show() открываем изображение в системном просмотрщике
     try:
-        import os
-        import platform
-
-        system = platform.system()
+        system = _platform.system()
         if system == "Windows":
-            os.startfile(final_path)
+            _os.startfile(save_path)
         elif system == "Darwin":  # macOS
-            os.system(f'open "{final_path}"')
+            _os.system(f'open "{save_path}"')
         else:  # Linux
-            os.system(f'xdg-open "{final_path}"')
+            _os.system(f'xdg-open "{save_path}"')
 
-        print(f"Изображение открыто в системном просмотрщике: {final_path}")
-
+        print(f"Изображение открыто в системном просмотрщике: {save_path}")
     except Exception as e:
         print(f"Не удалось автоматически открыть изображение: {e}")
-        print(f"Вы можете открыть файл вручную: {final_path}")
+        print(f"Вы можете открыть файл вручную: {save_path}")
 
-    # Закрываем matplotlib figure чтобы не занимать память
     plt.close(fig)
 
 
@@ -823,8 +836,8 @@ def test_model_on_folder(model, test_folder, device='cuda', img_size=(256, 256),
 
 # ============= MAIN + train_and_export =============
 
-def main(frames_dir='data/frames/1video', masks_dir='data/masks/1video', 
-         img_size=(256, 256), batch_size=8, epochs=30, learning_rate=1e-3, 
+def main(frames_dir='data/frames/1video', masks_dir='data/masks/1video',
+         img_size=(256, 256), batch_size=8, epochs=30, learning_rate=1e-3,
          val_split=0.2, use_temporal=False, force_gpu=True, save_checkpoints=True):
     print('=' * 50)
     print('ОБУЧЕНИЕ МОДЕЛИ СЕГМЕНТАЦИИ ПЛАМЕНИ')
@@ -840,29 +853,37 @@ def main(frames_dir='data/frames/1video', masks_dir='data/masks/1video',
     else:
         device = torch.device('cpu')
 
-     # Обработка путей к данным (поддержка списков папок)
+    # Инициализируем пути (чтобы избежать UnboundLocalError)
+    image_paths = None
+    mask_paths = None
+
+    # Обработка путей к данным (поддержка списков папок)
     if isinstance(frames_dir, list) and isinstance(masks_dir, list):
         # Множественные источники данных
-        image_paths, mask_paths = combine_multiple_datasets(frames_dir, masks_dir)
+        image_paths, mask_paths = combine_multiple_datasets(
+            frames_dir, masks_dir)
     else:
-        # Одиночный источник данных (существующий код)
+        # Одиночный источник данных
         image_extensions = ['*.jpg', '*.jpeg', '*.png', '*.bmp']
         mask_extensions = ['*.png', '*.jpg', '*.jpeg']
 
-    image_paths = []
-    for ext in image_extensions:
-        image_paths.extend(glob.glob(os.path.join(frames_dir, ext)))
-    image_paths = sorted(image_paths)
+        image_paths = []
+        for ext in image_extensions:
+            image_paths.extend(glob.glob(os.path.join(frames_dir, ext)))
+        image_paths = sorted(image_paths)
 
-    mask_paths = []
-    for ext in mask_extensions:
-        mask_paths.extend(glob.glob(os.path.join(masks_dir, ext)))
-    mask_paths = sorted(mask_paths)
+        mask_paths = []
+        for ext in mask_extensions:
+            mask_paths.extend(glob.glob(os.path.join(masks_dir, ext)))
+        mask_paths = sorted(mask_paths)
 
-    if len(image_paths) == 0 or len(mask_paths) == 0:
+    # На этом моменте image_paths и mask_paths гарантированно определены
+    if image_paths is None or mask_paths is None or len(image_paths) == 0 or len(mask_paths) == 0:
         print(f'Ошибка: не найдены изображения или маски.')
-        print(f'Изображения в {frames_dir}: {len(image_paths)}')
-        print(f'Маски в {masks_dir}: {len(mask_paths)}')
+        print(
+            f'Изображения в {frames_dir}: {len(image_paths) if image_paths is not None else 0}')
+        print(
+            f'Маски в {masks_dir}: {len(mask_paths) if mask_paths is not None else 0}')
         return None, None
 
     print(f'Найдено изображений: {len(image_paths)}')
@@ -1060,7 +1081,7 @@ def train_and_export(frames_dir='data/frames/1video', masks_dir='data/masks/1vid
                 )
                 state = ckpt.get('model_state_dict', ckpt)
                 if isinstance(state, dict):
-                    torch.save(state, 'flame_unet.pth')
+                    torch.save(state, os.path.join(MODEL_EXPORT_DIR, 'flame_unet.pth'))
                     print(
                         'Экспортирован state_dict -> flame_unet.pth (из checkpoints/best_model.pth)')
 
@@ -1073,7 +1094,7 @@ def train_and_export(frames_dir='data/frames/1video', masks_dir='data/masks/1vid
                         'final_metrics': ckpt.get('val_iou', 0),
                         'timestamp': datetime.now().strftime("%Y%m%d_%H%M%S")
                     }
-                    torch.save(model_info, 'flame_unet_full.pth')
+                    torch.save(model_info, os.path.join(MODEL_EXPORT_DIR, 'flame_unet_full.pth'))
                     print('Сохранена полная информация о модели -> flame_unet_full.pth')
 
                     return model, history
