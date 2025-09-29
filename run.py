@@ -85,7 +85,7 @@ def step1_extract_all_frames():
     return extracted
 
 # -------------- Step 2: генерация масок ---------------------------
-def step2_generate_all_masks(extracted_videos):
+def step2_generate_all_masks(extracted_videos, force_regenerate=False):
     processed = []
     try:
         from gen_pseudo_masks import gen_masks_temporal, create_combined_previews
@@ -99,11 +99,17 @@ def step2_generate_all_masks(extracted_videos):
         os.makedirs(masks_dir, exist_ok=True)
 
         masks_exist = len(glob.glob(os.path.join(masks_dir, "*.png"))) > 0
-        if masks_exist:
+        if masks_exist and not force_regenerate:  # Добавили условие
             cnt = len(glob.glob(os.path.join(masks_dir, "*.png")))
             print(f"✓ Маски уже созданы для {video_name}: {cnt} масок")
             processed.append((video_name, frames_dir, masks_dir))
             continue
+        
+        # Удаляем старые маски при force_regenerate
+        if force_regenerate and masks_exist:
+            import shutil
+            shutil.rmtree(masks_dir)
+            os.makedirs(masks_dir, exist_ok=True)
 
         print(f"Генерация масок для {video_name} (кадры {frames_count})")
         try:
@@ -159,7 +165,7 @@ def step3_create_previews(processed_videos, samples_per_video=10):
 def step4_train_model(processed_videos):
     if not processed_videos:
         print("Нет обработанных видео для обучения")
-        return False
+        return False, None
 
     all_frames_dirs = [frames for _, frames, _ in processed_videos]
     all_masks_dirs = [masks for _, _, masks in processed_videos]
@@ -168,20 +174,21 @@ def step4_train_model(processed_videos):
         import models.flame_segmentation_model as fmod
     except Exception as e:
         print("Не удалось импортировать модуль модели:", e)
-        return False
+        return False, None
 
     print("Запуск обучения на всех данных...")
-    fmod.train_and_export(
+    model, history, final_metrics = fmod.train_and_export(  # Получаем метрики
         frames_dir=all_frames_dirs, 
         masks_dir=all_masks_dirs,
-        img_size=(256,256), batch_size=8, epochs=5,
-        learning_rate=1e-3, val_split=0.2,
+        img_size=(256,256), batch_size=16, epochs=70,
+        learning_rate=1e-4, val_split=0.2,
         use_temporal=False, force_gpu=True, save_checkpoints=True
     )
-    return True
+    
+    return (model is not None), final_metrics
 
 # -------------- Финальное резюме и helper ------------------------
-def print_final_summary(processed_videos, training_success):
+def print_final_summary(processed_videos, training_success, final_metrics=None):
     print("\n" + "="*60)
     print("ИТОГОВОЕ РЕЗЮМЕ")
     print("="*60)
@@ -206,6 +213,13 @@ def print_final_summary(processed_videos, training_success):
     print("\nОБУЧЕНИЕ МОДЕЛИ:")
     if training_success:
         print("  ✓ Модель успешно обучена/экспортирована.")
+        
+        if final_metrics:
+            print("\n  ФИНАЛЬНЫЕ МЕТРИКИ:")
+            print(f"    • Validation IoU: {final_metrics['final_val_iou']:.4f}")
+            print(f"    • Validation Dice: {final_metrics['final_val_dice']:.4f}")
+            print(f"    • Лучший IoU: {final_metrics['best_val_iou']:.4f}")
+            print(f"    • Лучший Dice: {final_metrics['best_val_dice']:.4f}")
     else:
         print("  ✗ Обучение не выполнено или завершилось ошибкой.")
 
@@ -236,7 +250,7 @@ def main():
         return
 
     # шаг 2 - генерация масок
-    processed = step2_generate_all_masks(extracted)
+    processed = step2_generate_all_masks(extracted, force_regenerate=True)
     if not processed:
         print("Маски не получены ни для одного видео — можно проверить логи.")
         # продолжаем — возможно уже есть маски/кадры, попытка продолжить
@@ -245,10 +259,10 @@ def main():
         step3_create_previews(processed, samples_per_video=10)
 
     # шаг 4 - обучение
-    train_ok = step4_train_model(processed)
+    train_ok, final_metrics = step4_train_model(processed)
 
     # итог
-    print_final_summary(processed, train_ok)
+    print_final_summary(processed, train_ok, final_metrics)
 
 if __name__ == "__main__":
     try:

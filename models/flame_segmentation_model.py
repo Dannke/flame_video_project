@@ -272,7 +272,8 @@ class FlameSegmentationTrainer:
     def train_epoch(self, dataloader, criterion, optimizer):
         self.model.train()
         total_loss = 0
-        progress_bar = tqdm(dataloader, desc='Training', ascii=True if os.name == 'nt' else False)
+        progress_bar = tqdm(dataloader, desc='Training',
+                            ascii=True if os.name == 'nt' else False)
         for images, masks in progress_bar:
             try:
                 images = images.to(self.device, non_blocking=True)
@@ -381,6 +382,7 @@ class FlameSegmentationTrainer:
     def plot_history(self):
         fig, axes = plt.subplots(1, 3, figsize=(15, 4))
 
+        # Loss
         axes[0].plot(self.history['train_loss'], label='Train Loss')
         axes[0].plot(self.history['val_loss'], label='Val Loss')
         axes[0].set_xlabel('Epoch')
@@ -389,6 +391,13 @@ class FlameSegmentationTrainer:
         axes[0].grid(True)
         axes[0].set_title('Training and Validation Loss')
 
+        # Добавляем финальное значение
+        final_val_loss = self.history['val_loss'][-1]
+        axes[0].text(0.98, 0.98, f'Final Val Loss: {final_val_loss:.4f}',
+                     transform=axes[0].transAxes, ha='right', va='top',
+                     bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
+
+        # IoU
         axes[1].plot(self.history['val_iou'], label='Val IoU', color='green')
         axes[1].set_xlabel('Epoch')
         axes[1].set_ylabel('IoU')
@@ -396,6 +405,14 @@ class FlameSegmentationTrainer:
         axes[1].grid(True)
         axes[1].set_title('Validation IoU')
 
+        # Добавляем лучшее и финальное значение
+        best_iou = max(self.history['val_iou'])
+        final_iou = self.history['val_iou'][-1]
+        axes[1].text(0.98, 0.98, f'Best: {best_iou:.4f}\nFinal: {final_iou:.4f}',
+                     transform=axes[1].transAxes, ha='right', va='top',
+                     bbox=dict(boxstyle='round', facecolor='lightgreen', alpha=0.5))
+
+        # Dice
         axes[2].plot(self.history['val_dice'],
                      label='Val Dice', color='orange')
         axes[2].set_xlabel('Epoch')
@@ -404,13 +421,21 @@ class FlameSegmentationTrainer:
         axes[2].grid(True)
         axes[2].set_title('Validation Dice Score')
 
+        # Добавляем лучшее и финальное значение
+        best_dice = max(self.history['val_dice'])
+        final_dice = self.history['val_dice'][-1]
+        axes[2].text(0.98, 0.98, f'Best: {best_dice:.4f}\nFinal: {final_dice:.4f}',
+                     transform=axes[2].transAxes, ha='right', va='top',
+                     bbox=dict(boxstyle='round', facecolor='lightyellow', alpha=0.5))
+
         plt.tight_layout()
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        plt.savefig(os.path.join(TRAINING_HISTORY_DIR, f'training_history_{timestamp}.png'), dpi=150, bbox_inches='tight')
+        plt.savefig(os.path.join(TRAINING_HISTORY_DIR, f'training_history_{timestamp}.png'),
+                    dpi=150, bbox_inches='tight')
         plt.show()
 
-
 # ---------------- Safe checkpoint loader helper ----------------
+
 
 def _safe_torch_load(path, map_location='cpu', allow_unsafe=False):
     """
@@ -622,7 +647,7 @@ def visualize_results(model, val_dataset, device='cuda', num_samples=10, save_pa
     plt.tight_layout()
 
    # Создаем папку для результатов
-    results_dir = 'data/model_results'
+    results_dir = 'models/results/model_results/predict_and_original'
     _os.makedirs(results_dir, exist_ok=True)
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -1042,6 +1067,9 @@ def train_and_export(frames_dir='data/frames/1video', masks_dir='data/masks/1vid
         export_model: экспортировать финальную модель
         allow_unsafe_checkpoint_load: разрешить небезопасную загрузку
         visualize_results_flag: показать визуализацию результатов
+
+    Returns:
+        tuple: (model, history, final_metrics)
     """
 
     try:
@@ -1061,14 +1089,47 @@ def train_and_export(frames_dir='data/frames/1video', masks_dir='data/masks/1vid
         print('Ошибка при вызове main():', e)
         import traceback
         traceback.print_exc()
-        return None, None
+        return None, None, None
 
     if model is None:
         print("Модель не была обучена.")
-        return None, None
+        return None, None, None
+
+    # Собираем финальные метрики из истории обучения
+    final_metrics = None
+    if history and 'val_iou' in history and len(history['val_iou']) > 0:
+        final_metrics = {
+            'final_val_iou': history['val_iou'][-1],
+            'final_val_dice': history['val_dice'][-1],
+            'best_val_iou': max(history['val_iou']),
+            'best_val_dice': max(history['val_dice']),
+            'final_val_loss': history['val_loss'][-1],
+            'final_train_loss': history['train_loss'][-1],
+            'avg_val_iou': sum(history['val_iou']) / len(history['val_iou']),
+            'avg_val_dice': sum(history['val_dice']) / len(history['val_dice'])
+        }
+
+        # Выводим метрики в консоль
+        print('\n' + '='*60)
+        print('ФИНАЛЬНЫЕ МЕТРИКИ МОДЕЛИ:')
+        print('='*60)
+        print(
+            f"Финальный IoU (validation): {final_metrics['final_val_iou']:.4f}")
+        print(
+            f"Финальный Dice (validation): {final_metrics['final_val_dice']:.4f}")
+        print(f"Лучший IoU: {final_metrics['best_val_iou']:.4f}")
+        print(f"Лучший Dice: {final_metrics['best_val_dice']:.4f}")
+        print(f"Средний IoU: {final_metrics['avg_val_iou']:.4f}")
+        print(f"Средний Dice: {final_metrics['avg_val_dice']:.4f}")
+        print(
+            f"Финальный validation loss: {final_metrics['final_val_loss']:.4f}")
+        print(
+            f"Финальный training loss: {final_metrics['final_train_loss']:.4f}")
+        print('='*60)
 
     # Экспорт модели
     os.makedirs(checkpoint_dir, exist_ok=True)
+    os.makedirs(MODEL_EXPORT_DIR, exist_ok=True)
     ckpt_path = os.path.join(checkpoint_dir, 'best_model.pth')
 
     try:
@@ -1081,7 +1142,9 @@ def train_and_export(frames_dir='data/frames/1video', masks_dir='data/masks/1vid
                 )
                 state = ckpt.get('model_state_dict', ckpt)
                 if isinstance(state, dict):
-                    torch.save(state, os.path.join(MODEL_EXPORT_DIR, 'flame_unet.pth'))
+                    # Сохраняем только веса
+                    torch.save(state, os.path.join(
+                        MODEL_EXPORT_DIR, 'flame_unet.pth'))
                     print(
                         'Экспортирован state_dict -> flame_unet.pth (из checkpoints/best_model.pth)')
 
@@ -1091,20 +1154,79 @@ def train_and_export(frames_dir='data/frames/1video', masks_dir='data/masks/1vid
                         'model_architecture': 'ImprovedUNet' if not use_temporal else 'TemporalUNet',
                         'img_size': img_size,
                         'training_epochs': epochs,
-                        'final_metrics': ckpt.get('val_iou', 0),
+                        'final_metrics': final_metrics,
+                        'checkpoint_val_iou': ckpt.get('val_iou', 0),
                         'timestamp': datetime.now().strftime("%Y%m%d_%H%M%S")
                     }
-                    torch.save(model_info, os.path.join(MODEL_EXPORT_DIR, 'flame_unet_full.pth'))
+                    torch.save(model_info, os.path.join(
+                        MODEL_EXPORT_DIR, 'flame_unet_full.pth'))
                     print('Сохранена полная информация о модели -> flame_unet_full.pth')
 
-                    return model, history
+                    # Сохраняем метрики в отдельный текстовый файл для удобства
+                    metrics_file = os.path.join(
+                        MODEL_EXPORT_DIR, 'model_metrics.txt')
+                    with open(metrics_file, 'w', encoding='utf-8') as f:
+                        f.write('МЕТРИКИ ОБУЧЕННОЙ МОДЕЛИ СЕГМЕНТАЦИИ ПЛАМЕНИ\n')
+                        f.write('='*60 + '\n\n')
+                        f.write('ИНФОРМАЦИЯ О МОДЕЛИ:\n')
+                        f.write('-'*60 + '\n')
+                        f.write(
+                            f"Архитектура: {model_info['model_architecture']}\n")
+                        f.write(f"Размер изображений: {img_size}\n")
+                        f.write(f"Эпох обучения: {epochs}\n")
+                        f.write(f"Размер батча: {batch_size}\n")
+                        f.write(f"Скорость обучения: {learning_rate}\n")
+                        f.write(f"Validation split: {val_split}\n")
+                        f.write(
+                            f"Дата обучения: {model_info['timestamp']}\n\n")
+
+                        if final_metrics:
+                            f.write('ФИНАЛЬНЫЕ МЕТРИКИ:\n')
+                            f.write('-'*60 + '\n')
+                            f.write(
+                                f"Validation IoU (финальный): {final_metrics['final_val_iou']:.4f}\n")
+                            f.write(
+                                f"Validation Dice (финальный): {final_metrics['final_val_dice']:.4f}\n")
+                            f.write(
+                                f"Validation IoU (лучший): {final_metrics['best_val_iou']:.4f}\n")
+                            f.write(
+                                f"Validation Dice (лучший): {final_metrics['best_val_dice']:.4f}\n")
+                            f.write(
+                                f"Validation IoU (средний): {final_metrics['avg_val_iou']:.4f}\n")
+                            f.write(
+                                f"Validation Dice (средний): {final_metrics['avg_val_dice']:.4f}\n")
+                            f.write(
+                                f"Validation Loss (финальный): {final_metrics['final_val_loss']:.4f}\n")
+                            f.write(
+                                f"Training Loss (финальный): {final_metrics['final_train_loss']:.4f}\n\n")
+
+                            f.write('ИНТЕРПРЕТАЦИЯ МЕТРИК:\n')
+                            f.write('-'*60 + '\n')
+                            f.write("IoU (Intersection over Union):\n")
+                            f.write(
+                                "  - Измеряет пересечение предсказания и истинной маски\n")
+                            f.write(
+                                "  - Диапазон: 0.0 (плохо) - 1.0 (идеально)\n")
+                            f.write("  - >0.7 считается хорошим результатом\n\n")
+                            f.write("Dice Score:\n")
+                            f.write(
+                                "  - Схож с IoU, но больше веса на перекрытие\n")
+                            f.write(
+                                "  - Диапазон: 0.0 (плохо) - 1.0 (идеально)\n")
+                            f.write("  - >0.8 считается хорошим результатом\n\n")
+
+                    print(f'Метрики сохранены в: {metrics_file}')
+
+                    return model, history, final_metrics
+
             except Exception as e:
                 print(
                     'Failed to export from checkpoint (will try to export current model state):', e)
 
         # Если не удалось загрузить из чекпоинта, сохраняем текущее состояние модели
         if model is not None and isinstance(model, torch.nn.Module) and export_model:
-            torch.save(model.state_dict(), 'flame_unet.pth')
+            torch.save(model.state_dict(), os.path.join(
+                MODEL_EXPORT_DIR, 'flame_unet.pth'))
             print('Сохранены веса модели в flame_unet.pth')
 
             # Дополнительная информация
@@ -1113,19 +1235,42 @@ def train_and_export(frames_dir='data/frames/1video', masks_dir='data/masks/1vid
                 'model_architecture': 'ImprovedUNet' if not use_temporal else 'TemporalUNet',
                 'img_size': img_size,
                 'training_epochs': epochs,
+                'final_metrics': final_metrics,
                 'timestamp': datetime.now().strftime("%Y%m%d_%H%M%S")
             }
-            torch.save(model_info, 'flame_unet_full.pth')
+            torch.save(model_info, os.path.join(
+                MODEL_EXPORT_DIR, 'flame_unet_full.pth'))
             print('Сохранена полная информация о модели -> flame_unet_full.pth')
 
-            return model, history
+            # Сохраняем метрики
+            if final_metrics:
+                metrics_file = os.path.join(
+                    MODEL_EXPORT_DIR, 'model_metrics.txt')
+                with open(metrics_file, 'w', encoding='utf-8') as f:
+                    f.write('МЕТРИКИ ОБУЧЕННОЙ МОДЕЛИ СЕГМЕНТАЦИИ ПЛАМЕНИ\n')
+                    f.write('='*60 + '\n\n')
+                    f.write('ИНФОРМАЦИЯ О МОДЕЛИ:\n')
+                    f.write('-'*60 + '\n')
+                    f.write(
+                        f"Архитектура: {model_info['model_architecture']}\n")
+                    f.write(f"Размер изображений: {img_size}\n")
+                    f.write(f"Эпох обучения: {epochs}\n")
+                    f.write(f"Дата обучения: {model_info['timestamp']}\n\n")
+                    f.write('ФИНАЛЬНЫЕ МЕТРИКИ:\n')
+                    f.write('-'*60 + '\n')
+                    for key, value in final_metrics.items():
+                        f.write(f"{key}: {value:.4f}\n")
+
+                print(f'Метрики сохранены в: {metrics_file}')
+
+            return model, history, final_metrics
 
     except Exception as e:
         print('Не удалось экспортировать модель:', e)
         import traceback
         traceback.print_exc()
 
-    return None, None
+    return model, history, final_metrics
 
 
 def load_trained_model(model_path='flame_unet.pth', device='cuda', use_temporal=False, img_size=(256, 256)):
@@ -1179,6 +1324,7 @@ def load_trained_model(model_path='flame_unet.pth', device='cuda', use_temporal=
     except Exception as e:
         print(f"Ошибка при загрузке модели: {e}")
         return None
+
 
 if __name__ == "__main__":
     # Пример использования

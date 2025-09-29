@@ -1,6 +1,6 @@
 import cv2, os
 
-def extract_frames(video_path, out_dir, fps_out=5):
+def extract_frames(video_path, out_dir, fps_out=3):
     os.makedirs(out_dir, exist_ok=True)
     cap = cv2.VideoCapture(video_path)
     src_fps = cap.get(cv2.CAP_PROP_FPS) or 30.0

@@ -56,7 +56,7 @@ def gen_masks_temporal(frames_dir, masks_out_dir, polygon=None,
         if len(frames) == 0:
             print("No frames found in", frames_dir)
             return
-
+        
         # --- вычислим лимит на negative (no_flame) кадры ---
         max_no_flame_to_keep = max(
             0, int(len(frames) * float(negative_keep_ratio)))
