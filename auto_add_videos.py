@@ -6,7 +6,7 @@ from pathlib import Path
 RAW_VIDEOS_DIR = "data/videos"       # куда вы кладёте nvideo.avi
 FRAMES_ROOT = "data/frames"
 MASKS_ROOT = "data/masks"
-EXTRACT_FPS = 5                       # fps при извлечении кадров
+EXTRACT_FPS = 7                       # fps при извлечении кадров
 FORCE_REPROCESS = True               # если True — перезаписывает существующие папки
 SUPPORTED_EXTS = (".mp4", ".avi", ".mov", ".mkv")
 

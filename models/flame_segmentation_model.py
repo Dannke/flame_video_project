@@ -561,7 +561,7 @@ def predict_single_image(model, image_path, device='cuda', img_size=(256, 256)):
 
     return image_rgb, pred_mask
 
-
+#============================================= ПЕРЕСМОТРЕТЬ ФУНКЦИЮ =============================================
 def visualize_results(model, val_dataset, device='cuda', num_samples=10, save_path=None, img_size=(256, 256)):
     """
     Визуализация результатов модели: оригинал + предсказание поверх оригинала
@@ -647,7 +647,7 @@ def visualize_results(model, val_dataset, device='cuda', num_samples=10, save_pa
     plt.tight_layout()
 
    # Создаем папку для результатов
-    results_dir = 'models/results/model_results/predict_and_original'
+    results_dir = 'results/predict_and_original'
     _os.makedirs(results_dir, exist_ok=True)
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -671,13 +671,9 @@ def visualize_results(model, val_dataset, device='cuda', num_samples=10, save_pa
 
     plt.close(fig)
 
-
-def create_comparison_grid(model, image_paths, mask_paths, device='cuda', num_samples=10, img_size=(256, 256)):
-    """
-    Создает сетку сравнения: оригинал + предсказание поверх оригинала
-    """
+#Создает сетку сравнения: оригинал + предсказание поверх оригинала
+"""def create_comparison_grid(model, image_paths, mask_paths, device='cuda', num_samples=10, img_size=(256, 256)):
     model.eval()
-
     if len(image_paths) < num_samples:
         num_samples = len(image_paths)
         print(f"Количество образцов уменьшено до {num_samples}")
@@ -747,7 +743,7 @@ def create_comparison_grid(model, image_paths, mask_paths, device='cuda', num_sa
     plt.tight_layout()
 
     # Создаем папку для результатов
-    results_dir = 'data/model_results'
+    results_dir = 'results/predict_and_original'
     os.makedirs(results_dir, exist_ok=True)
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -775,7 +771,7 @@ def create_comparison_grid(model, image_paths, mask_paths, device='cuda', num_sa
 
     plt.close(fig)
 
-
+"""
 def test_model_on_folder(model, test_folder, device='cuda', img_size=(256, 256), save_results=True):
     """
     Тестирует модель на папке с изображениями и создает наложения предсказаний
@@ -1024,7 +1020,7 @@ def main(frames_dir='data/frames/1video', masks_dir='data/masks/1video',
     except Exception as e:
         print(f"Ошибка при создании визуализации: {e}")
         # Альтернативный способ через пути к файлам
-        try:
+        """try:
             print("Пробуем альтернативный метод визуализации...")
             create_comparison_grid(
                 model_for_return,
@@ -1035,7 +1031,7 @@ def main(frames_dir='data/frames/1video', masks_dir='data/masks/1video',
                 img_size=img_size
             )
         except Exception as e2:
-            print(f"Альтернативная визуализация также не удалась: {e2}")
+            print(f"Альтернативная визуализация также не удалась: {e2}")"""
 
     print('\n' + '=' * 50)
     print('ОБУЧЕНИЕ ЗАВЕРШЕНО')

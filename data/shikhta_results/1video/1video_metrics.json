@@ -1,0 +1,4228 @@
+{
+  "summary": {
+    "total_frames": 420,
+    "left": {
+      "mean": 46.219356069099504,
+      "std": 18.091689815912044,
+      "min": 15.18042411053191,
+      "max": 72.29663600011186,
+      "median": 42.363509581727826
+    },
+    "right": {
+      "mean": 53.780643930900496,
+      "std": 18.091689815912044,
+      "min": 27.703363999888147,
+      "max": 84.8195758894681,
+      "median": 57.636490418272174
+    },
+    "total_area": {
+      "mean": 21163.230952380953,
+      "std": 2429.253025303604,
+      "min": 16062.0,
+      "max": 28566.0
+    },
+    "timestamp": "2025-10-02T15:26:42.189557"
+  },
+  "frames": [
+    {
+      "frame_idx": 0,
+      "left_area": 12909.0,
+      "right_area": 6650.0,
+      "total_area": 19559.0,
+      "left_percent": 66.0003067641495,
+      "right_percent": 33.9996932358505,
+      "left_contours_count": 7,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 1,
+      "left_area": 12766.5,
+      "right_area": 7448.0,
+      "total_area": 20214.5,
+      "left_percent": 63.15516089935442,
+      "right_percent": 36.84483910064558,
+      "left_contours_count": 4,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 2,
+      "left_area": 12743.5,
+      "right_area": 7045.0,
+      "total_area": 19788.5,
+      "left_percent": 64.39851428860197,
+      "right_percent": 35.601485711398034,
+      "left_contours_count": 3,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 3,
+      "left_area": 12917.5,
+      "right_area": 8003.0,
+      "total_area": 20920.5,
+      "left_percent": 61.745656174565624,
+      "right_percent": 38.25434382543438,
+      "left_contours_count": 10,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 4,
+      "left_area": 12668.5,
+      "right_area": 6720.5,
+      "total_area": 19389.0,
+      "left_percent": 65.33859404817164,
+      "right_percent": 34.66140595182836,
+      "left_contours_count": 10,
+      "right_contours_count": 15
+    },
+    {
+      "frame_idx": 5,
+      "left_area": 12226.0,
+      "right_area": 7034.5,
+      "total_area": 19260.5,
+      "left_percent": 63.4770644583474,
+      "right_percent": 36.52293554165261,
+      "left_contours_count": 6,
+      "right_contours_count": 17
+    },
+    {
+      "frame_idx": 6,
+      "left_area": 11950.0,
+      "right_area": 7737.0,
+      "total_area": 19687.0,
+      "left_percent": 60.69995428455326,
+      "right_percent": 39.30004571544674,
+      "left_contours_count": 8,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 7,
+      "left_area": 12102.0,
+      "right_area": 7438.0,
+      "total_area": 19540.0,
+      "left_percent": 61.93449334698056,
+      "right_percent": 38.06550665301945,
+      "left_contours_count": 7,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 8,
+      "left_area": 11829.0,
+      "right_area": 7931.5,
+      "total_area": 19760.5,
+      "left_percent": 59.86184560107285,
+      "right_percent": 40.13815439892715,
+      "left_contours_count": 6,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 9,
+      "left_area": 11883.0,
+      "right_area": 6950.5,
+      "total_area": 18833.5,
+      "left_percent": 63.09501685825789,
+      "right_percent": 36.90498314174211,
+      "left_contours_count": 5,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 10,
+      "left_area": 11891.5,
+      "right_area": 7200.5,
+      "total_area": 19092.0,
+      "left_percent": 62.28525036664572,
+      "right_percent": 37.71474963335428,
+      "left_contours_count": 5,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 11,
+      "left_area": 12227.5,
+      "right_area": 7163.0,
+      "total_area": 19390.5,
+      "left_percent": 63.05923003532657,
+      "right_percent": 36.94076996467342,
+      "left_contours_count": 7,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 12,
+      "left_area": 12255.5,
+      "right_area": 7016.0,
+      "total_area": 19271.5,
+      "left_percent": 63.59390810263861,
+      "right_percent": 36.406091897361385,
+      "left_contours_count": 7,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 13,
+      "left_area": 12234.0,
+      "right_area": 7066.0,
+      "total_area": 19300.0,
+      "left_percent": 63.388601036269435,
+      "right_percent": 36.611398963730565,
+      "left_contours_count": 6,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 14,
+      "left_area": 12225.5,
+      "right_area": 6189.0,
+      "total_area": 18414.5,
+      "left_percent": 66.39061609058079,
+      "right_percent": 33.60938390941921,
+      "left_contours_count": 5,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 15,
+      "left_area": 12104.0,
+      "right_area": 6363.5,
+      "total_area": 18467.5,
+      "left_percent": 65.5421686746988,
+      "right_percent": 34.4578313253012,
+      "left_contours_count": 4,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 16,
+      "left_area": 11979.5,
+      "right_area": 7936.5,
+      "total_area": 19916.0,
+      "left_percent": 60.15013054830287,
+      "right_percent": 39.84986945169713,
+      "left_contours_count": 3,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 17,
+      "left_area": 11689.0,
+      "right_area": 7630.0,
+      "total_area": 19319.0,
+      "left_percent": 60.505202132615565,
+      "right_percent": 39.49479786738444,
+      "left_contours_count": 5,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 18,
+      "left_area": 11644.0,
+      "right_area": 7317.5,
+      "total_area": 18961.5,
+      "left_percent": 61.40864383092055,
+      "right_percent": 38.59135616907945,
+      "left_contours_count": 5,
+      "right_contours_count": 15
+    },
+    {
+      "frame_idx": 19,
+      "left_area": 11949.0,
+      "right_area": 7264.5,
+      "total_area": 19213.5,
+      "left_percent": 62.190647201186664,
+      "right_percent": 37.809352798813336,
+      "left_contours_count": 4,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 20,
+      "left_area": 12175.5,
+      "right_area": 6392.0,
+      "total_area": 18567.5,
+      "left_percent": 65.57425609263498,
+      "right_percent": 34.42574390736502,
+      "left_contours_count": 5,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 21,
+      "left_area": 12221.5,
+      "right_area": 6434.0,
+      "total_area": 18655.5,
+      "left_percent": 65.51151135054005,
+      "right_percent": 34.488488649459946,
+      "left_contours_count": 5,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 22,
+      "left_area": 12161.0,
+      "right_area": 7423.5,
+      "total_area": 19584.5,
+      "left_percent": 62.09502412622226,
+      "right_percent": 37.90497587377773,
+      "left_contours_count": 4,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 23,
+      "left_area": 12388.0,
+      "right_area": 7190.0,
+      "total_area": 19578.0,
+      "left_percent": 63.27510470936766,
+      "right_percent": 36.72489529063234,
+      "left_contours_count": 3,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 24,
+      "left_area": 12503.0,
+      "right_area": 7134.5,
+      "total_area": 19637.5,
+      "left_percent": 63.66900063653724,
+      "right_percent": 36.330999363462766,
+      "left_contours_count": 4,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 25,
+      "left_area": 12498.0,
+      "right_area": 6711.0,
+      "total_area": 19209.0,
+      "left_percent": 65.06325160081212,
+      "right_percent": 34.93674839918788,
+      "left_contours_count": 4,
+      "right_contours_count": 17
+    },
+    {
+      "frame_idx": 26,
+      "left_area": 12829.0,
+      "right_area": 7594.0,
+      "total_area": 20423.0,
+      "left_percent": 62.81643245360623,
+      "right_percent": 37.18356754639377,
+      "left_contours_count": 5,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 27,
+      "left_area": 12469.0,
+      "right_area": 7893.5,
+      "total_area": 20362.5,
+      "left_percent": 61.23511356660528,
+      "right_percent": 38.76488643339472,
+      "left_contours_count": 6,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 28,
+      "left_area": 12284.5,
+      "right_area": 7195.0,
+      "total_area": 19479.5,
+      "left_percent": 63.06373366872866,
+      "right_percent": 36.93626633127134,
+      "left_contours_count": 6,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 29,
+      "left_area": 12709.0,
+      "right_area": 6531.5,
+      "total_area": 19240.5,
+      "left_percent": 66.05337699124243,
+      "right_percent": 33.94662300875757,
+      "left_contours_count": 6,
+      "right_contours_count": 19
+    },
+    {
+      "frame_idx": 30,
+      "left_area": 12371.0,
+      "right_area": 6935.5,
+      "total_area": 19306.5,
+      "left_percent": 64.07686530443115,
+      "right_percent": 35.92313469556885,
+      "left_contours_count": 4,
+      "right_contours_count": 17
+    },
+    {
+      "frame_idx": 31,
+      "left_area": 12191.5,
+      "right_area": 6930.0,
+      "total_area": 19121.5,
+      "left_percent": 63.758073372904846,
+      "right_percent": 36.241926627095154,
+      "left_contours_count": 3,
+      "right_contours_count": 16
+    },
+    {
+      "frame_idx": 32,
+      "left_area": 12391.0,
+      "right_area": 5469.0,
+      "total_area": 17860.0,
+      "left_percent": 69.37849944008958,
+      "right_percent": 30.621500559910412,
+      "left_contours_count": 8,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 33,
+      "left_area": 12718.0,
+      "right_area": 6740.5,
+      "total_area": 19458.5,
+      "left_percent": 65.35961148084385,
+      "right_percent": 34.640388519156154,
+      "left_contours_count": 8,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 34,
+      "left_area": 12527.5,
+      "right_area": 5921.0,
+      "total_area": 18448.5,
+      "left_percent": 67.90524974930211,
+      "right_percent": 32.09475025069789,
+      "left_contours_count": 11,
+      "right_contours_count": 16
+    },
+    {
+      "frame_idx": 35,
+      "left_area": 11983.5,
+      "right_area": 6467.5,
+      "total_area": 18451.0,
+      "left_percent": 64.94769931169043,
+      "right_percent": 35.05230068830958,
+      "left_contours_count": 11,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 36,
+      "left_area": 11956.0,
+      "right_area": 6231.5,
+      "total_area": 18187.5,
+      "left_percent": 65.73745704467355,
+      "right_percent": 34.26254295532646,
+      "left_contours_count": 9,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 37,
+      "left_area": 11977.0,
+      "right_area": 7228.0,
+      "total_area": 19205.0,
+      "left_percent": 62.36396771674043,
+      "right_percent": 37.63603228325957,
+      "left_contours_count": 8,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 38,
+      "left_area": 11899.5,
+      "right_area": 7851.5,
+      "total_area": 19751.0,
+      "left_percent": 60.2475824008911,
+      "right_percent": 39.75241759910891,
+      "left_contours_count": 7,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 39,
+      "left_area": 12234.5,
+      "right_area": 7802.5,
+      "total_area": 20037.0,
+      "left_percent": 61.05953985127515,
+      "right_percent": 38.94046014872486,
+      "left_contours_count": 5,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 40,
+      "left_area": 12208.5,
+      "right_area": 7767.0,
+      "total_area": 19975.5,
+      "left_percent": 61.117368776751526,
+      "right_percent": 38.88263122324848,
+      "left_contours_count": 7,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 41,
+      "left_area": 12837.5,
+      "right_area": 5917.5,
+      "total_area": 18755.0,
+      "left_percent": 68.44841375633165,
+      "right_percent": 31.551586243668357,
+      "left_contours_count": 3,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 42,
+      "left_area": 12824.5,
+      "right_area": 6383.0,
+      "total_area": 19207.5,
+      "left_percent": 66.76818950930627,
+      "right_percent": 33.23181049069374,
+      "left_contours_count": 6,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 43,
+      "left_area": 12655.5,
+      "right_area": 6348.5,
+      "total_area": 19004.0,
+      "left_percent": 66.59387497368975,
+      "right_percent": 33.40612502631025,
+      "left_contours_count": 7,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 44,
+      "left_area": 12555.5,
+      "right_area": 5358.5,
+      "total_area": 17914.0,
+      "left_percent": 70.08764095121134,
+      "right_percent": 29.912359048788655,
+      "left_contours_count": 3,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 45,
+      "left_area": 12434.5,
+      "right_area": 6953.5,
+      "total_area": 19388.0,
+      "left_percent": 64.13503197854344,
+      "right_percent": 35.86496802145657,
+      "left_contours_count": 5,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 46,
+      "left_area": 12441.5,
+      "right_area": 7340.0,
+      "total_area": 19781.5,
+      "left_percent": 62.89462376462856,
+      "right_percent": 37.10537623537144,
+      "left_contours_count": 5,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 47,
+      "left_area": 12537.0,
+      "right_area": 7076.5,
+      "total_area": 19613.5,
+      "left_percent": 63.92025900527698,
+      "right_percent": 36.07974099472302,
+      "left_contours_count": 6,
+      "right_contours_count": 18
+    },
+    {
+      "frame_idx": 48,
+      "left_area": 12503.5,
+      "right_area": 7561.0,
+      "total_area": 20064.5,
+      "left_percent": 62.31652919335144,
+      "right_percent": 37.68347080664856,
+      "left_contours_count": 6,
+      "right_contours_count": 18
+    },
+    {
+      "frame_idx": 49,
+      "left_area": 12499.0,
+      "right_area": 7279.0,
+      "total_area": 19778.0,
+      "left_percent": 63.19648093841642,
+      "right_percent": 36.80351906158358,
+      "left_contours_count": 6,
+      "right_contours_count": 16
+    },
+    {
+      "frame_idx": 50,
+      "left_area": 12452.0,
+      "right_area": 7153.0,
+      "total_area": 19605.0,
+      "left_percent": 63.51440958939046,
+      "right_percent": 36.48559041060954,
+      "left_contours_count": 4,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 51,
+      "left_area": 12232.5,
+      "right_area": 5971.5,
+      "total_area": 18204.0,
+      "left_percent": 67.19676994067238,
+      "right_percent": 32.80323005932762,
+      "left_contours_count": 8,
+      "right_contours_count": 15
+    },
+    {
+      "frame_idx": 52,
+      "left_area": 12041.5,
+      "right_area": 6442.5,
+      "total_area": 18484.0,
+      "left_percent": 65.14553127028782,
+      "right_percent": 34.85446872971218,
+      "left_contours_count": 4,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 53,
+      "left_area": 11975.0,
+      "right_area": 6386.5,
+      "total_area": 18361.5,
+      "left_percent": 65.2179832802331,
+      "right_percent": 34.78201671976691,
+      "left_contours_count": 5,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 54,
+      "left_area": 11920.5,
+      "right_area": 8689.0,
+      "total_area": 20609.5,
+      "left_percent": 57.839831145830814,
+      "right_percent": 42.16016885416919,
+      "left_contours_count": 6,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 55,
+      "left_area": 11806.0,
+      "right_area": 7523.5,
+      "total_area": 19329.5,
+      "left_percent": 61.07762746061719,
+      "right_percent": 38.92237253938281,
+      "left_contours_count": 4,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 56,
+      "left_area": 12073.0,
+      "right_area": 6176.5,
+      "total_area": 18249.5,
+      "left_percent": 66.15523712978437,
+      "right_percent": 33.844762870215625,
+      "left_contours_count": 7,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 57,
+      "left_area": 12307.0,
+      "right_area": 7541.5,
+      "total_area": 19848.5,
+      "left_percent": 62.00468549260649,
+      "right_percent": 37.99531450739351,
+      "left_contours_count": 7,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 58,
+      "left_area": 12256.0,
+      "right_area": 7494.5,
+      "total_area": 19750.5,
+      "left_percent": 62.05412521201995,
+      "right_percent": 37.94587478798005,
+      "left_contours_count": 6,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 59,
+      "left_area": 12269.0,
+      "right_area": 7619.0,
+      "total_area": 19888.0,
+      "left_percent": 61.69046661303298,
+      "right_percent": 38.30953338696702,
+      "left_contours_count": 7,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 60,
+      "left_area": 12089.0,
+      "right_area": 5758.5,
+      "total_area": 17847.5,
+      "left_percent": 67.73497688751927,
+      "right_percent": 32.26502311248074,
+      "left_contours_count": 4,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 61,
+      "left_area": 11973.0,
+      "right_area": 6587.5,
+      "total_area": 18560.5,
+      "left_percent": 64.50796045365156,
+      "right_percent": 35.49203954634843,
+      "left_contours_count": 5,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 62,
+      "left_area": 12110.5,
+      "right_area": 8283.0,
+      "total_area": 20393.5,
+      "left_percent": 59.38411748841542,
+      "right_percent": 40.61588251158457,
+      "left_contours_count": 5,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 63,
+      "left_area": 12383.5,
+      "right_area": 6900.5,
+      "total_area": 19284.0,
+      "left_percent": 64.21644886952915,
+      "right_percent": 35.78355113047086,
+      "left_contours_count": 6,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 64,
+      "left_area": 12224.0,
+      "right_area": 6777.0,
+      "total_area": 19001.0,
+      "left_percent": 64.3334561338877,
+      "right_percent": 35.66654386611231,
+      "left_contours_count": 4,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 65,
+      "left_area": 12510.5,
+      "right_area": 6228.0,
+      "total_area": 18738.5,
+      "left_percent": 66.76361501721055,
+      "right_percent": 33.236384982789446,
+      "left_contours_count": 5,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 66,
+      "left_area": 11965.0,
+      "right_area": 7386.0,
+      "total_area": 19351.0,
+      "left_percent": 61.83142990026356,
+      "right_percent": 38.16857009973645,
+      "left_contours_count": 11,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 67,
+      "left_area": 11924.0,
+      "right_area": 7241.5,
+      "total_area": 19165.5,
+      "left_percent": 62.2159609715374,
+      "right_percent": 37.7840390284626,
+      "left_contours_count": 8,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 68,
+      "left_area": 12218.5,
+      "right_area": 6382.5,
+      "total_area": 18601.0,
+      "left_percent": 65.68732863824526,
+      "right_percent": 34.312671361754745,
+      "left_contours_count": 6,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 69,
+      "left_area": 12587.5,
+      "right_area": 8987.5,
+      "total_area": 21575.0,
+      "left_percent": 58.34298957126304,
+      "right_percent": 41.65701042873696,
+      "left_contours_count": 6,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 70,
+      "left_area": 12692.5,
+      "right_area": 8124.0,
+      "total_area": 20816.5,
+      "left_percent": 60.97326639925059,
+      "right_percent": 39.02673360074941,
+      "left_contours_count": 7,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 71,
+      "left_area": 12218.0,
+      "right_area": 6408.0,
+      "total_area": 18626.0,
+      "left_percent": 65.59647804144744,
+      "right_percent": 34.40352195855256,
+      "left_contours_count": 5,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 72,
+      "left_area": 12209.5,
+      "right_area": 5966.5,
+      "total_area": 18176.0,
+      "left_percent": 67.17374559859155,
+      "right_percent": 32.82625440140845,
+      "left_contours_count": 6,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 73,
+      "left_area": 11779.5,
+      "right_area": 6755.0,
+      "total_area": 18534.5,
+      "left_percent": 63.55445250748603,
+      "right_percent": 36.44554749251396,
+      "left_contours_count": 6,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 74,
+      "left_area": 11940.0,
+      "right_area": 6886.5,
+      "total_area": 18826.5,
+      "left_percent": 63.421241335351766,
+      "right_percent": 36.578758664648234,
+      "left_contours_count": 6,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 75,
+      "left_area": 11941.0,
+      "right_area": 5951.0,
+      "total_area": 17892.0,
+      "left_percent": 66.73932483791639,
+      "right_percent": 33.260675162083615,
+      "left_contours_count": 6,
+      "right_contours_count": 15
+    },
+    {
+      "frame_idx": 76,
+      "left_area": 12195.5,
+      "right_area": 6517.5,
+      "total_area": 18713.0,
+      "left_percent": 65.17127130871586,
+      "right_percent": 34.828728691284134,
+      "left_contours_count": 5,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 77,
+      "left_area": 11937.0,
+      "right_area": 6644.0,
+      "total_area": 18581.0,
+      "left_percent": 64.24304396964642,
+      "right_percent": 35.756956030353585,
+      "left_contours_count": 3,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 78,
+      "left_area": 12376.5,
+      "right_area": 6359.0,
+      "total_area": 18735.5,
+      "left_percent": 66.05908569293587,
+      "right_percent": 33.940914307064126,
+      "left_contours_count": 3,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 79,
+      "left_area": 12311.5,
+      "right_area": 6778.5,
+      "total_area": 19090.0,
+      "left_percent": 64.49188056574123,
+      "right_percent": 35.508119434258774,
+      "left_contours_count": 4,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 80,
+      "left_area": 12765.0,
+      "right_area": 5950.5,
+      "total_area": 18715.5,
+      "left_percent": 68.20549811653443,
+      "right_percent": 31.794501883465575,
+      "left_contours_count": 5,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 81,
+      "left_area": 12912.0,
+      "right_area": 6917.0,
+      "total_area": 19829.0,
+      "left_percent": 65.11674819708507,
+      "right_percent": 34.88325180291492,
+      "left_contours_count": 3,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 82,
+      "left_area": 12867.0,
+      "right_area": 6624.0,
+      "total_area": 19491.0,
+      "left_percent": 66.01508388486994,
+      "right_percent": 33.98491611513006,
+      "left_contours_count": 4,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 83,
+      "left_area": 13050.5,
+      "right_area": 8907.0,
+      "total_area": 21957.5,
+      "left_percent": 59.43527268587043,
+      "right_percent": 40.56472731412957,
+      "left_contours_count": 4,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 84,
+      "left_area": 13334.0,
+      "right_area": 6751.0,
+      "total_area": 20085.0,
+      "left_percent": 66.38785163057007,
+      "right_percent": 33.612148369429924,
+      "left_contours_count": 9,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 85,
+      "left_area": 13351.5,
+      "right_area": 6942.0,
+      "total_area": 20293.5,
+      "left_percent": 65.79200236528938,
+      "right_percent": 34.20799763471062,
+      "left_contours_count": 7,
+      "right_contours_count": 15
+    },
+    {
+      "frame_idx": 86,
+      "left_area": 13017.0,
+      "right_area": 7219.0,
+      "total_area": 20236.0,
+      "left_percent": 64.32595374579957,
+      "right_percent": 35.674046254200434,
+      "left_contours_count": 7,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 87,
+      "left_area": 13165.0,
+      "right_area": 7497.5,
+      "total_area": 20662.5,
+      "left_percent": 63.714458560193584,
+      "right_percent": 36.285541439806416,
+      "left_contours_count": 9,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 88,
+      "left_area": 13366.5,
+      "right_area": 6795.5,
+      "total_area": 20162.0,
+      "left_percent": 66.29550639817478,
+      "right_percent": 33.70449360182521,
+      "left_contours_count": 7,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 89,
+      "left_area": 14230.5,
+      "right_area": 6879.5,
+      "total_area": 21110.0,
+      "left_percent": 67.41117953576504,
+      "right_percent": 32.588820464234956,
+      "left_contours_count": 3,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 90,
+      "left_area": 13019.0,
+      "right_area": 7339.5,
+      "total_area": 20358.5,
+      "left_percent": 63.94871920819314,
+      "right_percent": 36.05128079180686,
+      "left_contours_count": 6,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 91,
+      "left_area": 12977.5,
+      "right_area": 6664.5,
+      "total_area": 19642.0,
+      "left_percent": 66.07015578861623,
+      "right_percent": 33.92984421138377,
+      "left_contours_count": 7,
+      "right_contours_count": 15
+    },
+    {
+      "frame_idx": 92,
+      "left_area": 12348.5,
+      "right_area": 6134.5,
+      "total_area": 18483.0,
+      "left_percent": 66.8100416599037,
+      "right_percent": 33.189958340096304,
+      "left_contours_count": 6,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 93,
+      "left_area": 12496.0,
+      "right_area": 5533.0,
+      "total_area": 18029.0,
+      "left_percent": 69.31055521659547,
+      "right_percent": 30.68944478340451,
+      "left_contours_count": 7,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 94,
+      "left_area": 12707.0,
+      "right_area": 5475.0,
+      "total_area": 18182.0,
+      "left_percent": 69.88780112198879,
+      "right_percent": 30.11219887801122,
+      "left_contours_count": 6,
+      "right_contours_count": 16
+    },
+    {
+      "frame_idx": 95,
+      "left_area": 12348.0,
+      "right_area": 6576.0,
+      "total_area": 18924.0,
+      "left_percent": 65.25047558655676,
+      "right_percent": 34.74952441344325,
+      "left_contours_count": 5,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 96,
+      "left_area": 12265.0,
+      "right_area": 6327.5,
+      "total_area": 18592.5,
+      "left_percent": 65.96745999731074,
+      "right_percent": 34.03254000268925,
+      "left_contours_count": 4,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 97,
+      "left_area": 12167.0,
+      "right_area": 7029.0,
+      "total_area": 19196.0,
+      "left_percent": 63.38299645759533,
+      "right_percent": 36.61700354240467,
+      "left_contours_count": 7,
+      "right_contours_count": 15
+    },
+    {
+      "frame_idx": 98,
+      "left_area": 11973.5,
+      "right_area": 6295.0,
+      "total_area": 18268.5,
+      "left_percent": 65.54177956591948,
+      "right_percent": 34.45822043408052,
+      "left_contours_count": 6,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 99,
+      "left_area": 12219.5,
+      "right_area": 6291.5,
+      "total_area": 18511.0,
+      "left_percent": 66.01210091297067,
+      "right_percent": 33.987899087029334,
+      "left_contours_count": 6,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 100,
+      "left_area": 11963.5,
+      "right_area": 7088.5,
+      "total_area": 19052.0,
+      "left_percent": 62.79393239554902,
+      "right_percent": 37.20606760445098,
+      "left_contours_count": 6,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 101,
+      "left_area": 11873.0,
+      "right_area": 6604.5,
+      "total_area": 18477.5,
+      "left_percent": 64.25652820998512,
+      "right_percent": 35.74347179001489,
+      "left_contours_count": 6,
+      "right_contours_count": 17
+    },
+    {
+      "frame_idx": 102,
+      "left_area": 11968.0,
+      "right_area": 7723.0,
+      "total_area": 19691.0,
+      "left_percent": 60.77903610786654,
+      "right_percent": 39.22096389213346,
+      "left_contours_count": 7,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 103,
+      "left_area": 12021.0,
+      "right_area": 7564.0,
+      "total_area": 19585.0,
+      "left_percent": 61.37860607607863,
+      "right_percent": 38.621393923921374,
+      "left_contours_count": 5,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 104,
+      "left_area": 12025.0,
+      "right_area": 8095.5,
+      "total_area": 20120.5,
+      "left_percent": 59.764916378817624,
+      "right_percent": 40.235083621182376,
+      "left_contours_count": 5,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 105,
+      "left_area": 11821.5,
+      "right_area": 6613.0,
+      "total_area": 18434.5,
+      "left_percent": 64.12704440044482,
+      "right_percent": 35.87295559955518,
+      "left_contours_count": 6,
+      "right_contours_count": 15
+    },
+    {
+      "frame_idx": 106,
+      "left_area": 11904.0,
+      "right_area": 6452.5,
+      "total_area": 18356.5,
+      "left_percent": 64.84896358238225,
+      "right_percent": 35.15103641761774,
+      "left_contours_count": 5,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 107,
+      "left_area": 12073.5,
+      "right_area": 7015.5,
+      "total_area": 19089.0,
+      "left_percent": 63.24846770391325,
+      "right_percent": 36.75153229608675,
+      "left_contours_count": 5,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 108,
+      "left_area": 12833.5,
+      "right_area": 6222.0,
+      "total_area": 19055.5,
+      "left_percent": 67.3480097609614,
+      "right_percent": 32.6519902390386,
+      "left_contours_count": 6,
+      "right_contours_count": 18
+    },
+    {
+      "frame_idx": 109,
+      "left_area": 13029.5,
+      "right_area": 6398.0,
+      "total_area": 19427.5,
+      "left_percent": 67.06730150559773,
+      "right_percent": 32.93269849440226,
+      "left_contours_count": 5,
+      "right_contours_count": 17
+    },
+    {
+      "frame_idx": 110,
+      "left_area": 13313.0,
+      "right_area": 7576.5,
+      "total_area": 20889.5,
+      "left_percent": 63.730582349984445,
+      "right_percent": 36.269417650015555,
+      "left_contours_count": 5,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 111,
+      "left_area": 13021.0,
+      "right_area": 6504.0,
+      "total_area": 19525.0,
+      "left_percent": 66.68886043533931,
+      "right_percent": 33.31113956466069,
+      "left_contours_count": 8,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 112,
+      "left_area": 13052.0,
+      "right_area": 5940.0,
+      "total_area": 18992.0,
+      "left_percent": 68.72367312552655,
+      "right_percent": 31.276326874473465,
+      "left_contours_count": 4,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 113,
+      "left_area": 13010.5,
+      "right_area": 6677.5,
+      "total_area": 19688.0,
+      "left_percent": 66.08340105648111,
+      "right_percent": 33.91659894351889,
+      "left_contours_count": 4,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 114,
+      "left_area": 12485.5,
+      "right_area": 6268.5,
+      "total_area": 18754.0,
+      "left_percent": 66.57513063879705,
+      "right_percent": 33.424869361202944,
+      "left_contours_count": 4,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 115,
+      "left_area": 12959.0,
+      "right_area": 6505.0,
+      "total_area": 19464.0,
+      "left_percent": 66.5793259350596,
+      "right_percent": 33.4206740649404,
+      "left_contours_count": 6,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 116,
+      "left_area": 12463.0,
+      "right_area": 7480.0,
+      "total_area": 19943.0,
+      "left_percent": 62.493105350248214,
+      "right_percent": 37.50689464975179,
+      "left_contours_count": 6,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 117,
+      "left_area": 12387.0,
+      "right_area": 6345.5,
+      "total_area": 18732.5,
+      "left_percent": 66.12571733618043,
+      "right_percent": 33.874282663819564,
+      "left_contours_count": 5,
+      "right_contours_count": 16
+    },
+    {
+      "frame_idx": 118,
+      "left_area": 12404.5,
+      "right_area": 6616.0,
+      "total_area": 19020.5,
+      "left_percent": 65.21647695907048,
+      "right_percent": 34.78352304092952,
+      "left_contours_count": 6,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 119,
+      "left_area": 13011.5,
+      "right_area": 6042.5,
+      "total_area": 19054.0,
+      "left_percent": 68.28749868793955,
+      "right_percent": 31.71250131206046,
+      "left_contours_count": 7,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 120,
+      "left_area": 12850.5,
+      "right_area": 6563.0,
+      "total_area": 19413.5,
+      "left_percent": 66.19362814536277,
+      "right_percent": 33.806371854637234,
+      "left_contours_count": 6,
+      "right_contours_count": 15
+    },
+    {
+      "frame_idx": 121,
+      "left_area": 12828.5,
+      "right_area": 6995.5,
+      "total_area": 19824.0,
+      "left_percent": 64.71196529459242,
+      "right_percent": 35.28803470540759,
+      "left_contours_count": 6,
+      "right_contours_count": 15
+    },
+    {
+      "frame_idx": 122,
+      "left_area": 12812.0,
+      "right_area": 7151.5,
+      "total_area": 19963.5,
+      "left_percent": 64.17712324993113,
+      "right_percent": 35.82287675006888,
+      "left_contours_count": 5,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 123,
+      "left_area": 12753.0,
+      "right_area": 5900.5,
+      "total_area": 18653.5,
+      "left_percent": 68.36786662020532,
+      "right_percent": 31.632133379794674,
+      "left_contours_count": 6,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 124,
+      "left_area": 12723.5,
+      "right_area": 5976.5,
+      "total_area": 18700.0,
+      "left_percent": 68.04010695187166,
+      "right_percent": 31.95989304812834,
+      "left_contours_count": 7,
+      "right_contours_count": 15
+    },
+    {
+      "frame_idx": 125,
+      "left_area": 12509.5,
+      "right_area": 6850.5,
+      "total_area": 19360.0,
+      "left_percent": 64.61518595041322,
+      "right_percent": 35.38481404958678,
+      "left_contours_count": 8,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 126,
+      "left_area": 12598.5,
+      "right_area": 5394.5,
+      "total_area": 17993.0,
+      "left_percent": 70.01889623742566,
+      "right_percent": 29.981103762574335,
+      "left_contours_count": 9,
+      "right_contours_count": 17
+    },
+    {
+      "frame_idx": 127,
+      "left_area": 12594.0,
+      "right_area": 7434.0,
+      "total_area": 20028.0,
+      "left_percent": 62.88196524865188,
+      "right_percent": 37.11803475134811,
+      "left_contours_count": 6,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 128,
+      "left_area": 12784.5,
+      "right_area": 7160.5,
+      "total_area": 19945.0,
+      "left_percent": 64.0987716219604,
+      "right_percent": 35.901228378039605,
+      "left_contours_count": 5,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 129,
+      "left_area": 12699.0,
+      "right_area": 7013.5,
+      "total_area": 19712.5,
+      "left_percent": 64.42105263157895,
+      "right_percent": 35.578947368421055,
+      "left_contours_count": 3,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 130,
+      "left_area": 12711.5,
+      "right_area": 7532.5,
+      "total_area": 20244.0,
+      "left_percent": 62.7914443785813,
+      "right_percent": 37.2085556214187,
+      "left_contours_count": 2,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 131,
+      "left_area": 12591.5,
+      "right_area": 6221.0,
+      "total_area": 18812.5,
+      "left_percent": 66.93156146179402,
+      "right_percent": 33.06843853820598,
+      "left_contours_count": 2,
+      "right_contours_count": 22
+    },
+    {
+      "frame_idx": 132,
+      "left_area": 12604.0,
+      "right_area": 7909.5,
+      "total_area": 20513.5,
+      "left_percent": 61.442464718356206,
+      "right_percent": 38.557535281643794,
+      "left_contours_count": 2,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 133,
+      "left_area": 12626.0,
+      "right_area": 7063.0,
+      "total_area": 19689.0,
+      "left_percent": 64.1271776118645,
+      "right_percent": 35.8728223881355,
+      "left_contours_count": 2,
+      "right_contours_count": 19
+    },
+    {
+      "frame_idx": 134,
+      "left_area": 12489.5,
+      "right_area": 7848.5,
+      "total_area": 20338.0,
+      "left_percent": 61.40967646769594,
+      "right_percent": 38.59032353230406,
+      "left_contours_count": 2,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 135,
+      "left_area": 12086.0,
+      "right_area": 6461.5,
+      "total_area": 18547.5,
+      "left_percent": 65.16242081143011,
+      "right_percent": 34.83757918856989,
+      "left_contours_count": 4,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 136,
+      "left_area": 12854.0,
+      "right_area": 6652.0,
+      "total_area": 19506.0,
+      "left_percent": 65.89767251102225,
+      "right_percent": 34.10232748897775,
+      "left_contours_count": 6,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 137,
+      "left_area": 12639.5,
+      "right_area": 7650.0,
+      "total_area": 20289.5,
+      "left_percent": 62.29576874738165,
+      "right_percent": 37.70423125261835,
+      "left_contours_count": 6,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 138,
+      "left_area": 12199.5,
+      "right_area": 7032.5,
+      "total_area": 19232.0,
+      "left_percent": 63.433340266222956,
+      "right_percent": 36.566659733777044,
+      "left_contours_count": 6,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 139,
+      "left_area": 11875.0,
+      "right_area": 6382.0,
+      "total_area": 18257.0,
+      "left_percent": 65.04354494166621,
+      "right_percent": 34.95645505833379,
+      "left_contours_count": 7,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 140,
+      "left_area": 11593.0,
+      "right_area": 9022.0,
+      "total_area": 20615.0,
+      "left_percent": 56.23575066699006,
+      "right_percent": 43.76424933300995,
+      "left_contours_count": 7,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 141,
+      "left_area": 12068.5,
+      "right_area": 7595.5,
+      "total_area": 19664.0,
+      "left_percent": 61.37357607811229,
+      "right_percent": 38.626423921887714,
+      "left_contours_count": 8,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 142,
+      "left_area": 12091.0,
+      "right_area": 7525.5,
+      "total_area": 19616.5,
+      "left_percent": 61.63688731425076,
+      "right_percent": 38.36311268574924,
+      "left_contours_count": 4,
+      "right_contours_count": 17
+    },
+    {
+      "frame_idx": 143,
+      "left_area": 12188.0,
+      "right_area": 7768.0,
+      "total_area": 19956.0,
+      "left_percent": 61.07436359991982,
+      "right_percent": 38.92563640008018,
+      "left_contours_count": 4,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 144,
+      "left_area": 13213.0,
+      "right_area": 7090.5,
+      "total_area": 20303.5,
+      "left_percent": 65.0774497007905,
+      "right_percent": 34.9225502992095,
+      "left_contours_count": 8,
+      "right_contours_count": 16
+    },
+    {
+      "frame_idx": 145,
+      "left_area": 13303.5,
+      "right_area": 7636.5,
+      "total_area": 20940.0,
+      "left_percent": 63.53151862464183,
+      "right_percent": 36.46848137535817,
+      "left_contours_count": 8,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 146,
+      "left_area": 13219.0,
+      "right_area": 6968.0,
+      "total_area": 20187.0,
+      "left_percent": 65.4827364145242,
+      "right_percent": 34.5172635854758,
+      "left_contours_count": 10,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 147,
+      "left_area": 13066.0,
+      "right_area": 5811.5,
+      "total_area": 18877.5,
+      "left_percent": 69.21467355317176,
+      "right_percent": 30.785326446828236,
+      "left_contours_count": 7,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 148,
+      "left_area": 12723.0,
+      "right_area": 5935.5,
+      "total_area": 18658.5,
+      "left_percent": 68.18876115443364,
+      "right_percent": 31.811238845566365,
+      "left_contours_count": 9,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 149,
+      "left_area": 12435.5,
+      "right_area": 6822.5,
+      "total_area": 19258.0,
+      "left_percent": 64.57316439921071,
+      "right_percent": 35.42683560078928,
+      "left_contours_count": 7,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 150,
+      "left_area": 12826.0,
+      "right_area": 6147.5,
+      "total_area": 18973.5,
+      "left_percent": 67.59954673623739,
+      "right_percent": 32.40045326376262,
+      "left_contours_count": 8,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 151,
+      "left_area": 12673.0,
+      "right_area": 6500.0,
+      "total_area": 19173.0,
+      "left_percent": 66.0981588692432,
+      "right_percent": 33.90184113075679,
+      "left_contours_count": 10,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 152,
+      "left_area": 12949.5,
+      "right_area": 5770.0,
+      "total_area": 18719.5,
+      "left_percent": 69.17652715083203,
+      "right_percent": 30.82347284916798,
+      "left_contours_count": 9,
+      "right_contours_count": 17
+    },
+    {
+      "frame_idx": 153,
+      "left_area": 13184.5,
+      "right_area": 6894.0,
+      "total_area": 20078.5,
+      "left_percent": 65.66476579425753,
+      "right_percent": 34.33523420574246,
+      "left_contours_count": 12,
+      "right_contours_count": 16
+    },
+    {
+      "frame_idx": 154,
+      "left_area": 13396.5,
+      "right_area": 5857.0,
+      "total_area": 19253.5,
+      "left_percent": 69.57955696366895,
+      "right_percent": 30.420443036331058,
+      "left_contours_count": 6,
+      "right_contours_count": 16
+    },
+    {
+      "frame_idx": 155,
+      "left_area": 12927.0,
+      "right_area": 4953.5,
+      "total_area": 17880.5,
+      "left_percent": 72.29663600011186,
+      "right_percent": 27.703363999888147,
+      "left_contours_count": 7,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 156,
+      "left_area": 12400.5,
+      "right_area": 6447.5,
+      "total_area": 18848.0,
+      "left_percent": 65.79212648556876,
+      "right_percent": 34.20787351443124,
+      "left_contours_count": 7,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 157,
+      "left_area": 12390.5,
+      "right_area": 6872.0,
+      "total_area": 19262.5,
+      "left_percent": 64.32446463335496,
+      "right_percent": 35.675535366645036,
+      "left_contours_count": 7,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 158,
+      "left_area": 12501.5,
+      "right_area": 7095.5,
+      "total_area": 19597.0,
+      "left_percent": 63.79292748890136,
+      "right_percent": 36.20707251109864,
+      "left_contours_count": 3,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 159,
+      "left_area": 12995.5,
+      "right_area": 6761.5,
+      "total_area": 19757.0,
+      "left_percent": 65.77668674393887,
+      "right_percent": 34.22331325606115,
+      "left_contours_count": 11,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 160,
+      "left_area": 12861.0,
+      "right_area": 6552.0,
+      "total_area": 19413.0,
+      "left_percent": 66.24942049142327,
+      "right_percent": 33.75057950857673,
+      "left_contours_count": 7,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 161,
+      "left_area": 12840.5,
+      "right_area": 6170.0,
+      "total_area": 19010.5,
+      "left_percent": 67.54425186081376,
+      "right_percent": 32.45574813918624,
+      "left_contours_count": 10,
+      "right_contours_count": 16
+    },
+    {
+      "frame_idx": 162,
+      "left_area": 12869.5,
+      "right_area": 6969.5,
+      "total_area": 19839.0,
+      "left_percent": 64.86970109380513,
+      "right_percent": 35.13029890619487,
+      "left_contours_count": 9,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 163,
+      "left_area": 12632.5,
+      "right_area": 6450.5,
+      "total_area": 19083.0,
+      "left_percent": 66.19766284127233,
+      "right_percent": 33.80233715872766,
+      "left_contours_count": 7,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 164,
+      "left_area": 12667.0,
+      "right_area": 6671.5,
+      "total_area": 19338.5,
+      "left_percent": 65.50146081650593,
+      "right_percent": 34.49853918349407,
+      "left_contours_count": 4,
+      "right_contours_count": 17
+    },
+    {
+      "frame_idx": 165,
+      "left_area": 12592.5,
+      "right_area": 6083.0,
+      "total_area": 18675.5,
+      "left_percent": 67.42791357661106,
+      "right_percent": 32.57208642338893,
+      "left_contours_count": 5,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 166,
+      "left_area": 12535.5,
+      "right_area": 6548.5,
+      "total_area": 19084.0,
+      "left_percent": 65.68591490253615,
+      "right_percent": 34.314085097463845,
+      "left_contours_count": 4,
+      "right_contours_count": 16
+    },
+    {
+      "frame_idx": 167,
+      "left_area": 12606.0,
+      "right_area": 6016.5,
+      "total_area": 18622.5,
+      "left_percent": 67.6923076923077,
+      "right_percent": 32.30769230769231,
+      "left_contours_count": 6,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 168,
+      "left_area": 12476.5,
+      "right_area": 5879.0,
+      "total_area": 18355.5,
+      "left_percent": 67.97145269810139,
+      "right_percent": 32.02854730189861,
+      "left_contours_count": 7,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 169,
+      "left_area": 12399.0,
+      "right_area": 6200.0,
+      "total_area": 18599.0,
+      "left_percent": 66.6648744556159,
+      "right_percent": 33.335125544384105,
+      "left_contours_count": 8,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 170,
+      "left_area": 12542.5,
+      "right_area": 5607.5,
+      "total_area": 18150.0,
+      "left_percent": 69.10468319559229,
+      "right_percent": 30.895316804407713,
+      "left_contours_count": 6,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 171,
+      "left_area": 12424.0,
+      "right_area": 7110.0,
+      "total_area": 19534.0,
+      "left_percent": 63.60192484898126,
+      "right_percent": 36.39807515101874,
+      "left_contours_count": 5,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 172,
+      "left_area": 12152.5,
+      "right_area": 7169.5,
+      "total_area": 19322.0,
+      "left_percent": 62.89462788531208,
+      "right_percent": 37.10537211468792,
+      "left_contours_count": 5,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 173,
+      "left_area": 12295.5,
+      "right_area": 7174.5,
+      "total_area": 19470.0,
+      "left_percent": 63.151001540832056,
+      "right_percent": 36.84899845916795,
+      "left_contours_count": 3,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 174,
+      "left_area": 12442.5,
+      "right_area": 6702.0,
+      "total_area": 19144.5,
+      "left_percent": 64.99255660894774,
+      "right_percent": 35.00744339105226,
+      "left_contours_count": 4,
+      "right_contours_count": 16
+    },
+    {
+      "frame_idx": 175,
+      "left_area": 12617.5,
+      "right_area": 7351.5,
+      "total_area": 19969.0,
+      "left_percent": 63.18543742801342,
+      "right_percent": 36.81456257198658,
+      "left_contours_count": 4,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 176,
+      "left_area": 12712.0,
+      "right_area": 7166.0,
+      "total_area": 19878.0,
+      "left_percent": 63.950095583056644,
+      "right_percent": 36.049904416943356,
+      "left_contours_count": 4,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 177,
+      "left_area": 12413.0,
+      "right_area": 6956.0,
+      "total_area": 19369.0,
+      "left_percent": 64.08694305333265,
+      "right_percent": 35.91305694666735,
+      "left_contours_count": 4,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 178,
+      "left_area": 12552.5,
+      "right_area": 7235.0,
+      "total_area": 19787.5,
+      "left_percent": 63.43651295009476,
+      "right_percent": 36.56348704990524,
+      "left_contours_count": 3,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 179,
+      "left_area": 12578.0,
+      "right_area": 7242.0,
+      "total_area": 19820.0,
+      "left_percent": 63.46115035317861,
+      "right_percent": 36.53884964682139,
+      "left_contours_count": 3,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 180,
+      "left_area": 12366.0,
+      "right_area": 6918.5,
+      "total_area": 19284.5,
+      "left_percent": 64.12403743939433,
+      "right_percent": 35.875962560605664,
+      "left_contours_count": 3,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 181,
+      "left_area": 12413.0,
+      "right_area": 6476.5,
+      "total_area": 18889.5,
+      "left_percent": 65.71375631964848,
+      "right_percent": 34.28624368035152,
+      "left_contours_count": 4,
+      "right_contours_count": 16
+    },
+    {
+      "frame_idx": 182,
+      "left_area": 12474.5,
+      "right_area": 6102.5,
+      "total_area": 18577.0,
+      "left_percent": 67.15023954352156,
+      "right_percent": 32.849760456478435,
+      "left_contours_count": 4,
+      "right_contours_count": 15
+    },
+    {
+      "frame_idx": 183,
+      "left_area": 12222.0,
+      "right_area": 7082.5,
+      "total_area": 19304.5,
+      "left_percent": 63.31166308373696,
+      "right_percent": 36.68833691626305,
+      "left_contours_count": 5,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 184,
+      "left_area": 12336.0,
+      "right_area": 6937.0,
+      "total_area": 19273.0,
+      "left_percent": 64.00664141545167,
+      "right_percent": 35.99335858454833,
+      "left_contours_count": 3,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 185,
+      "left_area": 12110.5,
+      "right_area": 7272.5,
+      "total_area": 19383.0,
+      "left_percent": 62.48000825465614,
+      "right_percent": 37.51999174534386,
+      "left_contours_count": 6,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 186,
+      "left_area": 11886.0,
+      "right_area": 6677.5,
+      "total_area": 18563.5,
+      "left_percent": 64.02887386538099,
+      "right_percent": 35.971126134619006,
+      "left_contours_count": 4,
+      "right_contours_count": 15
+    },
+    {
+      "frame_idx": 187,
+      "left_area": 12015.0,
+      "right_area": 6649.5,
+      "total_area": 18664.5,
+      "left_percent": 64.37354335771116,
+      "right_percent": 35.62645664228884,
+      "left_contours_count": 4,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 188,
+      "left_area": 11976.0,
+      "right_area": 6534.5,
+      "total_area": 18510.5,
+      "left_percent": 64.69841441344101,
+      "right_percent": 35.30158558655898,
+      "left_contours_count": 2,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 189,
+      "left_area": 12127.0,
+      "right_area": 6397.5,
+      "total_area": 18524.5,
+      "left_percent": 65.46465491646198,
+      "right_percent": 34.53534508353802,
+      "left_contours_count": 4,
+      "right_contours_count": 17
+    },
+    {
+      "frame_idx": 190,
+      "left_area": 12053.0,
+      "right_area": 7716.0,
+      "total_area": 19769.0,
+      "left_percent": 60.96919419292832,
+      "right_percent": 39.03080580707168,
+      "left_contours_count": 4,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 191,
+      "left_area": 12097.0,
+      "right_area": 8050.5,
+      "total_area": 20147.5,
+      "left_percent": 60.04218885717832,
+      "right_percent": 39.95781114282169,
+      "left_contours_count": 4,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 192,
+      "left_area": 12039.5,
+      "right_area": 6983.5,
+      "total_area": 19023.0,
+      "left_percent": 63.28917626031646,
+      "right_percent": 36.71082373968354,
+      "left_contours_count": 2,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 193,
+      "left_area": 11851.5,
+      "right_area": 7603.0,
+      "total_area": 19454.5,
+      "left_percent": 60.91906756791487,
+      "right_percent": 39.08093243208512,
+      "left_contours_count": 4,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 194,
+      "left_area": 11904.0,
+      "right_area": 8500.0,
+      "total_area": 20404.0,
+      "left_percent": 58.34150166633994,
+      "right_percent": 41.65849833366006,
+      "left_contours_count": 7,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 195,
+      "left_area": 11980.0,
+      "right_area": 9907.0,
+      "total_area": 21887.0,
+      "left_percent": 54.735687851235895,
+      "right_percent": 45.264312148764105,
+      "left_contours_count": 5,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 196,
+      "left_area": 11769.0,
+      "right_area": 10125.0,
+      "total_area": 21894.0,
+      "left_percent": 53.75445327486983,
+      "right_percent": 46.24554672513017,
+      "left_contours_count": 5,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 197,
+      "left_area": 12178.5,
+      "right_area": 10609.5,
+      "total_area": 22788.0,
+      "left_percent": 53.44260136914165,
+      "right_percent": 46.55739863085835,
+      "left_contours_count": 4,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 198,
+      "left_area": 11817.0,
+      "right_area": 12066.0,
+      "total_area": 23883.0,
+      "left_percent": 49.478708704936565,
+      "right_percent": 50.52129129506343,
+      "left_contours_count": 4,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 199,
+      "left_area": 12167.0,
+      "right_area": 12991.5,
+      "total_area": 25158.5,
+      "left_percent": 48.36138879503945,
+      "right_percent": 51.63861120496055,
+      "left_contours_count": 4,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 200,
+      "left_area": 12583.0,
+      "right_area": 14098.5,
+      "total_area": 26681.5,
+      "left_percent": 47.16001724041002,
+      "right_percent": 52.83998275958998,
+      "left_contours_count": 5,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 201,
+      "left_area": 11848.0,
+      "right_area": 14988.0,
+      "total_area": 26836.0,
+      "left_percent": 44.149649724251006,
+      "right_percent": 55.850350275748994,
+      "left_contours_count": 4,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 202,
+      "left_area": 11810.5,
+      "right_area": 15205.0,
+      "total_area": 27015.5,
+      "left_percent": 43.7174955118358,
+      "right_percent": 56.2825044881642,
+      "left_contours_count": 3,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 203,
+      "left_area": 11350.0,
+      "right_area": 14969.0,
+      "total_area": 26319.0,
+      "left_percent": 43.12473878186861,
+      "right_percent": 56.87526121813139,
+      "left_contours_count": 4,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 204,
+      "left_area": 11139.0,
+      "right_area": 15029.5,
+      "total_area": 26168.5,
+      "left_percent": 42.56644438924661,
+      "right_percent": 57.43355561075339,
+      "left_contours_count": 5,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 205,
+      "left_area": 11164.5,
+      "right_area": 14978.5,
+      "total_area": 26143.0,
+      "left_percent": 42.70550434150633,
+      "right_percent": 57.29449565849367,
+      "left_contours_count": 3,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 206,
+      "left_area": 11036.0,
+      "right_area": 15200.5,
+      "total_area": 26236.5,
+      "left_percent": 42.0635374383016,
+      "right_percent": 57.9364625616984,
+      "left_contours_count": 4,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 207,
+      "left_area": 10936.5,
+      "right_area": 15622.0,
+      "total_area": 26558.5,
+      "left_percent": 41.178906941280566,
+      "right_percent": 58.821093058719434,
+      "left_contours_count": 3,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 208,
+      "left_area": 10675.0,
+      "right_area": 15412.0,
+      "total_area": 26087.0,
+      "left_percent": 40.920765132058115,
+      "right_percent": 59.079234867941885,
+      "left_contours_count": 4,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 209,
+      "left_area": 10793.0,
+      "right_area": 15408.0,
+      "total_area": 26201.0,
+      "left_percent": 41.193084233426205,
+      "right_percent": 58.806915766573795,
+      "left_contours_count": 3,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 210,
+      "left_area": 10430.0,
+      "right_area": 14905.5,
+      "total_area": 25335.5,
+      "left_percent": 41.16753172426043,
+      "right_percent": 58.83246827573958,
+      "left_contours_count": 4,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 211,
+      "left_area": 10174.5,
+      "right_area": 15026.5,
+      "total_area": 25201.0,
+      "left_percent": 40.37339788103647,
+      "right_percent": 59.62660211896353,
+      "left_contours_count": 6,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 212,
+      "left_area": 10285.0,
+      "right_area": 15021.0,
+      "total_area": 25306.0,
+      "left_percent": 40.64253536710661,
+      "right_percent": 59.35746463289339,
+      "left_contours_count": 4,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 213,
+      "left_area": 10417.5,
+      "right_area": 14748.5,
+      "total_area": 25166.0,
+      "left_percent": 41.395136295001194,
+      "right_percent": 58.60486370499881,
+      "left_contours_count": 4,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 214,
+      "left_area": 10239.5,
+      "right_area": 14822.0,
+      "total_area": 25061.5,
+      "left_percent": 40.857490573189956,
+      "right_percent": 59.14250942681005,
+      "left_contours_count": 5,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 215,
+      "left_area": 10441.5,
+      "right_area": 14829.0,
+      "total_area": 25270.5,
+      "left_percent": 41.31892918620526,
+      "right_percent": 58.68107081379475,
+      "left_contours_count": 4,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 216,
+      "left_area": 10390.5,
+      "right_area": 15457.0,
+      "total_area": 25847.5,
+      "left_percent": 40.199245575007254,
+      "right_percent": 59.80075442499274,
+      "left_contours_count": 3,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 217,
+      "left_area": 10142.0,
+      "right_area": 15296.0,
+      "total_area": 25438.0,
+      "left_percent": 39.86948659485809,
+      "right_percent": 60.13051340514192,
+      "left_contours_count": 2,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 218,
+      "left_area": 10219.0,
+      "right_area": 15435.0,
+      "total_area": 25654.0,
+      "left_percent": 39.83394402432369,
+      "right_percent": 60.1660559756763,
+      "left_contours_count": 2,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 219,
+      "left_area": 9898.5,
+      "right_area": 15061.5,
+      "total_area": 24960.0,
+      "left_percent": 39.65745192307693,
+      "right_percent": 60.34254807692307,
+      "left_contours_count": 3,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 220,
+      "left_area": 9830.0,
+      "right_area": 15040.5,
+      "total_area": 24870.5,
+      "left_percent": 39.52473814358377,
+      "right_percent": 60.47526185641624,
+      "left_contours_count": 2,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 221,
+      "left_area": 9788.5,
+      "right_area": 15138.0,
+      "total_area": 24926.5,
+      "left_percent": 39.26945218943694,
+      "right_percent": 60.73054781056305,
+      "left_contours_count": 3,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 222,
+      "left_area": 9871.5,
+      "right_area": 14920.0,
+      "total_area": 24791.5,
+      "left_percent": 39.818082810640746,
+      "right_percent": 60.181917189359254,
+      "left_contours_count": 3,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 223,
+      "left_area": 9866.5,
+      "right_area": 14778.5,
+      "total_area": 24645.0,
+      "left_percent": 40.034489754514105,
+      "right_percent": 59.965510245485895,
+      "left_contours_count": 5,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 224,
+      "left_area": 9696.0,
+      "right_area": 14907.5,
+      "total_area": 24603.5,
+      "left_percent": 39.40902717093097,
+      "right_percent": 60.59097282906903,
+      "left_contours_count": 2,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 225,
+      "left_area": 9653.0,
+      "right_area": 14857.5,
+      "total_area": 24510.5,
+      "left_percent": 39.383121519348855,
+      "right_percent": 60.616878480651145,
+      "left_contours_count": 3,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 226,
+      "left_area": 9549.0,
+      "right_area": 14930.5,
+      "total_area": 24479.5,
+      "left_percent": 39.00814967625973,
+      "right_percent": 60.99185032374027,
+      "left_contours_count": 3,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 227,
+      "left_area": 9469.0,
+      "right_area": 13995.5,
+      "total_area": 23464.5,
+      "left_percent": 40.354578192588804,
+      "right_percent": 59.64542180741119,
+      "left_contours_count": 6,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 228,
+      "left_area": 9549.0,
+      "right_area": 13746.0,
+      "total_area": 23295.0,
+      "left_percent": 40.99162910495814,
+      "right_percent": 59.00837089504185,
+      "left_contours_count": 5,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 229,
+      "left_area": 9785.5,
+      "right_area": 13106.5,
+      "total_area": 22892.0,
+      "left_percent": 42.74637427922418,
+      "right_percent": 57.253625720775815,
+      "left_contours_count": 4,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 230,
+      "left_area": 10003.5,
+      "right_area": 12988.0,
+      "total_area": 22991.5,
+      "left_percent": 43.50955788008612,
+      "right_percent": 56.49044211991389,
+      "left_contours_count": 3,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 231,
+      "left_area": 10701.0,
+      "right_area": 13332.5,
+      "total_area": 24033.5,
+      "left_percent": 44.525350032246656,
+      "right_percent": 55.474649967753344,
+      "left_contours_count": 3,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 232,
+      "left_area": 10596.5,
+      "right_area": 14652.5,
+      "total_area": 25249.0,
+      "left_percent": 41.96799873262307,
+      "right_percent": 58.03200126737692,
+      "left_contours_count": 3,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 233,
+      "left_area": 10328.5,
+      "right_area": 14379.5,
+      "total_area": 24708.0,
+      "left_percent": 41.80225028330905,
+      "right_percent": 58.19774971669095,
+      "left_contours_count": 5,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 234,
+      "left_area": 9892.5,
+      "right_area": 14813.0,
+      "total_area": 24705.5,
+      "left_percent": 40.04169112141021,
+      "right_percent": 59.95830887858978,
+      "left_contours_count": 3,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 235,
+      "left_area": 9820.5,
+      "right_area": 14894.0,
+      "total_area": 24714.5,
+      "left_percent": 39.73578263772279,
+      "right_percent": 60.26421736227721,
+      "left_contours_count": 5,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 236,
+      "left_area": 9802.5,
+      "right_area": 14649.0,
+      "total_area": 24451.5,
+      "left_percent": 40.08956505735844,
+      "right_percent": 59.91043494264156,
+      "left_contours_count": 3,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 237,
+      "left_area": 9335.0,
+      "right_area": 14467.5,
+      "total_area": 23802.5,
+      "left_percent": 39.218569477996006,
+      "right_percent": 60.78143052200399,
+      "left_contours_count": 4,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 238,
+      "left_area": 8497.5,
+      "right_area": 14949.0,
+      "total_area": 23446.5,
+      "left_percent": 36.2420830401126,
+      "right_percent": 63.7579169598874,
+      "left_contours_count": 3,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 239,
+      "left_area": 8616.5,
+      "right_area": 15011.0,
+      "total_area": 23627.5,
+      "left_percent": 36.46809861390329,
+      "right_percent": 63.53190138609671,
+      "left_contours_count": 6,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 240,
+      "left_area": 7810.0,
+      "right_area": 14996.5,
+      "total_area": 22806.5,
+      "left_percent": 34.2446232433736,
+      "right_percent": 65.7553767566264,
+      "left_contours_count": 8,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 241,
+      "left_area": 8306.5,
+      "right_area": 14973.5,
+      "total_area": 23280.0,
+      "left_percent": 35.68084192439863,
+      "right_percent": 64.31915807560138,
+      "left_contours_count": 8,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 242,
+      "left_area": 7189.5,
+      "right_area": 15025.0,
+      "total_area": 22214.5,
+      "left_percent": 32.36399648877985,
+      "right_percent": 67.63600351122014,
+      "left_contours_count": 12,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 243,
+      "left_area": 8487.0,
+      "right_area": 16056.0,
+      "total_area": 24543.0,
+      "left_percent": 34.580124679134585,
+      "right_percent": 65.41987532086542,
+      "left_contours_count": 6,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 244,
+      "left_area": 9809.0,
+      "right_area": 16025.0,
+      "total_area": 25834.0,
+      "left_percent": 37.96934272663931,
+      "right_percent": 62.03065727336069,
+      "left_contours_count": 5,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 245,
+      "left_area": 10235.5,
+      "right_area": 16075.5,
+      "total_area": 26311.0,
+      "left_percent": 38.90198016038919,
+      "right_percent": 61.09801983961081,
+      "left_contours_count": 9,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 246,
+      "left_area": 11413.5,
+      "right_area": 15658.0,
+      "total_area": 27071.5,
+      "left_percent": 42.16057477420904,
+      "right_percent": 57.83942522579096,
+      "left_contours_count": 5,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 247,
+      "left_area": 10288.5,
+      "right_area": 15633.0,
+      "total_area": 25921.5,
+      "left_percent": 39.69099010473931,
+      "right_percent": 60.30900989526069,
+      "left_contours_count": 6,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 248,
+      "left_area": 8956.0,
+      "right_area": 15738.5,
+      "total_area": 24694.5,
+      "left_percent": 36.26718500070866,
+      "right_percent": 63.73281499929134,
+      "left_contours_count": 8,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 249,
+      "left_area": 10136.5,
+      "right_area": 16148.5,
+      "total_area": 26285.0,
+      "left_percent": 38.563819669012744,
+      "right_percent": 61.436180330987256,
+      "left_contours_count": 8,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 250,
+      "left_area": 8662.5,
+      "right_area": 16052.5,
+      "total_area": 24715.0,
+      "left_percent": 35.04956504147279,
+      "right_percent": 64.95043495852721,
+      "left_contours_count": 8,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 251,
+      "left_area": 7352.5,
+      "right_area": 15661.5,
+      "total_area": 23014.0,
+      "left_percent": 31.947944729295212,
+      "right_percent": 68.0520552707048,
+      "left_contours_count": 6,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 252,
+      "left_area": 6683.0,
+      "right_area": 15601.0,
+      "total_area": 22284.0,
+      "left_percent": 29.990127445700953,
+      "right_percent": 70.00987255429905,
+      "left_contours_count": 9,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 253,
+      "left_area": 6145.0,
+      "right_area": 15754.5,
+      "total_area": 21899.5,
+      "left_percent": 28.060001369894287,
+      "right_percent": 71.9399986301057,
+      "left_contours_count": 10,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 254,
+      "left_area": 8150.0,
+      "right_area": 16298.5,
+      "total_area": 24448.5,
+      "left_percent": 33.335378448575575,
+      "right_percent": 66.66462155142442,
+      "left_contours_count": 5,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 255,
+      "left_area": 5559.0,
+      "right_area": 15867.5,
+      "total_area": 21426.5,
+      "left_percent": 25.944507969103682,
+      "right_percent": 74.05549203089632,
+      "left_contours_count": 8,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 256,
+      "left_area": 6757.5,
+      "right_area": 15621.5,
+      "total_area": 22379.0,
+      "left_percent": 30.195719201036685,
+      "right_percent": 69.80428079896332,
+      "left_contours_count": 7,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 257,
+      "left_area": 7301.0,
+      "right_area": 15829.0,
+      "total_area": 23130.0,
+      "left_percent": 31.565067012537828,
+      "right_percent": 68.43493298746218,
+      "left_contours_count": 3,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 258,
+      "left_area": 7126.0,
+      "right_area": 15169.0,
+      "total_area": 22295.0,
+      "left_percent": 31.96232339089482,
+      "right_percent": 68.03767660910518,
+      "left_contours_count": 3,
+      "right_contours_count": 13
+    },
+    {
+      "frame_idx": 259,
+      "left_area": 4578.0,
+      "right_area": 16435.0,
+      "total_area": 21013.0,
+      "left_percent": 21.786513110931327,
+      "right_percent": 78.21348688906868,
+      "left_contours_count": 6,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 260,
+      "left_area": 4076.5,
+      "right_area": 16752.0,
+      "total_area": 20828.5,
+      "left_percent": 19.57174064382937,
+      "right_percent": 80.42825935617063,
+      "left_contours_count": 5,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 261,
+      "left_area": 4505.0,
+      "right_area": 19061.5,
+      "total_area": 23566.5,
+      "left_percent": 19.11611821865784,
+      "right_percent": 80.88388178134215,
+      "left_contours_count": 7,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 262,
+      "left_area": 5372.5,
+      "right_area": 17333.0,
+      "total_area": 22705.5,
+      "left_percent": 23.661667877826957,
+      "right_percent": 76.33833212217304,
+      "left_contours_count": 8,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 263,
+      "left_area": 6366.0,
+      "right_area": 17380.0,
+      "total_area": 23746.0,
+      "left_percent": 26.80872568011455,
+      "right_percent": 73.19127431988545,
+      "left_contours_count": 5,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 264,
+      "left_area": 6068.5,
+      "right_area": 17919.5,
+      "total_area": 23988.0,
+      "left_percent": 25.298065699516425,
+      "right_percent": 74.70193430048357,
+      "left_contours_count": 3,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 265,
+      "left_area": 4272.0,
+      "right_area": 17879.0,
+      "total_area": 22151.0,
+      "left_percent": 19.28581102433299,
+      "right_percent": 80.71418897566701,
+      "left_contours_count": 8,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 266,
+      "left_area": 6128.5,
+      "right_area": 16596.5,
+      "total_area": 22725.0,
+      "left_percent": 26.96809680968097,
+      "right_percent": 73.03190319031904,
+      "left_contours_count": 7,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 267,
+      "left_area": 6198.5,
+      "right_area": 14233.0,
+      "total_area": 20431.5,
+      "left_percent": 30.337958544404476,
+      "right_percent": 69.66204145559553,
+      "left_contours_count": 3,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 268,
+      "left_area": 6741.0,
+      "right_area": 15105.5,
+      "total_area": 21846.5,
+      "left_percent": 30.856201222163733,
+      "right_percent": 69.14379877783627,
+      "left_contours_count": 5,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 269,
+      "left_area": 4042.5,
+      "right_area": 17134.0,
+      "total_area": 21176.5,
+      "left_percent": 19.089556820059972,
+      "right_percent": 80.91044317994003,
+      "left_contours_count": 5,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 270,
+      "left_area": 5311.5,
+      "right_area": 15303.0,
+      "total_area": 20614.5,
+      "left_percent": 25.765844429891583,
+      "right_percent": 74.23415557010841,
+      "left_contours_count": 7,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 271,
+      "left_area": 5731.5,
+      "right_area": 14787.5,
+      "total_area": 20519.0,
+      "left_percent": 27.932647789853306,
+      "right_percent": 72.0673522101467,
+      "left_contours_count": 6,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 272,
+      "left_area": 4949.5,
+      "right_area": 14556.0,
+      "total_area": 19505.5,
+      "left_percent": 25.374894260593166,
+      "right_percent": 74.62510573940683,
+      "left_contours_count": 4,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 273,
+      "left_area": 3831.5,
+      "right_area": 15056.0,
+      "total_area": 18887.5,
+      "left_percent": 20.28590337524818,
+      "right_percent": 79.71409662475182,
+      "left_contours_count": 5,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 274,
+      "left_area": 4752.0,
+      "right_area": 13447.5,
+      "total_area": 18199.5,
+      "left_percent": 26.11060743427017,
+      "right_percent": 73.88939256572982,
+      "left_contours_count": 6,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 275,
+      "left_area": 4805.5,
+      "right_area": 15178.0,
+      "total_area": 19983.5,
+      "left_percent": 24.047339054720144,
+      "right_percent": 75.95266094527986,
+      "left_contours_count": 7,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 276,
+      "left_area": 5100.0,
+      "right_area": 14708.5,
+      "total_area": 19808.5,
+      "left_percent": 25.746522957316305,
+      "right_percent": 74.25347704268368,
+      "left_contours_count": 6,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 277,
+      "left_area": 3156.0,
+      "right_area": 14944.0,
+      "total_area": 18100.0,
+      "left_percent": 17.43646408839779,
+      "right_percent": 82.56353591160222,
+      "left_contours_count": 11,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 278,
+      "left_area": 3268.5,
+      "right_area": 14766.0,
+      "total_area": 18034.5,
+      "left_percent": 18.123596440156366,
+      "right_percent": 81.87640355984364,
+      "left_contours_count": 8,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 279,
+      "left_area": 5591.0,
+      "right_area": 14852.0,
+      "total_area": 20443.0,
+      "left_percent": 27.34921489018246,
+      "right_percent": 72.65078510981753,
+      "left_contours_count": 7,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 280,
+      "left_area": 6382.0,
+      "right_area": 14489.0,
+      "total_area": 20871.0,
+      "left_percent": 30.57831440755115,
+      "right_percent": 69.42168559244885,
+      "left_contours_count": 6,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 281,
+      "left_area": 7375.5,
+      "right_area": 14693.0,
+      "total_area": 22068.5,
+      "left_percent": 33.420939347939374,
+      "right_percent": 66.57906065206063,
+      "left_contours_count": 8,
+      "right_contours_count": 3
+    },
+    {
+      "frame_idx": 282,
+      "left_area": 5754.0,
+      "right_area": 14692.5,
+      "total_area": 20446.5,
+      "left_percent": 28.141735749394766,
+      "right_percent": 71.85826425060525,
+      "left_contours_count": 9,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 283,
+      "left_area": 5658.0,
+      "right_area": 14052.5,
+      "total_area": 19710.5,
+      "left_percent": 28.70551229040359,
+      "right_percent": 71.29448770959641,
+      "left_contours_count": 7,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 284,
+      "left_area": 8815.5,
+      "right_area": 13834.0,
+      "total_area": 22649.5,
+      "left_percent": 38.92138899313451,
+      "right_percent": 61.07861100686549,
+      "left_contours_count": 8,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 285,
+      "left_area": 7034.5,
+      "right_area": 14300.5,
+      "total_area": 21335.0,
+      "left_percent": 32.97164284040309,
+      "right_percent": 67.02835715959691,
+      "left_contours_count": 8,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 286,
+      "left_area": 7552.0,
+      "right_area": 14816.0,
+      "total_area": 22368.0,
+      "left_percent": 33.76251788268956,
+      "right_percent": 66.23748211731044,
+      "left_contours_count": 8,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 287,
+      "left_area": 8614.0,
+      "right_area": 15534.0,
+      "total_area": 24148.0,
+      "left_percent": 35.67169123736956,
+      "right_percent": 64.32830876263044,
+      "left_contours_count": 6,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 288,
+      "left_area": 4753.5,
+      "right_area": 15493.5,
+      "total_area": 20247.0,
+      "left_percent": 23.477552229959993,
+      "right_percent": 76.52244777004,
+      "left_contours_count": 10,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 289,
+      "left_area": 6235.0,
+      "right_area": 15689.0,
+      "total_area": 21924.0,
+      "left_percent": 28.439153439153444,
+      "right_percent": 71.56084656084656,
+      "left_contours_count": 5,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 290,
+      "left_area": 5271.0,
+      "right_area": 14018.0,
+      "total_area": 19289.0,
+      "left_percent": 27.3264554927679,
+      "right_percent": 72.67354450723211,
+      "left_contours_count": 4,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 291,
+      "left_area": 5585.5,
+      "right_area": 15030.0,
+      "total_area": 20615.5,
+      "left_percent": 27.0936916397856,
+      "right_percent": 72.9063083602144,
+      "left_contours_count": 3,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 292,
+      "left_area": 4443.0,
+      "right_area": 15440.0,
+      "total_area": 19883.0,
+      "left_percent": 22.345722476487452,
+      "right_percent": 77.65427752351255,
+      "left_contours_count": 7,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 293,
+      "left_area": 4168.0,
+      "right_area": 15553.0,
+      "total_area": 19721.0,
+      "left_percent": 21.134830890928452,
+      "right_percent": 78.86516910907156,
+      "left_contours_count": 8,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 294,
+      "left_area": 5916.0,
+      "right_area": 14721.0,
+      "total_area": 20637.0,
+      "left_percent": 28.666957406599796,
+      "right_percent": 71.33304259340021,
+      "left_contours_count": 4,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 295,
+      "left_area": 3072.5,
+      "right_area": 14406.5,
+      "total_area": 17479.0,
+      "left_percent": 17.578236741232338,
+      "right_percent": 82.42176325876767,
+      "left_contours_count": 10,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 296,
+      "left_area": 4054.0,
+      "right_area": 14415.0,
+      "total_area": 18469.0,
+      "left_percent": 21.950295089068167,
+      "right_percent": 78.04970491093182,
+      "left_contours_count": 8,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 297,
+      "left_area": 7298.0,
+      "right_area": 14997.0,
+      "total_area": 22295.0,
+      "left_percent": 32.733796815429464,
+      "right_percent": 67.26620318457053,
+      "left_contours_count": 8,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 298,
+      "left_area": 6879.5,
+      "right_area": 14984.5,
+      "total_area": 21864.0,
+      "left_percent": 31.46496523966337,
+      "right_percent": 68.53503476033663,
+      "left_contours_count": 3,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 299,
+      "left_area": 6306.5,
+      "right_area": 15458.0,
+      "total_area": 21764.5,
+      "left_percent": 28.976084908911297,
+      "right_percent": 71.0239150910887,
+      "left_contours_count": 7,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 300,
+      "left_area": 9499.5,
+      "right_area": 15695.0,
+      "total_area": 25194.5,
+      "left_percent": 37.70465776260692,
+      "right_percent": 62.29534223739308,
+      "left_contours_count": 4,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 301,
+      "left_area": 6846.5,
+      "right_area": 17213.5,
+      "total_area": 24060.0,
+      "left_percent": 28.455943474646716,
+      "right_percent": 71.54405652535328,
+      "left_contours_count": 7,
+      "right_contours_count": 4
+    },
+    {
+      "frame_idx": 302,
+      "left_area": 10205.5,
+      "right_area": 15803.0,
+      "total_area": 26008.5,
+      "left_percent": 39.239094911279004,
+      "right_percent": 60.760905088720996,
+      "left_contours_count": 4,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 303,
+      "left_area": 6177.5,
+      "right_area": 15699.0,
+      "total_area": 21876.5,
+      "left_percent": 28.238063675633672,
+      "right_percent": 71.76193632436633,
+      "left_contours_count": 10,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 304,
+      "left_area": 10785.5,
+      "right_area": 17780.5,
+      "total_area": 28566.0,
+      "left_percent": 37.7564237205069,
+      "right_percent": 62.243576279493105,
+      "left_contours_count": 2,
+      "right_contours_count": 4
+    },
+    {
+      "frame_idx": 305,
+      "left_area": 8738.5,
+      "right_area": 16816.0,
+      "total_area": 25554.5,
+      "left_percent": 34.195542859378975,
+      "right_percent": 65.80445714062103,
+      "left_contours_count": 3,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 306,
+      "left_area": 9988.0,
+      "right_area": 17406.5,
+      "total_area": 27394.5,
+      "left_percent": 36.459873332238224,
+      "right_percent": 63.540126667761776,
+      "left_contours_count": 4,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 307,
+      "left_area": 6917.5,
+      "right_area": 9144.5,
+      "total_area": 16062.0,
+      "left_percent": 43.067488482131736,
+      "right_percent": 56.93251151786826,
+      "left_contours_count": 10,
+      "right_contours_count": 15
+    },
+    {
+      "frame_idx": 308,
+      "left_area": 5936.5,
+      "right_area": 13217.5,
+      "total_area": 19154.0,
+      "left_percent": 30.99352615641641,
+      "right_percent": 69.00647384358358,
+      "left_contours_count": 7,
+      "right_contours_count": 16
+    },
+    {
+      "frame_idx": 309,
+      "left_area": 6009.5,
+      "right_area": 16494.0,
+      "total_area": 22503.5,
+      "left_percent": 26.704734819028154,
+      "right_percent": 73.29526518097185,
+      "left_contours_count": 8,
+      "right_contours_count": 15
+    },
+    {
+      "frame_idx": 310,
+      "left_area": 8507.0,
+      "right_area": 15636.0,
+      "total_area": 24143.0,
+      "left_percent": 35.235886178188295,
+      "right_percent": 64.7641138218117,
+      "left_contours_count": 8,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 311,
+      "left_area": 8000.0,
+      "right_area": 15688.0,
+      "total_area": 23688.0,
+      "left_percent": 33.77237419790611,
+      "right_percent": 66.2276258020939,
+      "left_contours_count": 10,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 312,
+      "left_area": 8252.5,
+      "right_area": 16214.0,
+      "total_area": 24466.5,
+      "left_percent": 33.72979379968528,
+      "right_percent": 66.27020620031472,
+      "left_contours_count": 9,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 313,
+      "left_area": 8417.5,
+      "right_area": 18076.0,
+      "total_area": 26493.5,
+      "left_percent": 31.771944061750997,
+      "right_percent": 68.228055938249,
+      "left_contours_count": 5,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 314,
+      "left_area": 7255.5,
+      "right_area": 19083.0,
+      "total_area": 26338.5,
+      "left_percent": 27.547126829546105,
+      "right_percent": 72.4528731704539,
+      "left_contours_count": 7,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 315,
+      "left_area": 4636.0,
+      "right_area": 16122.0,
+      "total_area": 20758.0,
+      "left_percent": 22.333558146256866,
+      "right_percent": 77.66644185374314,
+      "left_contours_count": 9,
+      "right_contours_count": 3
+    },
+    {
+      "frame_idx": 316,
+      "left_area": 8051.0,
+      "right_area": 16526.5,
+      "total_area": 24577.5,
+      "left_percent": 32.75760349913539,
+      "right_percent": 67.24239650086461,
+      "left_contours_count": 7,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 317,
+      "left_area": 6329.5,
+      "right_area": 16859.5,
+      "total_area": 23189.0,
+      "left_percent": 27.295269308723963,
+      "right_percent": 72.70473069127603,
+      "left_contours_count": 12,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 318,
+      "left_area": 3844.0,
+      "right_area": 14008.0,
+      "total_area": 17852.0,
+      "left_percent": 21.53260138920009,
+      "right_percent": 78.4673986107999,
+      "left_contours_count": 10,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 319,
+      "left_area": 5127.0,
+      "right_area": 17255.0,
+      "total_area": 22382.0,
+      "left_percent": 22.90680010722902,
+      "right_percent": 77.09319989277098,
+      "left_contours_count": 11,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 320,
+      "left_area": 4461.5,
+      "right_area": 17074.0,
+      "total_area": 21535.5,
+      "left_percent": 20.71695572426923,
+      "right_percent": 79.28304427573077,
+      "left_contours_count": 10,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 321,
+      "left_area": 5625.0,
+      "right_area": 14749.0,
+      "total_area": 20374.0,
+      "left_percent": 27.608716992245018,
+      "right_percent": 72.39128300775498,
+      "left_contours_count": 6,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 322,
+      "left_area": 5707.5,
+      "right_area": 15245.0,
+      "total_area": 20952.5,
+      "left_percent": 27.24018613530605,
+      "right_percent": 72.75981386469394,
+      "left_contours_count": 11,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 323,
+      "left_area": 6816.5,
+      "right_area": 14080.0,
+      "total_area": 20896.5,
+      "left_percent": 32.62029526475725,
+      "right_percent": 67.37970473524274,
+      "left_contours_count": 7,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 324,
+      "left_area": 7167.5,
+      "right_area": 15634.0,
+      "total_area": 22801.5,
+      "left_percent": 31.434335460386375,
+      "right_percent": 68.56566453961362,
+      "left_contours_count": 7,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 325,
+      "left_area": 5847.0,
+      "right_area": 15867.0,
+      "total_area": 21714.0,
+      "left_percent": 26.927327991157778,
+      "right_percent": 73.07267200884222,
+      "left_contours_count": 7,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 326,
+      "left_area": 3892.5,
+      "right_area": 15940.5,
+      "total_area": 19833.0,
+      "left_percent": 19.626380275298743,
+      "right_percent": 80.37361972470126,
+      "left_contours_count": 6,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 327,
+      "left_area": 6506.5,
+      "right_area": 16132.5,
+      "total_area": 22639.0,
+      "left_percent": 28.74022704183047,
+      "right_percent": 71.25977295816953,
+      "left_contours_count": 7,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 328,
+      "left_area": 4501.0,
+      "right_area": 17045.5,
+      "total_area": 21546.5,
+      "left_percent": 20.889703664168195,
+      "right_percent": 79.1102963358318,
+      "left_contours_count": 9,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 329,
+      "left_area": 4566.5,
+      "right_area": 17713.0,
+      "total_area": 22279.5,
+      "left_percent": 20.49642047622254,
+      "right_percent": 79.50357952377746,
+      "left_contours_count": 5,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 330,
+      "left_area": 4700.0,
+      "right_area": 17959.5,
+      "total_area": 22659.5,
+      "left_percent": 20.74185220327015,
+      "right_percent": 79.25814779672984,
+      "left_contours_count": 5,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 331,
+      "left_area": 5307.5,
+      "right_area": 16755.5,
+      "total_area": 22063.0,
+      "left_percent": 24.056112042786566,
+      "right_percent": 75.94388795721343,
+      "left_contours_count": 5,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 332,
+      "left_area": 4349.0,
+      "right_area": 16657.5,
+      "total_area": 21006.5,
+      "left_percent": 20.703115702282627,
+      "right_percent": 79.29688429771737,
+      "left_contours_count": 10,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 333,
+      "left_area": 2999.5,
+      "right_area": 16759.5,
+      "total_area": 19759.0,
+      "left_percent": 15.18042411053191,
+      "right_percent": 84.8195758894681,
+      "left_contours_count": 5,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 334,
+      "left_area": 4193.5,
+      "right_area": 17146.0,
+      "total_area": 21339.5,
+      "left_percent": 19.65135078141475,
+      "right_percent": 80.34864921858525,
+      "left_contours_count": 5,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 335,
+      "left_area": 3822.0,
+      "right_area": 17496.0,
+      "total_area": 21318.0,
+      "left_percent": 17.928511117365606,
+      "right_percent": 82.0714888826344,
+      "left_contours_count": 6,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 336,
+      "left_area": 3290.5,
+      "right_area": 17281.5,
+      "total_area": 20572.0,
+      "left_percent": 15.995041804394322,
+      "right_percent": 84.00495819560567,
+      "left_contours_count": 12,
+      "right_contours_count": 4
+    },
+    {
+      "frame_idx": 337,
+      "left_area": 5313.0,
+      "right_area": 17035.0,
+      "total_area": 22348.0,
+      "left_percent": 23.773939502416326,
+      "right_percent": 76.22606049758367,
+      "left_contours_count": 7,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 338,
+      "left_area": 7645.5,
+      "right_area": 17349.5,
+      "total_area": 24995.0,
+      "left_percent": 30.588117623524706,
+      "right_percent": 69.4118823764753,
+      "left_contours_count": 6,
+      "right_contours_count": 4
+    },
+    {
+      "frame_idx": 339,
+      "left_area": 4071.0,
+      "right_area": 16871.0,
+      "total_area": 20942.0,
+      "left_percent": 19.439404068379336,
+      "right_percent": 80.56059593162067,
+      "left_contours_count": 6,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 340,
+      "left_area": 4317.0,
+      "right_area": 17019.0,
+      "total_area": 21336.0,
+      "left_percent": 20.233408323959505,
+      "right_percent": 79.7665916760405,
+      "left_contours_count": 6,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 341,
+      "left_area": 4730.0,
+      "right_area": 17469.0,
+      "total_area": 22199.0,
+      "left_percent": 21.307266093067255,
+      "right_percent": 78.69273390693274,
+      "left_contours_count": 7,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 342,
+      "left_area": 6396.5,
+      "right_area": 16552.5,
+      "total_area": 22949.0,
+      "left_percent": 27.87267419059654,
+      "right_percent": 72.12732580940346,
+      "left_contours_count": 7,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 343,
+      "left_area": 6564.5,
+      "right_area": 16120.5,
+      "total_area": 22685.0,
+      "left_percent": 28.93762398060392,
+      "right_percent": 71.06237601939608,
+      "left_contours_count": 9,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 344,
+      "left_area": 5849.5,
+      "right_area": 16552.5,
+      "total_area": 22402.0,
+      "left_percent": 26.111507901080262,
+      "right_percent": 73.88849209891974,
+      "left_contours_count": 8,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 345,
+      "left_area": 4003.5,
+      "right_area": 16646.0,
+      "total_area": 20649.5,
+      "left_percent": 19.387878641129326,
+      "right_percent": 80.61212135887067,
+      "left_contours_count": 10,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 346,
+      "left_area": 6088.0,
+      "right_area": 17119.0,
+      "total_area": 23207.0,
+      "left_percent": 26.233464041022103,
+      "right_percent": 73.7665359589779,
+      "left_contours_count": 5,
+      "right_contours_count": 2
+    },
+    {
+      "frame_idx": 347,
+      "left_area": 7703.0,
+      "right_area": 17473.5,
+      "total_area": 25176.5,
+      "left_percent": 30.595992294401526,
+      "right_percent": 69.40400770559847,
+      "left_contours_count": 8,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 348,
+      "left_area": 8646.0,
+      "right_area": 15048.5,
+      "total_area": 23694.5,
+      "left_percent": 36.48948068117074,
+      "right_percent": 63.51051931882926,
+      "left_contours_count": 8,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 349,
+      "left_area": 5678.5,
+      "right_area": 17916.0,
+      "total_area": 23594.5,
+      "left_percent": 24.067049524253534,
+      "right_percent": 75.93295047574647,
+      "left_contours_count": 6,
+      "right_contours_count": 4
+    },
+    {
+      "frame_idx": 350,
+      "left_area": 4376.5,
+      "right_area": 15143.0,
+      "total_area": 19519.5,
+      "left_percent": 22.42116857501473,
+      "right_percent": 77.57883142498527,
+      "left_contours_count": 11,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 351,
+      "left_area": 8061.5,
+      "right_area": 14119.0,
+      "total_area": 22180.5,
+      "left_percent": 36.34498771443385,
+      "right_percent": 63.65501228556615,
+      "left_contours_count": 6,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 352,
+      "left_area": 6013.5,
+      "right_area": 16702.0,
+      "total_area": 22715.5,
+      "left_percent": 26.473113072571593,
+      "right_percent": 73.52688692742841,
+      "left_contours_count": 8,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 353,
+      "left_area": 5948.5,
+      "right_area": 15055.5,
+      "total_area": 21004.0,
+      "left_percent": 28.320796038849743,
+      "right_percent": 71.67920396115026,
+      "left_contours_count": 6,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 354,
+      "left_area": 6221.0,
+      "right_area": 16121.0,
+      "total_area": 22342.0,
+      "left_percent": 27.844418583833143,
+      "right_percent": 72.15558141616685,
+      "left_contours_count": 6,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 355,
+      "left_area": 7715.0,
+      "right_area": 16952.5,
+      "total_area": 24667.5,
+      "left_percent": 31.27597040640519,
+      "right_percent": 68.72402959359482,
+      "left_contours_count": 5,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 356,
+      "left_area": 8413.0,
+      "right_area": 16768.0,
+      "total_area": 25181.0,
+      "left_percent": 33.410110797823755,
+      "right_percent": 66.58988920217624,
+      "left_contours_count": 5,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 357,
+      "left_area": 6092.0,
+      "right_area": 15513.0,
+      "total_area": 21605.0,
+      "left_percent": 28.197176579495487,
+      "right_percent": 71.80282342050451,
+      "left_contours_count": 6,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 358,
+      "left_area": 4757.5,
+      "right_area": 14463.0,
+      "total_area": 19220.5,
+      "left_percent": 24.752217684243387,
+      "right_percent": 75.24778231575662,
+      "left_contours_count": 13,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 359,
+      "left_area": 6137.5,
+      "right_area": 14981.0,
+      "total_area": 21118.5,
+      "left_percent": 29.062196652224355,
+      "right_percent": 70.93780334777566,
+      "left_contours_count": 7,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 360,
+      "left_area": 5892.0,
+      "right_area": 15276.5,
+      "total_area": 21168.5,
+      "left_percent": 27.833809670028582,
+      "right_percent": 72.16619032997143,
+      "left_contours_count": 5,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 361,
+      "left_area": 6009.0,
+      "right_area": 15902.5,
+      "total_area": 21911.5,
+      "left_percent": 27.42395545718002,
+      "right_percent": 72.57604454281999,
+      "left_contours_count": 7,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 362,
+      "left_area": 6241.5,
+      "right_area": 16895.5,
+      "total_area": 23137.0,
+      "left_percent": 26.976271772485628,
+      "right_percent": 73.02372822751437,
+      "left_contours_count": 10,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 363,
+      "left_area": 4943.5,
+      "right_area": 17247.5,
+      "total_area": 22191.0,
+      "left_percent": 22.277049254202154,
+      "right_percent": 77.72295074579785,
+      "left_contours_count": 9,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 364,
+      "left_area": 5072.5,
+      "right_area": 17056.5,
+      "total_area": 22129.0,
+      "left_percent": 22.92240950788558,
+      "right_percent": 77.07759049211442,
+      "left_contours_count": 4,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 365,
+      "left_area": 5016.0,
+      "right_area": 16063.0,
+      "total_area": 21079.0,
+      "left_percent": 23.796195265430047,
+      "right_percent": 76.20380473456994,
+      "left_contours_count": 4,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 366,
+      "left_area": 4180.0,
+      "right_area": 14279.0,
+      "total_area": 18459.0,
+      "left_percent": 22.64478032396121,
+      "right_percent": 77.35521967603879,
+      "left_contours_count": 10,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 367,
+      "left_area": 5355.0,
+      "right_area": 15260.0,
+      "total_area": 20615.0,
+      "left_percent": 25.97623089983022,
+      "right_percent": 74.02376910016977,
+      "left_contours_count": 7,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 368,
+      "left_area": 5338.5,
+      "right_area": 16155.0,
+      "total_area": 21493.5,
+      "left_percent": 24.837741642822248,
+      "right_percent": 75.16225835717775,
+      "left_contours_count": 9,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 369,
+      "left_area": 5328.0,
+      "right_area": 16921.5,
+      "total_area": 22249.5,
+      "left_percent": 23.946605541697565,
+      "right_percent": 76.05339445830244,
+      "left_contours_count": 10,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 370,
+      "left_area": 8490.5,
+      "right_area": 16771.0,
+      "total_area": 25261.5,
+      "left_percent": 33.61043485145379,
+      "right_percent": 66.3895651485462,
+      "left_contours_count": 5,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 371,
+      "left_area": 9632.5,
+      "right_area": 17673.0,
+      "total_area": 27305.5,
+      "left_percent": 35.27677574115105,
+      "right_percent": 64.72322425884896,
+      "left_contours_count": 7,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 372,
+      "left_area": 9524.0,
+      "right_area": 17588.5,
+      "total_area": 27112.5,
+      "left_percent": 35.12770862148456,
+      "right_percent": 64.87229137851544,
+      "left_contours_count": 10,
+      "right_contours_count": 11
+    },
+    {
+      "frame_idx": 373,
+      "left_area": 4391.0,
+      "right_area": 18706.0,
+      "total_area": 23097.0,
+      "left_percent": 19.011126986188682,
+      "right_percent": 80.98887301381131,
+      "left_contours_count": 9,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 374,
+      "left_area": 8178.5,
+      "right_area": 18025.5,
+      "total_area": 26204.0,
+      "left_percent": 31.210883834529078,
+      "right_percent": 68.78911616547092,
+      "left_contours_count": 6,
+      "right_contours_count": 4
+    },
+    {
+      "frame_idx": 375,
+      "left_area": 3776.0,
+      "right_area": 16809.0,
+      "total_area": 20585.0,
+      "left_percent": 18.343453971338352,
+      "right_percent": 81.65654602866165,
+      "left_contours_count": 6,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 376,
+      "left_area": 6002.5,
+      "right_area": 16606.5,
+      "total_area": 22609.0,
+      "left_percent": 26.549161838206025,
+      "right_percent": 73.45083816179397,
+      "left_contours_count": 3,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 377,
+      "left_area": 7694.0,
+      "right_area": 15783.5,
+      "total_area": 23477.5,
+      "left_percent": 32.77180278990523,
+      "right_percent": 67.22819721009478,
+      "left_contours_count": 4,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 378,
+      "left_area": 7902.0,
+      "right_area": 16069.5,
+      "total_area": 23971.5,
+      "left_percent": 32.96414492209499,
+      "right_percent": 67.03585507790501,
+      "left_contours_count": 4,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 379,
+      "left_area": 4046.5,
+      "right_area": 14599.5,
+      "total_area": 18646.0,
+      "left_percent": 21.701705459616,
+      "right_percent": 78.29829454038399,
+      "left_contours_count": 9,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 380,
+      "left_area": 5324.0,
+      "right_area": 16586.0,
+      "total_area": 21910.0,
+      "left_percent": 24.299406663623916,
+      "right_percent": 75.70059333637609,
+      "left_contours_count": 8,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 381,
+      "left_area": 6248.0,
+      "right_area": 15175.0,
+      "total_area": 21423.0,
+      "left_percent": 29.164916211548338,
+      "right_percent": 70.83508378845167,
+      "left_contours_count": 7,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 382,
+      "left_area": 6851.0,
+      "right_area": 15307.5,
+      "total_area": 22158.5,
+      "left_percent": 30.918157817541804,
+      "right_percent": 69.0818421824582,
+      "left_contours_count": 8,
+      "right_contours_count": 9
+    },
+    {
+      "frame_idx": 383,
+      "left_area": 7563.5,
+      "right_area": 18332.0,
+      "total_area": 25895.5,
+      "left_percent": 29.207777413064047,
+      "right_percent": 70.79222258693595,
+      "left_contours_count": 8,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 384,
+      "left_area": 4698.0,
+      "right_area": 17202.0,
+      "total_area": 21900.0,
+      "left_percent": 21.45205479452055,
+      "right_percent": 78.54794520547945,
+      "left_contours_count": 13,
+      "right_contours_count": 4
+    },
+    {
+      "frame_idx": 385,
+      "left_area": 5529.0,
+      "right_area": 17596.0,
+      "total_area": 23125.0,
+      "left_percent": 23.90918918918919,
+      "right_percent": 76.09081081081082,
+      "left_contours_count": 9,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 386,
+      "left_area": 5232.0,
+      "right_area": 18574.0,
+      "total_area": 23806.0,
+      "left_percent": 21.977652692598504,
+      "right_percent": 78.0223473074015,
+      "left_contours_count": 7,
+      "right_contours_count": 3
+    },
+    {
+      "frame_idx": 387,
+      "left_area": 3201.0,
+      "right_area": 17403.0,
+      "total_area": 20604.0,
+      "left_percent": 15.535818287711123,
+      "right_percent": 84.46418171228888,
+      "left_contours_count": 9,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 388,
+      "left_area": 8984.0,
+      "right_area": 15794.5,
+      "total_area": 24778.5,
+      "left_percent": 36.2572391387695,
+      "right_percent": 63.74276086123051,
+      "left_contours_count": 3,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 389,
+      "left_area": 8448.0,
+      "right_area": 15309.0,
+      "total_area": 23757.0,
+      "left_percent": 35.56004546028539,
+      "right_percent": 64.4399545397146,
+      "left_contours_count": 3,
+      "right_contours_count": 16
+    },
+    {
+      "frame_idx": 390,
+      "left_area": 7806.0,
+      "right_area": 14534.5,
+      "total_area": 22340.5,
+      "left_percent": 34.941026387054904,
+      "right_percent": 65.05897361294511,
+      "left_contours_count": 8,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 391,
+      "left_area": 3926.0,
+      "right_area": 14534.0,
+      "total_area": 18460.0,
+      "left_percent": 21.267605633802816,
+      "right_percent": 78.73239436619718,
+      "left_contours_count": 7,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 392,
+      "left_area": 5330.0,
+      "right_area": 14676.5,
+      "total_area": 20006.5,
+      "left_percent": 26.641341563991705,
+      "right_percent": 73.3586584360083,
+      "left_contours_count": 8,
+      "right_contours_count": 14
+    },
+    {
+      "frame_idx": 393,
+      "left_area": 4647.0,
+      "right_area": 17335.0,
+      "total_area": 21982.0,
+      "left_percent": 21.140023655718316,
+      "right_percent": 78.85997634428169,
+      "left_contours_count": 4,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 394,
+      "left_area": 6809.0,
+      "right_area": 16692.0,
+      "total_area": 23501.0,
+      "left_percent": 28.973235181481638,
+      "right_percent": 71.02676481851836,
+      "left_contours_count": 1,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 395,
+      "left_area": 4652.0,
+      "right_area": 16723.5,
+      "total_area": 21375.5,
+      "left_percent": 21.76323360857056,
+      "right_percent": 78.23676639142944,
+      "left_contours_count": 5,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 396,
+      "left_area": 5481.0,
+      "right_area": 17010.5,
+      "total_area": 22491.5,
+      "left_percent": 24.369206144543494,
+      "right_percent": 75.6307938554565,
+      "left_contours_count": 4,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 397,
+      "left_area": 5372.0,
+      "right_area": 15992.0,
+      "total_area": 21364.0,
+      "left_percent": 25.145103913124885,
+      "right_percent": 74.85489608687513,
+      "left_contours_count": 5,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 398,
+      "left_area": 6593.0,
+      "right_area": 15198.5,
+      "total_area": 21791.5,
+      "left_percent": 30.254915907578646,
+      "right_percent": 69.74508409242137,
+      "left_contours_count": 6,
+      "right_contours_count": 12
+    },
+    {
+      "frame_idx": 399,
+      "left_area": 6035.0,
+      "right_area": 17308.5,
+      "total_area": 23343.5,
+      "left_percent": 25.853021183627135,
+      "right_percent": 74.14697881637287,
+      "left_contours_count": 3,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 400,
+      "left_area": 6260.0,
+      "right_area": 17080.5,
+      "total_area": 23340.5,
+      "left_percent": 26.820333754632507,
+      "right_percent": 73.17966624536749,
+      "left_contours_count": 4,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 401,
+      "left_area": 5319.5,
+      "right_area": 17030.0,
+      "total_area": 22349.5,
+      "left_percent": 23.801427324996087,
+      "right_percent": 76.19857267500392,
+      "left_contours_count": 11,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 402,
+      "left_area": 7236.5,
+      "right_area": 17115.5,
+      "total_area": 24352.0,
+      "left_percent": 29.716245072273324,
+      "right_percent": 70.28375492772668,
+      "left_contours_count": 4,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 403,
+      "left_area": 5673.0,
+      "right_area": 17081.0,
+      "total_area": 22754.0,
+      "left_percent": 24.931880108991823,
+      "right_percent": 75.06811989100818,
+      "left_contours_count": 4,
+      "right_contours_count": 4
+    },
+    {
+      "frame_idx": 404,
+      "left_area": 5561.0,
+      "right_area": 17337.5,
+      "total_area": 22898.5,
+      "left_percent": 24.2854335436819,
+      "right_percent": 75.7145664563181,
+      "left_contours_count": 4,
+      "right_contours_count": 4
+    },
+    {
+      "frame_idx": 405,
+      "left_area": 7833.0,
+      "right_area": 17535.5,
+      "total_area": 25368.5,
+      "left_percent": 30.87687486449731,
+      "right_percent": 69.12312513550269,
+      "left_contours_count": 4,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 406,
+      "left_area": 5363.5,
+      "right_area": 16509.5,
+      "total_area": 21873.0,
+      "left_percent": 24.52109907191515,
+      "right_percent": 75.47890092808485,
+      "left_contours_count": 7,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 407,
+      "left_area": 4575.5,
+      "right_area": 16742.5,
+      "total_area": 21318.0,
+      "left_percent": 21.46308284079182,
+      "right_percent": 78.53691715920819,
+      "left_contours_count": 7,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 408,
+      "left_area": 8968.5,
+      "right_area": 16632.0,
+      "total_area": 25600.5,
+      "left_percent": 35.03251889611531,
+      "right_percent": 64.9674811038847,
+      "left_contours_count": 2,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 409,
+      "left_area": 5985.0,
+      "right_area": 15568.0,
+      "total_area": 21553.0,
+      "left_percent": 27.768756089639496,
+      "right_percent": 72.2312439103605,
+      "left_contours_count": 6,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 410,
+      "left_area": 4680.5,
+      "right_area": 16595.5,
+      "total_area": 21276.0,
+      "left_percent": 21.998965971047188,
+      "right_percent": 78.00103402895282,
+      "left_contours_count": 6,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 411,
+      "left_area": 4786.0,
+      "right_area": 15825.0,
+      "total_area": 20611.0,
+      "left_percent": 23.220610353694628,
+      "right_percent": 76.77938964630538,
+      "left_contours_count": 7,
+      "right_contours_count": 8
+    },
+    {
+      "frame_idx": 412,
+      "left_area": 4658.5,
+      "right_area": 16769.5,
+      "total_area": 21428.0,
+      "left_percent": 21.740246406570844,
+      "right_percent": 78.25975359342917,
+      "left_contours_count": 8,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 413,
+      "left_area": 4424.5,
+      "right_area": 17148.5,
+      "total_area": 21573.0,
+      "left_percent": 20.509433087655864,
+      "right_percent": 79.49056691234414,
+      "left_contours_count": 8,
+      "right_contours_count": 7
+    },
+    {
+      "frame_idx": 414,
+      "left_area": 5343.0,
+      "right_area": 16990.5,
+      "total_area": 22333.5,
+      "left_percent": 23.923702061924914,
+      "right_percent": 76.07629793807509,
+      "left_contours_count": 7,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 415,
+      "left_area": 5006.5,
+      "right_area": 16273.5,
+      "total_area": 21280.0,
+      "left_percent": 23.526785714285715,
+      "right_percent": 76.47321428571429,
+      "left_contours_count": 6,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 416,
+      "left_area": 5945.0,
+      "right_area": 14714.0,
+      "total_area": 20659.0,
+      "left_percent": 28.776804298368752,
+      "right_percent": 71.22319570163125,
+      "left_contours_count": 7,
+      "right_contours_count": 10
+    },
+    {
+      "frame_idx": 417,
+      "left_area": 6180.0,
+      "right_area": 15526.0,
+      "total_area": 21706.0,
+      "left_percent": 28.471390398968026,
+      "right_percent": 71.52860960103197,
+      "left_contours_count": 6,
+      "right_contours_count": 5
+    },
+    {
+      "frame_idx": 418,
+      "left_area": 5503.5,
+      "right_area": 17213.5,
+      "total_area": 22717.0,
+      "left_percent": 24.226350310340276,
+      "right_percent": 75.77364968965973,
+      "left_contours_count": 5,
+      "right_contours_count": 6
+    },
+    {
+      "frame_idx": 419,
+      "left_area": 4544.5,
+      "right_area": 16964.0,
+      "total_area": 21508.5,
+      "left_percent": 21.128856033661112,
+      "right_percent": 78.87114396633889,
+      "left_contours_count": 12,
+      "right_contours_count": 8
+    }
+  ]
+}
