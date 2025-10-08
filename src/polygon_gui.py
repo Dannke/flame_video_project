@@ -1,3 +1,4 @@
+# polygon_gui.py
 import cv2
 import json
 import os
@@ -7,6 +8,7 @@ INSTRUCTIONS = (
     "ЛКМ: добавить точку (до 6). ПКМ / u: удалить последнюю. R: сброс. S: сохранить. K: оставить дефолт. ESC: отмена."
 )
 
+
 def _mouse_callback(event, x, y, flags, param):
     pts = param["points"]
     if event == cv2.EVENT_LBUTTONDOWN:
@@ -15,6 +17,7 @@ def _mouse_callback(event, x, y, flags, param):
     elif event == cv2.EVENT_RBUTTONDOWN:
         if pts:
             pts.pop()
+
 
 def prompt_polygon_on_image(img, default_polygon=None, video_name="video", save_dir=None, window_name="Set polygon"):
     """
@@ -75,7 +78,8 @@ def prompt_polygon_on_image(img, default_polygon=None, video_name="video", save_
                 polygon = [(int(x), int(y)) for (x, y) in pts]
                 if save_dir:
                     Path(save_dir).mkdir(parents=True, exist_ok=True)
-                    fname = os.path.join(save_dir, f"{video_name}_polygon.json")
+                    fname = os.path.join(
+                        save_dir, f"{video_name}_polygon.json")
                     with open(fname, "w", encoding="utf-8") as f:
                         json.dump({"polygon": polygon}, f, indent=2)
                 cv2.destroyWindow(window_name)
@@ -87,6 +91,7 @@ def prompt_polygon_on_image(img, default_polygon=None, video_name="video", save_
 
     cv2.destroyWindow(window_name)
     return default_polygon
+
 
 def load_saved_polygon(save_dir, video_name):
     fname = os.path.join(save_dir, f"{video_name}_polygon.json")

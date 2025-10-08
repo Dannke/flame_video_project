@@ -1,0 +1,29 @@
+{
+  "generated_at": "2025-10-08T13:48:56.723223",
+  "videos": [
+    {
+      "video": "1video",
+      "frames": 420,
+      "left_mean": 49.76942309311869,
+      "right_mean": 50.23057690688131,
+      "perspective": true
+    },
+    {
+      "video": "2video",
+      "frames": 872,
+      "left_mean": 52.33351933543751,
+      "right_mean": 47.66648066456249,
+      "perspective": false
+    },
+    {
+      "video": "3video",
+      "frames": 344,
+      "left_mean": 56.15878963081726,
+      "right_mean": 43.84121036918274,
+      "perspective": false
+    }
+  ],
+  "avg_left": 52.75391068645782,
+  "avg_right": 47.24608931354218,
+  "perspective_count": 1
+}
