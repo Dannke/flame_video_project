@@ -1,4 +1,3 @@
-# shikhta_analysis.py
 """
 Анализ шихты с поддержкой перспективной коррекции
 Улучшенная версия с преобразованием "вид сверху"
@@ -18,7 +17,7 @@ import scipy.signal
 from skimage import img_as_float64, restoration
 from skimage import img_as_ubyte
 
-# Импорт модуля перспективной коррекции
+# Ð˜Ð¼Ð¿Ð¾Ñ€Ñ‚ Ð¼Ð¾Ð´ÑƒÐ»Ñ Ð¿ÐµÑ€ÑÐ¿ÐµÐºÑ‚Ð¸Ð²Ð½Ð¾Ð¹ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸Ð¸
 try:
     from perspective_transform import PerspectiveTransformer, load_or_setup_perspective
 except ImportError:
@@ -64,11 +63,11 @@ def analyze_video_shikhta(frames_dir, output_dir, polygon=None,
     """
     start_time = time.time()
 
-    # Настройка перспективной коррекции если требуется
+    # ÐÐ°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ° Ð¿ÐµÑ€ÑÐ¿ÐµÐºÑ‚Ð¸Ð²Ð½Ð¾Ð¹ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸Ð¸ ÐµÑÐ»Ð¸ Ñ‚Ñ€ÐµÐ±ÑƒÐµÑ‚ÑÑ
     transformer = None
     if use_perspective:
         if perspective_method == 'hexagon' and HEXAGON_PERSPECTIVE:
-            # ========== 6-ТОЧЕЧНАЯ ТРАНСФОРМАЦИЯ ==========
+            # ========== 6-Ð¢ÐžÐ§Ð•Ð§ÐÐÐ¯ Ð¢Ð ÐÐÐ¡Ð¤ÐžÐ ÐœÐÐ¦Ð˜Ð¯ ==========
             if isinstance(perspective_config, HexagonPerspectiveTransformer):
                 transformer = perspective_config
                 print("✓ Используется переданный HexagonPerspectiveTransformer")
@@ -78,7 +77,7 @@ def analyze_video_shikhta(frames_dir, output_dir, polygon=None,
                 print(
                     f"✓ Загружена 6-точечная конфигурация: {perspective_config}")
             else:
-                # Авто-настройка через GUI
+                # ÐÐ²Ñ‚Ð¾-Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ° Ñ‡ÐµÑ€ÐµÐ· GUI
                 video_name = Path(frames_dir).name
                 first_frame = next(Path(frames_dir).glob("*.jpg"), None)
                 if first_frame:
@@ -90,10 +89,10 @@ def analyze_video_shikhta(frames_dir, output_dir, polygon=None,
                         if points:
                             transformer = HexagonPerspectiveTransformer(
                                 points,
-                                dst_width=800,
-                                dst_height=600
+                                dst_width=1920,
+                                dst_height=720
                             )
-                            # Сохранение конфига
+                            # Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ðµ ÐºÐ¾Ð½Ñ„Ð¸Ð³Ð°
                             config_dir = os.path.join(
                                 output_dir, "perspective_configs")
                             os.makedirs(config_dir, exist_ok=True)
@@ -108,7 +107,7 @@ def analyze_video_shikhta(frames_dir, output_dir, polygon=None,
                             print("⚠ Настройка 6-точечной перспективы отменена")
 
         elif perspective_method == 'standard' or not HEXAGON_PERSPECTIVE:
-            # ========== СТАНДАРТНАЯ 4-ТОЧЕЧНАЯ ТРАНСФОРМАЦИЯ ==========
+            # ========== Ð¡Ð¢ÐÐÐ”ÐÐ Ð¢ÐÐÐ¯ 4-Ð¢ÐžÐ§Ð•Ð§ÐÐÐ¯ Ð¢Ð ÐÐÐ¡Ð¤ÐžÐ ÐœÐÐ¦Ð˜Ð¯ ==========
             if perspective_method == 'hexagon' and not HEXAGON_PERSPECTIVE:
                 print(
                     "⚠ HexagonPerspectiveTransformer недоступен, используется стандартный метод")
@@ -123,7 +122,7 @@ def analyze_video_shikhta(frames_dir, output_dir, polygon=None,
                     print(
                         f"✓ Загружена 4-точечная конфигурация: {perspective_config}")
                 else:
-                    # Попытка автоматической загрузки или настройки
+                    # ÐŸÐ¾Ð¿Ñ‹Ñ‚ÐºÐ° Ð°Ð²Ñ‚Ð¾Ð¼Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ð¹ Ð·Ð°Ð³Ñ€ÑƒÐ·ÐºÐ¸ Ð¸Ð»Ð¸ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸
                     video_name = Path(frames_dir).name
                     first_frame = next(Path(frames_dir).glob("*.jpg"), None)
                     if first_frame and load_or_setup_perspective:
@@ -133,11 +132,11 @@ def analyze_video_shikhta(frames_dir, output_dir, polygon=None,
                                 output_dir, "perspective_configs")
                         )
 
-        # Общая обработка после настройки трансформера
+        # ÐžÐ±Ñ‰Ð°Ñ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ° Ð¿Ð¾ÑÐ»Ðµ Ð½Ð°ÑÑ‚Ñ€Ð¾Ð¹ÐºÐ¸ Ñ‚Ñ€Ð°Ð½ÑÑ„Ð¾Ñ€Ð¼ÐµÑ€Ð°
         if transformer:
             print(
                 f"✓ Перспективная коррекция активирована ({perspective_method})")
-            # Если используется перспектива, нужно преобразовать полигон
+            # Ð•ÑÐ»Ð¸ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ÑÑ Ð¿ÐµÑ€ÑÐ¿ÐµÐºÑ‚Ð¸Ð²Ð°, Ð½ÑƒÐ¶Ð½Ð¾ Ð¿Ñ€ÐµÐ¾Ð±Ñ€Ð°Ð·Ð¾Ð²Ð°Ñ‚ÑŒ Ð¿Ð¾Ð»Ð¸Ð³Ð¾Ð½
             if polygon is not None:
                 try:
                     polygon = transformer.transform_polygon(polygon)
@@ -148,9 +147,9 @@ def analyze_video_shikhta(frames_dir, output_dir, polygon=None,
         else:
             print("ℹ Перспективная коррекция не настроена")
 
-    # Создание анализатора
+    # Ð¡Ð¾Ð·Ð´Ð°Ð½Ð¸Ðµ Ð°Ð½Ð°Ð»Ð¸Ð·Ð°Ñ‚Ð¾Ñ€Ð°
     if transformer:
-        # При использовании перспективы меняем target_size на размер выхода трансформера
+        # ÐŸÑ€Ð¸ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ð¸ Ð¿ÐµÑ€ÑÐ¿ÐµÐºÑ‚Ð¸Ð²Ñ‹ Ð¼ÐµÐ½ÑÐµÐ¼ target_size Ð½Ð° Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð²Ñ‹Ñ…Ð¾Ð´Ð° Ñ‚Ñ€Ð°Ð½ÑÑ„Ð¾Ñ€Ð¼ÐµÑ€Ð°
         analyzer = ShikhtaAnalyzer(
             polygon=polygon,
             target_size=(transformer.dst_width, transformer.dst_height),
@@ -159,11 +158,11 @@ def analyze_video_shikhta(frames_dir, output_dir, polygon=None,
     else:
         analyzer = ShikhtaAnalyzer(polygon=polygon)
 
-    # Создание поддиректорий
+    # Ð¡Ð¾Ð·Ð´Ð°Ð½Ð¸Ðµ Ð¿Ð¾Ð´Ð´Ð¸Ñ€ÐµÐºÑ‚Ð¾Ñ€Ð¸Ð¹
     vis_dir = os.path.join(
         output_dir, "visualizations") if save_visualizations else None
 
-    # Обработка кадров
+    # ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ° ÐºÐ°Ð´Ñ€Ð¾Ð²
     metrics = analyzer.process_video_frames(
         frames_dir,
         output_dir=vis_dir,
@@ -176,19 +175,19 @@ def analyze_video_shikhta(frames_dir, output_dir, polygon=None,
         print("Нет метрик для сохранения")
         return None
 
-    # Сохранение метрик
+    # Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ðµ Ð¼ÐµÑ‚Ñ€Ð¸Ðº
     video_name = Path(frames_dir).name
     metrics_path = os.path.join(output_dir, f"{video_name}_metrics.json")
     summary = analyzer.save_metrics(metrics_path)
 
     elapsed_time = time.time() - start_time
 
-    # Вывод статистики
+    # Ð’Ñ‹Ð²Ð¾Ð´ ÑÑ‚Ð°Ñ‚Ð¸ÑÑ‚Ð¸ÐºÐ¸
     print("\n" + "="*60)
     print(f"СТАТИСТИКА ПО ШИХТЕ: {video_name}")
     if transformer:
         method_name = "6-точечная" if perspective_method == 'hexagon' else "4-точечная"
-        print(f"(с перспективной коррекцией: {method_name})")
+        print(f"( перспективной коррекцией: {method_name})")
     print("="*60)
     print(f"Всего кадров: {summary['total_frames']}")
     print(
@@ -198,7 +197,7 @@ def analyze_video_shikhta(frames_dir, output_dir, polygon=None,
     print(
         f"  Мин/Макс: {summary['left']['min']:.2f}% / {summary['left']['max']:.2f}%")
     print(f"  Медиана: {summary['left']['median']:.2f}%")
-    print("\nПравая часть:")
+    print("\nПравая часть::")
     print(f"  Среднее: {summary['right']['mean']:.2f}%")
     print(
         f"  Мин/Макс: {summary['right']['min']:.2f}% / {summary['right']['max']:.2f}%")
@@ -208,7 +207,7 @@ def analyze_video_shikhta(frames_dir, output_dir, polygon=None,
     return summary
 
 
-# Дефолтный полигон
+# Ð”ÐµÑ„Ð¾Ð»Ñ‚Ð½Ñ‹Ð¹ Ð¿Ð¾Ð»Ð¸Ð³Ð¾Ð½
 DEFAULT_POLYGON = np.array([
     [215, 113],
     [625, 118],
@@ -236,7 +235,7 @@ class ShikhtaAnalyzer:
         self.perspective_transformer = perspective_transformer
         self.frame_metrics = []
 
-        # Предвычисленные маски
+        # ÐŸÑ€ÐµÐ´Ð²Ñ‹Ñ‡Ð¸ÑÐ»ÐµÐ½Ð½Ñ‹Ðµ Ð¼Ð°ÑÐºÐ¸
         self._polygon_mask = None
         self._left_mask = None
         self._right_mask = None
@@ -244,14 +243,14 @@ class ShikhtaAnalyzer:
         self._setup_masks()
 
     def _setup_masks(self):
-        """Предварительное создание масок"""
+        """ÐŸÑ€ÐµÐ´Ð²Ð°Ñ€Ð¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾Ðµ ÑÐ¾Ð·Ð´Ð°Ð½Ð¸Ðµ Ð¼Ð°ÑÐ¾Ðº"""
         dummy = np.zeros(self.target_size[::-1], dtype=np.uint8)
 
-        # Маска полигона
+        # ÐœÐ°ÑÐºÐ° Ð¿Ð¾Ð»Ð¸Ð³Ð¾Ð½Ð°
         self._polygon_mask = np.zeros_like(dummy, dtype=np.uint8)
         cv2.fillPoly(self._polygon_mask, [self.polygon], 255)
 
-        # Разделение на левую и правую части
+        # Ð Ð°Ð·Ð´ÐµÐ»ÐµÐ½Ð¸Ðµ Ð½Ð° Ð»ÐµÐ²ÑƒÑŽ Ð¸ Ð¿Ñ€Ð°Ð²ÑƒÑŽ Ñ‡Ð°ÑÑ‚Ð¸
         self._mid_x = (self.polygon[:, 0].min() +
                        self.polygon[:, 0].max()) // 2
 
@@ -272,26 +271,26 @@ class ShikhtaAnalyzer:
         cv2.fillPoly(self._right_mask, [right_polygon], 255)
 
     def preprocess_frame(self, frame):
-        """Предобработка изображения с опциональной перспективной коррекцией"""
-        # Применяем перспективную коррекцию если есть трансформер
+        """ÐŸÑ€ÐµÐ´Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ° Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ Ñ Ð¾Ð¿Ñ†Ð¸Ð¾Ð½Ð°Ð»ÑŒÐ½Ð¾Ð¹ Ð¿ÐµÑ€ÑÐ¿ÐµÐºÑ‚Ð¸Ð²Ð½Ð¾Ð¹ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸ÐµÐ¹"""
+        # ÐŸÑ€Ð¸Ð¼ÐµÐ½ÑÐµÐ¼ Ð¿ÐµÑ€ÑÐ¿ÐµÐºÑ‚Ð¸Ð²Ð½ÑƒÑŽ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸ÑŽ ÐµÑÐ»Ð¸ ÐµÑÑ‚ÑŒ Ñ‚Ñ€Ð°Ð½ÑÑ„Ð¾Ñ€Ð¼ÐµÑ€
         if self.perspective_transformer is not None:
             frame = self.perspective_transformer.transform(frame)
 
-        # Конвертация в grayscale если нужно
+        # ÐšÐ¾Ð½Ð²ÐµÑ€Ñ‚Ð°Ñ†Ð¸Ñ Ð² grayscale ÐµÑÐ»Ð¸ Ð½ÑƒÐ¶Ð½Ð¾
         if len(frame.shape) == 3:
             img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         else:
             img = frame
 
-        # Resize только если размер отличается
+        # Resize Ñ‚Ð¾Ð»ÑŒÐºÐ¾ ÐµÑÐ»Ð¸ Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð¾Ñ‚Ð»Ð¸Ñ‡Ð°ÐµÑ‚ÑÑ
         if img.shape[:2] != self.target_size[::-1]:
             img = cv2.resize(img, self.target_size)
 
-        # Эквализация гистограммы
+        # ÐÐºÐ²Ð°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ Ð³Ð¸ÑÑ‚Ð¾Ð³Ñ€Ð°Ð¼Ð¼Ñ‹
         img_hist_eq = cv2.equalizeHist(img)
         img_float = img_as_float64(img_hist_eq)
 
-        # Фильтр Винера
+        # Ð¤Ð¸Ð»ÑŒÑ‚Ñ€ Ð’Ð¸Ð½ÐµÑ€Ð°
         kernel = np.ones((15, 15), np.float64)
         image_filtered = scipy.signal.convolve2d(img_float, kernel, 'same')
         img_wiener = restoration.wiener(image_filtered, kernel, 5.1e4)
@@ -305,39 +304,39 @@ class ShikhtaAnalyzer:
         return img, image_filtered
 
     def segment_shikhta(self, preprocessed_img, polygon_mask):
-        """Сегментация пятен шихты"""
-        # Адаптивная бинаризация
+        """Ð¡ÐµÐ³Ð¼ÐµÐ½Ñ‚Ð°Ñ†Ð¸Ñ Ð¿ÑÑ‚ÐµÐ½ ÑˆÐ¸Ñ…Ñ‚Ñ‹"""
+        # ÐÐ´Ð°Ð¿Ñ‚Ð¸Ð²Ð½Ð°Ñ Ð±Ð¸Ð½Ð°Ñ€Ð¸Ð·Ð°Ñ†Ð¸Ñ
         thresh = cv2.adaptiveThreshold(
             preprocessed_img, 255,
             cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
             cv2.THRESH_BINARY_INV, 191, 0
         )
 
-        # Морфологическое закрытие
+        # ÐœÐ¾Ñ€Ñ„Ð¾Ð»Ð¾Ð³Ð¸Ñ‡ÐµÑÐºÐ¾Ðµ Ð·Ð°ÐºÑ€Ñ‹Ñ‚Ð¸Ðµ
         thresh = cv2.morphologyEx(
             thresh, cv2.MORPH_CLOSE, np.ones((7, 7), np.uint8))
 
-        # Применение маски полигона
+        # ÐŸÑ€Ð¸Ð¼ÐµÐ½ÐµÐ½Ð¸Ðµ Ð¼Ð°ÑÐºÐ¸ Ð¿Ð¾Ð»Ð¸Ð³Ð¾Ð½Ð°
         thresh = cv2.bitwise_and(thresh, polygon_mask)
 
         return thresh
 
     def analyze_frame(self, frame, frame_idx=0, save_visualization=False, output_path=None):
-        """Анализ одного кадра с перспективной коррекцией"""
-        # Сохраняем оригинальный кадр для визуализации
+        """ÐÐ½Ð°Ð»Ð¸Ð· Ð¾Ð´Ð½Ð¾Ð³Ð¾ ÐºÐ°Ð´Ñ€Ð° Ñ Ð¿ÐµÑ€ÑÐ¿ÐµÐºÑ‚Ð¸Ð²Ð½Ð¾Ð¹ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸ÐµÐ¹"""
+        # Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÑÐµÐ¼ Ð¾Ñ€Ð¸Ð³Ð¸Ð½Ð°Ð»ÑŒÐ½Ñ‹Ð¹ ÐºÐ°Ð´Ñ€ Ð´Ð»Ñ Ð²Ð¸Ð·ÑƒÐ°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ð¸
         original_frame = frame.copy()
 
-        # Предобработка (включает перспективную коррекцию если включена)
+        # ÐŸÑ€ÐµÐ´Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ° (Ð²ÐºÐ»ÑŽÑ‡Ð°ÐµÑ‚ Ð¿ÐµÑ€ÑÐ¿ÐµÐºÑ‚Ð¸Ð²Ð½ÑƒÑŽ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸ÑŽ ÐµÑÐ»Ð¸ Ð²ÐºÐ»ÑŽÑ‡ÐµÐ½Ð°)
         img_gray, preprocessed = self.preprocess_frame(frame)
 
-        # Сегментация
+        # Ð¡ÐµÐ³Ð¼ÐµÐ½Ñ‚Ð°Ñ†Ð¸Ñ
         thresh = self.segment_shikhta(preprocessed, self._polygon_mask)
 
-        # Поиск контуров
+        # ÐŸÐ¾Ð¸ÑÐº ÐºÐ¾Ð½Ñ‚ÑƒÑ€Ð¾Ð²
         contours, _ = cv2.findContours(
             thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        # Разделение контуров
+        # Ð Ð°Ð·Ð´ÐµÐ»ÐµÐ½Ð¸Ðµ ÐºÐ¾Ð½Ñ‚ÑƒÑ€Ð¾Ð²
         left_thresh = cv2.bitwise_and(thresh, self._left_mask)
         right_thresh = cv2.bitwise_and(thresh, self._right_mask)
 
@@ -346,12 +345,12 @@ class ShikhtaAnalyzer:
         right_contours, _ = cv2.findContours(
             right_thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-        # Расчет площадей
+        # Ð Ð°ÑÑ‡ÐµÑ‚ Ð¿Ð»Ð¾Ñ‰Ð°Ð´ÐµÐ¹
         left_area = sum(cv2.contourArea(cnt) for cnt in left_contours)
         right_area = sum(cv2.contourArea(cnt) for cnt in right_contours)
         total_area = left_area + right_area
 
-        # Процентное соотношение
+        # ÐŸÑ€Ð¾Ñ†ÐµÐ½Ñ‚Ð½Ð¾Ðµ ÑÐ¾Ð¾Ñ‚Ð½Ð¾ÑˆÐµÐ½Ð¸Ðµ
         if total_area > 0:
             left_percent = (left_area / total_area) * 100
             right_percent = (right_area / total_area) * 100
@@ -370,11 +369,11 @@ class ShikhtaAnalyzer:
             'perspective_corrected': self.perspective_transformer is not None
         }
 
-        # Визуализация
+        # Ð’Ð¸Ð·ÑƒÐ°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ñ
         if save_visualization and output_path:
-            # Подготовка изображения для визуализации
+            # ÐŸÐ¾Ð´Ð³Ð¾Ñ‚Ð¾Ð²ÐºÐ° Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ñ Ð´Ð»Ñ Ð²Ð¸Ð·ÑƒÐ°Ð»Ð¸Ð·Ð°Ñ†Ð¸Ð¸
             if self.perspective_transformer:
-                # Если использовалась перспектива, показываем скорректированное изображение
+                # Ð•ÑÐ»Ð¸ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð»Ð°ÑÑŒ Ð¿ÐµÑ€ÑÐ¿ÐµÐºÑ‚Ð¸Ð²Ð°, Ð¿Ð¾ÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÐ¼ ÑÐºÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ðµ
                 img_color = self.perspective_transformer.transform(
                     original_frame)
             else:
@@ -383,36 +382,36 @@ class ShikhtaAnalyzer:
             min_y = self.polygon[:, 1].min()
             max_y = self.polygon[:, 1].max()
 
-            # Рисуем контуры и границы
+            # Ð Ð¸ÑÑƒÐµÐ¼ ÐºÐ¾Ð½Ñ‚ÑƒÑ€Ñ‹ Ð¸ Ð³Ñ€Ð°Ð½Ð¸Ñ†Ñ‹
             cv2.drawContours(img_color, contours, -1, (0, 255, 0), 1)
             cv2.polylines(img_color, [self.polygon], True, (255, 0, 0), 2)
             cv2.line(img_color, (self._mid_x, min_y),
                      (self._mid_x, max_y), (0, 0, 255), 2)
 
-            # Текст с метриками
+            # Ð¢ÐµÐºÑÑ‚ Ñ Ð¼ÐµÑ‚Ñ€Ð¸ÐºÐ°Ð¼Ð¸
             text = f"L: {left_percent:.1f}% | R: {right_percent:.1f}%"
             if self.perspective_transformer:
                 text += " [PERSP]"
             cv2.putText(img_color, text, (10, 30), cv2.FONT_HERSHEY_SIMPLEX,
                         0.8, (255, 255, 255), 2)
 
-            # Создаём композитное изображение если используется перспектива
+            # Ð¡Ð¾Ð·Ð´Ð°Ñ‘Ð¼ ÐºÐ¾Ð¼Ð¿Ð¾Ð·Ð¸Ñ‚Ð½Ð¾Ðµ Ð¸Ð·Ð¾Ð±Ñ€Ð°Ð¶ÐµÐ½Ð¸Ðµ ÐµÑÐ»Ð¸ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ÑÑ Ð¿ÐµÑ€ÑÐ¿ÐµÐºÑ‚Ð¸Ð²Ð°
             if self.perspective_transformer:
-                # Создаём сравнительную визуализацию
+                # Ð¡Ð¾Ð·Ð´Ð°Ñ‘Ð¼ ÑÑ€Ð°Ð²Ð½Ð¸Ñ‚ÐµÐ»ÑŒÐ½ÑƒÑŽ Ð²Ð¸Ð·ÑƒÐ°Ð»Ð¸Ð·Ð°Ñ†Ð¸ÑŽ
                 h, w = img_color.shape[:2]
                 composite = np.zeros((h, w * 2 + 10, 3), dtype=np.uint8)
 
-                # Оригинал слева
+                # ÐžÑ€Ð¸Ð³Ð¸Ð½Ð°Ð» ÑÐ»ÐµÐ²Ð°
                 orig_resized = cv2.resize(original_frame, (w, h))
                 composite[:, :w] = orig_resized
 
-                # Разделитель
+                # Ð Ð°Ð·Ð´ÐµÐ»Ð¸Ñ‚ÐµÐ»ÑŒ
                 composite[:, w:w+10] = 128
 
-                # Скорректированное справа
+                # Ð¡ÐºÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð½Ð¾Ðµ ÑÐ¿Ñ€Ð°Ð²Ð°
                 composite[:, w+10:] = img_color
 
-                # Сохранение
+                # Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ðµ
                 cv2.imwrite(output_path, composite)
             else:
                 cv2.imwrite(output_path, img_color)
@@ -420,7 +419,7 @@ class ShikhtaAnalyzer:
         return metrics
 
     def _process_single_frame_wrapper(self, task):
-        """Обертка для параллельной обработки"""
+        """ÐžÐ±ÐµÑ€Ñ‚ÐºÐ° Ð´Ð»Ñ Ð¿Ð°Ñ€Ð°Ð»Ð»ÐµÐ»ÑŒÐ½Ð¾Ð¹ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ¸"""
         idx, frame_path, output_dir, save_every_n = task
         frame = cv2.imread(str(frame_path))
         if frame is None:
@@ -437,7 +436,7 @@ class ShikhtaAnalyzer:
 
     def process_video_frames(self, frames_dir, output_dir=None, save_every_n=10,
                              use_parallel=True, max_workers=4, max_frames=None):
-        """Обработка всех кадров видео с поддержкой параллелизма"""
+        """ÐžÐ±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ° Ð²ÑÐµÑ… ÐºÐ°Ð´Ñ€Ð¾Ð² Ð²Ð¸Ð´ÐµÐ¾ Ñ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ¾Ð¹ Ð¿Ð°Ñ€Ð°Ð»Ð»ÐµÐ»Ð¸Ð·Ð¼Ð°"""
         frame_files = sorted(Path(frames_dir).glob("*.jpg"))
         if max_frames:
             frame_files = frame_files[:max_frames]
@@ -457,7 +456,7 @@ class ShikhtaAnalyzer:
             print("  • Перспективная коррекция: включена")
 
         if use_parallel and len(frame_files) > 50:
-            # Параллельная обработка
+            # ÐŸÐ°Ñ€Ð°Ð»Ð»ÐµÐ»ÑŒÐ½Ð°Ñ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ°
             print(f"  • Режим: параллельный ({max_workers} потоков)")
 
             tasks = [(idx, frame_path, output_dir, save_every_n)
@@ -477,10 +476,10 @@ class ShikhtaAnalyzer:
                         print(
                             f"    Обработано {processed}/{len(frame_files)} кадров")
 
-            # Сортировка по frame_idx
+            # Ð¡Ð¾Ñ€Ñ‚Ð¸Ñ€Ð¾Ð²ÐºÐ° Ð¿Ð¾ frame_idx
             self.frame_metrics.sort(key=lambda x: x['frame_idx'])
         else:
-            # Последовательная обработка
+            # ÐŸÐ¾ÑÐ»ÐµÐ´Ð¾Ð²Ð°Ñ‚ÐµÐ»ÑŒÐ½Ð°Ñ Ð¾Ð±Ñ€Ð°Ð±Ð¾Ñ‚ÐºÐ°
             print(f"  • Режим: последовательный")
             for idx, frame_path in enumerate(frame_files):
                 frame = cv2.imread(str(frame_path))
@@ -506,7 +505,7 @@ class ShikhtaAnalyzer:
         return self.frame_metrics
 
     def compute_summary_statistics(self):
-        """Вычисление сводной статистики"""
+        """Ð’Ñ‹Ñ‡Ð¸ÑÐ»ÐµÐ½Ð¸Ðµ ÑÐ²Ð¾Ð´Ð½Ð¾Ð¹ ÑÑ‚Ð°Ñ‚Ð¸ÑÑ‚Ð¸ÐºÐ¸"""
         if not self.frame_metrics:
             return None
 
@@ -543,7 +542,7 @@ class ShikhtaAnalyzer:
         return summary
 
     def save_metrics(self, output_path):
-        """Сохранение метрик в JSON с автоматической генерацией графиков"""
+        """Ð¡Ð¾Ñ…Ñ€Ð°Ð½ÐµÐ½Ð¸Ðµ Ð¼ÐµÑ‚Ñ€Ð¸Ðº Ð² JSON Ñ Ð°Ð²Ñ‚Ð¾Ð¼Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ¾Ð¹ Ð³ÐµÐ½ÐµÑ€Ð°Ñ†Ð¸ÐµÐ¹ Ð³Ñ€Ð°Ñ„Ð¸ÐºÐ¾Ð²"""
         summary = self.compute_summary_statistics()
 
         data = {
@@ -557,51 +556,51 @@ class ShikhtaAnalyzer:
 
         print(f"✓ Метрики сохранены в {output_path}")
 
-        # Автоматическая генерация графиков
+        # ÐÐ²Ñ‚Ð¾Ð¼Ð°Ñ‚Ð¸Ñ‡ÐµÑÐºÐ°Ñ Ð³ÐµÐ½ÐµÑ€Ð°Ñ†Ð¸Ñ Ð³Ñ€Ð°Ñ„Ð¸ÐºÐ¾Ð²
         plot_path = output_path.replace('.json', '_plot.png')
         self.plot_metrics(plot_path)
 
         return summary
 
     def plot_metrics(self, output_path):
-        """Построение графиков с выделением мин/макс"""
+        """ÐŸÐ¾ÑÑ‚Ñ€Ð¾ÐµÐ½Ð¸Ðµ Ð³Ñ€Ð°Ñ„Ð¸ÐºÐ¾Ð² Ñ Ð²Ñ‹Ð´ÐµÐ»ÐµÐ½Ð¸ÐµÐ¼ Ð¼Ð¸Ð½/Ð¼Ð°ÐºÑ"""
         if not self.frame_metrics:
             print("Нет данных для построения графиков")
             return
 
-        # Извлечение данных
+        # Ð˜Ð·Ð²Ð»ÐµÑ‡ÐµÐ½Ð¸Ðµ Ð´Ð°Ð½Ð½Ñ‹Ñ…
         frames = [m['frame_idx'] for m in self.frame_metrics]
         left_percents = [m['left_percent'] for m in self.frame_metrics]
         right_percents = [m['right_percent'] for m in self.frame_metrics]
         total_areas = [m['total_area'] for m in self.frame_metrics]
 
-        # Поиск экстремумов
+        # ÐŸÐ¾Ð¸ÑÐº ÑÐºÑÑ‚Ñ€ÐµÐ¼ÑƒÐ¼Ð¾Ð²
         left_min_idx = np.argmin(left_percents)
         left_max_idx = np.argmax(left_percents)
         right_min_idx = np.argmin(right_percents)
         right_max_idx = np.argmax(right_percents)
 
-        # Создание графиков
+        # Ð¡Ð¾Ð·Ð´Ð°Ð½Ð¸Ðµ Ð³Ñ€Ð°Ñ„Ð¸ÐºÐ¾Ð²
         fig, axes = plt.subplots(2, 1, figsize=(14, 10))
 
-        # Добавление заголовка если использовалась перспективная коррекция
+        # Ð”Ð¾Ð±Ð°Ð²Ð»ÐµÐ½Ð¸Ðµ Ð·Ð°Ð³Ð¾Ð»Ð¾Ð²ÐºÐ° ÐµÑÐ»Ð¸ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð»Ð°ÑÑŒ Ð¿ÐµÑ€ÑÐ¿ÐµÐºÑ‚Ð¸Ð²Ð½Ð°Ñ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸Ñ
         if self.perspective_transformer:
             fig.suptitle('Анализ шихты с перспективной коррекцией',
                          fontsize=16, fontweight='bold', y=1.02)
 
-        # График 1: Процентное соотношение
+        # Ð“Ñ€Ð°Ñ„Ð¸Ðº 1: ÐŸÑ€Ð¾Ñ†ÐµÐ½Ñ‚Ð½Ð¾Ðµ ÑÐ¾Ð¾Ñ‚Ð½Ð¾ÑˆÐµÐ½Ð¸Ðµ
         ax1 = axes[0]
         ax1.plot(frames, left_percents, label='Левая часть',
                  color='#2E86DE', linewidth=2, alpha=0.8)
         ax1.plot(frames, right_percents, label='Правая часть',
                  color='#EE5A6F', linewidth=2, alpha=0.8)
 
-        # Линия баланса 50%
+        # Ð›Ð¸Ð½Ð¸Ñ Ð±Ð°Ð»Ð°Ð½ÑÐ° 50%
         ax1.axhline(y=50, color='gray', linestyle='--', linewidth=1, alpha=0.5,
                     label='Баланс 50/50')
 
-        # Выделение минимумов и максимумов
-        # Левая часть
+        # Ð’Ñ‹Ð´ÐµÐ»ÐµÐ½Ð¸Ðµ Ð¼Ð¸Ð½Ð¸Ð¼ÑƒÐ¼Ð¾Ð² Ð¸ Ð¼Ð°ÐºÑÐ¸Ð¼ÑƒÐ¼Ð¾Ð²
+        # Ð›ÐµÐ²Ð°Ñ Ñ‡Ð°ÑÑ‚ÑŒ
         ax1.scatter(frames[left_min_idx], left_percents[left_min_idx],
                     color='blue', s=150, marker='v', zorder=5,
                     edgecolors='black', linewidth=2)
@@ -624,7 +623,7 @@ class ShikhtaAnalyzer:
                      arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0',
                                      color='blue', lw=2))
 
-        # Правая часть
+        # ÐŸÑ€Ð°Ð²Ð°Ñ Ñ‡Ð°ÑÑ‚ÑŒ
         ax1.scatter(frames[right_min_idx], right_percents[right_min_idx],
                     color='red', s=150, marker='v', zorder=5,
                     edgecolors='black', linewidth=2)
@@ -664,12 +663,12 @@ class ShikhtaAnalyzer:
                  fontsize=9, verticalalignment='top',
                  bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.7))
 
-        # График 2: Общая площадь шихты
+        # Ð“Ñ€Ð°Ñ„Ð¸Ðº 2: ÐžÐ±Ñ‰Ð°Ñ Ð¿Ð»Ð¾Ñ‰Ð°Ð´ÑŒ ÑˆÐ¸Ñ…Ñ‚Ñ‹
         ax2 = axes[1]
         ax2.fill_between(frames, total_areas, alpha=0.3, color='#10AC84')
         ax2.plot(frames, total_areas, color='#10AC84', linewidth=2)
 
-        # Выделение экстремумов площади
+        # Ð’Ñ‹Ð´ÐµÐ»ÐµÐ½Ð¸Ðµ ÑÐºÑÑ‚Ñ€ÐµÐ¼ÑƒÐ¼Ð¾Ð² Ð¿Ð»Ð¾Ñ‰Ð°Ð´Ð¸
         area_min_idx = np.argmin(total_areas)
         area_max_idx = np.argmax(total_areas)
 
@@ -699,8 +698,8 @@ class ShikhtaAnalyzer:
                       fontsize=14, fontweight='bold', pad=15)
         ax2.grid(True, alpha=0.3, linestyle=':', linewidth=0.8)
 
-        # Статистика площади
-        area_stats = f'μ={np.mean(total_areas):.0f} σ={np.std(total_areas):.0f}'
+        # Ð¡Ñ‚Ð°Ñ‚Ð¸ÑÑ‚Ð¸ÐºÐ° Ð¿Ð»Ð¾Ñ‰Ð°Ð´Ð¸
+        area_stats = f'Î¼={np.mean(total_areas):.0f} Ïƒ={np.std(total_areas):.0f}'
         ax2.text(0.02, 0.98, area_stats, transform=ax2.transAxes,
                  fontsize=9, verticalalignment='top',
                  bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.7))
@@ -712,7 +711,7 @@ class ShikhtaAnalyzer:
 
 
 if __name__ == "__main__":
-    # Пример использования с перспективной коррекцией
+    # ÐŸÑ€Ð¸Ð¼ÐµÑ€ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ñ Ñ Ð¿ÐµÑ€ÑÐ¿ÐµÐºÑ‚Ð¸Ð²Ð½Ð¾Ð¹ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸ÐµÐ¹
     import sys
     if len(sys.argv) < 3:
         print(

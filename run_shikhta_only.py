@@ -226,8 +226,8 @@ def setup_perspective_after_main_polygon(video_name, first_frame_path, polygons_
                     if points:
                         perspective_transformer = HexagonPerspectiveTransformer(
                             points,
-                            dst_width=800,
-                            dst_height=600
+                            dst_width=1920,
+                            dst_height=1080
                         )
                         # Сохраняем конфиг
                         os.makedirs(polygons_save_dir, exist_ok=True)

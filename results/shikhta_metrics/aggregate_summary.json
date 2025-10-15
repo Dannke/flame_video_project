@@ -1,11 +1,11 @@
 {
-  "generated_at": "2025-10-08T13:48:56.723223",
+  "generated_at": "2025-10-15T20:03:17.433884",
   "videos": [
     {
       "video": "1video",
       "frames": 420,
-      "left_mean": 49.76942309311869,
-      "right_mean": 50.23057690688131,
+      "left_mean": 51.17574338192228,
+      "right_mean": 48.82425661807772,
       "perspective": true
     },
     {
@@ -23,7 +23,7 @@
       "perspective": false
     }
   ],
-  "avg_left": 52.75391068645782,
-  "avg_right": 47.24608931354218,
+  "avg_left": 53.222684116059014,
+  "avg_right": 46.777315883940986,
   "perspective_count": 1
 }

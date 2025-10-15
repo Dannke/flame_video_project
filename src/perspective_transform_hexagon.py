@@ -14,7 +14,7 @@ import numpy as np
 class HexagonPerspectiveTransformer:
     """Класс для перспективной трансформации шестиугольных областей"""
 
-    def __init__(self, src_points=None, dst_width=1280, dst_height=720):
+    def __init__(self, src_points=None, dst_width=1920, dst_height=1280):
         """
         Args:
             src_points: 6 точек исходного шестиугольника (по часовой стрелке)
@@ -333,14 +333,14 @@ if __name__ == "__main__":
     if points:
         # Создание трансформера
         transformer = HexagonPerspectiveTransformer(
-            points, dst_width=1280, dst_height=720)
+            points, dst_width=1920, dst_height=1280)
 
         # Применение трансформации
         corrected = transformer.transform(img)
 
         # Показ результата
-        cv2.imshow("Original", cv2.resize(img, (1280, 720)))
-        cv2.imshow("Corrected (Hexagon)", cv2.resize(corrected, (1280, 720)))
+        cv2.imshow("Original", cv2.resize(img, (1920, 1280)))
+        cv2.imshow("Corrected (Hexagon)", cv2.resize(corrected, (1920, 1280)))
 
         # Сохранение конфига
         transformer.save_config("hexagon_transform_config.json")
