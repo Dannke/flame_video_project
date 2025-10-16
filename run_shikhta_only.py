@@ -162,45 +162,48 @@ def prepare_main_polygon_via_gui(first_frame_path, polygons_save_dir, video_name
 
 
 def setup_perspective_after_main_polygon(video_name, first_frame_path, polygons_save_dir,
-                                         main_polygon=None, use_perspective=True, 
+                                         main_polygon=None, use_perspective=True,
                                          auto_setup_perspective=True, perspective_method='hexagon'):
     """
     Шаг 2: настройка перспективы — выполняется ПОСЛЕ выбора основного полигона.
     Возвращает (perspective_transformer or None, persp_polygon or None)
-    
+
     Args:
         perspective_method: 'standard' (4 точки) или 'hexagon' (6 точек)
     """
     if not use_perspective:
         return None, None
-    
+
     perspective_transformer = None
     persp_polygon = None
-    
+
     # ========== МЕТОД: HEXAGON (6 ТОЧЕК) ==========
     if perspective_method == 'hexagon':
         if not HEXAGON_PERSPECTIVE_AVAILABLE:
             print("⚠ Модуль perspective_transform_hexagon недоступен")
-            print("  Убедитесь, что файл perspective_transform_hexagon.py находится в директории проекта")
+            print(
+                "  Убедитесь, что файл perspective_transform_hexagon.py находится в директории проекта")
             print("  Попытка использовать стандартный метод...")
             perspective_method = 'standard'
         else:
             print(f"✓ Модуль HexagonPerspectiveTransformer доступен")
-            
+
             # Путь к конфигу шестиугольной перспективы
             hexagon_config_path = os.path.join(
                 polygons_save_dir, f"{video_name}_hexagon_perspective.json"
             )
-            
+
             # Попытка загрузить существующий конфиг
             if os.path.exists(hexagon_config_path):
                 try:
-                    perspective_transformer = HexagonPerspectiveTransformer.load_config(hexagon_config_path)
-                    print(f"✓ Загружена 6-точечная конфигурация: {hexagon_config_path}")
+                    perspective_transformer = HexagonPerspectiveTransformer.load_config(
+                        hexagon_config_path)
+                    print(
+                        f"✓ Загружена 6-точечная конфигурация: {hexagon_config_path}")
                     return perspective_transformer, None
                 except Exception as e:
                     print(f"⚠ Ошибка загрузки 6-точечной конфигурации: {e}")
-            
+
             # Если нет сохраненного конфига и нужна авто-настройка
             if auto_setup_perspective:
                 print("Откроется GUI для настройки 6-точечной перспективы")
@@ -208,21 +211,22 @@ def setup_perspective_after_main_polygon(video_name, first_frame_path, polygons_
                 if img is None:
                     print(f"✗ Не удалось загрузить кадр: {first_frame_path}")
                     return None, None
-                
+
                 # Показываем основной полигон для ориентира (если есть)
                 if main_polygon is not None:
                     try:
                         vis = img.copy()
-                        cv2.polylines(vis, [main_polygon], True, (0, 255, 0), 2)
+                        cv2.polylines(vis, [main_polygon],
+                                      True, (0, 255, 0), 2)
                         cv2.putText(vis, "Main polygon (reference)", (10, 30),
                                     cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
                         img = vis
                     except Exception as e:
                         print(f"⚠ Не удалось отобразить основной полигон: {e}")
-                
+
                 try:
                     points = setup_hexagon_perspective_gui(img)
-                    
+
                     if points:
                         perspective_transformer = HexagonPerspectiveTransformer(
                             points,
@@ -231,50 +235,56 @@ def setup_perspective_after_main_polygon(video_name, first_frame_path, polygons_
                         )
                         # Сохраняем конфиг
                         os.makedirs(polygons_save_dir, exist_ok=True)
-                        perspective_transformer.save_config(hexagon_config_path)
-                        print(f"✓ 6-точечная конфигурация сохранена: {hexagon_config_path}")
+                        perspective_transformer.save_config(
+                            hexagon_config_path)
+                        print(
+                            f"✓ 6-точечная конфигурация сохранена: {hexagon_config_path}")
                         return perspective_transformer, None
                     else:
                         print("⚠ Настройка 6-точечной перспективы отменена")
                         return None, None
-                        
+
                 except Exception as e:
-                    print(f"✗ Ошибка при настройке 6-точечной перспективы: {e}")
+                    print(
+                        f"✗ Ошибка при настройке 6-точечной перспективы: {e}")
                     import traceback
                     traceback.print_exc()
                     return None, None
             else:
                 print("ℹ Авто-настройка перспективы отключена")
                 return None, None
-    
+
     # ========== МЕТОД: STANDARD (4 ТОЧКИ) ==========
     if perspective_method == 'standard':
         if not PERSPECTIVE_AVAILABLE:
             print("⚠ Модуль perspective_transform недоступен")
-            print("  Убедитесь, что файл perspective_transform.py находится в директории проекта")
+            print(
+                "  Убедитесь, что файл perspective_transform.py находится в директории проекта")
             return None, None
-        
+
         print(f"✓ Модуль PerspectiveTransformer доступен")
-        
+
         # Путь к стандартному конфигу
         standard_config_path = os.path.join(
             polygons_save_dir, f"{video_name}_perspective.json"
         )
-        
+
         # Попытка загрузить существующий конфиг
         if os.path.exists(standard_config_path):
             try:
-                perspective_transformer = PerspectiveTransformer.load_config(standard_config_path)
-                print(f"✓ Загружена 4-точечная конфигурация: {standard_config_path}")
+                perspective_transformer = PerspectiveTransformer.load_config(
+                    standard_config_path)
+                print(
+                    f"✓ Загружена 4-точечная конфигурация: {standard_config_path}")
                 return perspective_transformer, None
             except Exception as e:
                 print(f"⚠ Ошибка загрузки 4-точечной конфигурации: {e}")
-        
+
         # Если нет сохраненного конфига и есть load_or_setup_perspective
         if auto_setup_perspective and load_or_setup_perspective:
             try:
                 perspective_transformer = load_or_setup_perspective(
-                    video_name, 
+                    video_name,
                     first_frame_path,
                     config_dir=polygons_save_dir
                 )
@@ -289,13 +299,15 @@ def setup_perspective_after_main_polygon(video_name, first_frame_path, polygons_
                 import traceback
                 traceback.print_exc()
                 return None, None
-    
+
     return None, None
 
 
 def analyze_all_videos(force_reanalyze=False, save_every_n=20,
                        use_parallel=True, max_workers=8,
-                       use_perspective=True, auto_setup_perspective=True, perspective_method='hexagon'):
+                       use_perspective=True, auto_setup_perspective=True, perspective_method='hexagon',
+                       min_contour_area=100,
+                       near_zone_ratio=0.5):
     """
     Анализ шихты для всех видео — первым шагом всегда основной полигон.
     """
@@ -363,7 +375,8 @@ def analyze_all_videos(force_reanalyze=False, save_every_n=20,
             elif persp_polygon is not None:
                 print("✓ Перспективный полигон найден и сохранён")
             else:
-                print("ℹ Перспектива не настроена — анализ будет выполнен без коррекции перспективы")
+                print(
+                    "ℹ Перспектива не настроена — анализ будет выполнен без коррекции перспективы")
 
         # === ШАГ 3: запуск анализа ===
         try:
@@ -378,7 +391,9 @@ def analyze_all_videos(force_reanalyze=False, save_every_n=20,
                 use_perspective=(perspective_transformer is not None),
                 perspective_config=(
                     perspective_transformer if perspective_transformer is not None else persp_polygon),
-                perspective_method=perspective_method
+                perspective_method=perspective_method,
+                min_contour_area=min_contour_area,
+                near_zone_ratio=near_zone_ratio
             )
 
             if summary:
@@ -488,6 +503,10 @@ def _parse_args(argv=None):
                    choices=['standard', 'hexagon'],
                    default='hexagon',
                    help="метод перспективной коррекции: standard (4 точки) или hexagon (6 точек)")
+    p.add_argument("--min-area", type=int, default=100,
+                   help="минимальная площадь контура (пикс²)")
+    p.add_argument("--near-zone", type=float, default=0.5,
+                   help="доля ближней зоны (0.0-1.0)")
     return p.parse_args(argv)
 
 
@@ -501,6 +520,8 @@ if __name__ == "__main__":
         max_workers=max(1, args.workers),
         use_perspective=(not args.no_perspective),
         auto_setup_perspective=(not args.no_auto_persp),
-        perspective_method=args.persp_method
+        perspective_method=args.persp_method,
+        min_contour_area=args.min_area,
+        near_zone_ratio=args.near_zone
     )
     print("\nГотово.")

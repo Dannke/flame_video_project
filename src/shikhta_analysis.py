@@ -17,6 +17,17 @@ import scipy.signal
 from skimage import img_as_float64, restoration
 from skimage import img_as_ubyte
 
+USE_IMPROVED_ANALYZER = True  # Измените на False для возврата к старому
+
+try:
+    from improved_shikhta_analyzer import ImprovedShikhtaAnalyzer
+    IMPROVED_AVAILABLE = True
+    print("✓ Улучшенный анализатор импортирован успешно")
+except ImportError:
+    IMPROVED_AVAILABLE = False
+    ImprovedShikhtaAnalyzer = None
+    print("⚠ Улучшенный анализатор не найден, используется стандартный")
+
 # Ð˜Ð¼Ð¿Ð¾Ñ€Ñ‚ Ð¼Ð¾Ð´ÑƒÐ»Ñ Ð¿ÐµÑ€ÑÐ¿ÐµÐºÑ‚Ð¸Ð²Ð½Ð¾Ð¹ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸Ð¸
 try:
     from perspective_transform import PerspectiveTransformer, load_or_setup_perspective
@@ -42,7 +53,8 @@ def analyze_video_shikhta(frames_dir, output_dir, polygon=None,
                           save_visualizations=True, save_every_n=10,
                           use_parallel=True, max_workers=4,
                           use_perspective=True, perspective_config=None,
-                          perspective_method='hexagon'):
+                          perspective_method='hexagon',min_contour_area=100,
+                          near_zone_ratio=0.5):
     """
     Главная функция для анализа шихты в видео с перспективной коррекцией
 
@@ -147,16 +159,32 @@ def analyze_video_shikhta(frames_dir, output_dir, polygon=None,
         else:
             print("ℹ Перспективная коррекция не настроена")
 
-    # Ð¡Ð¾Ð·Ð´Ð°Ð½Ð¸Ðµ Ð°Ð½Ð°Ð»Ð¸Ð·Ð°Ñ‚Ð¾Ñ€Ð°
+    # Создание анализатора
+        if USE_IMPROVED_ANALYZER and IMPROVED_AVAILABLE:
+            AnalyzerClass = ImprovedShikhtaAnalyzer
+            print("Используется улучшенный анализатор")
+            extra_params = {
+                'min_contour_area': min_contour_area,
+                'near_zone_ratio': near_zone_ratio
+            }
+    else:
+        AnalyzerClass = ShikhtaAnalyzer
+        print("Используется стандартный анализатор")
+        extra_params = {}
+    
+    # Создание экземпляра
     if transformer:
-        # ÐŸÑ€Ð¸ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·Ð¾Ð²Ð°Ð½Ð¸Ð¸ Ð¿ÐµÑ€ÑÐ¿ÐµÐºÑ‚Ð¸Ð²Ñ‹ Ð¼ÐµÐ½ÑÐµÐ¼ target_size Ð½Ð° Ñ€Ð°Ð·Ð¼ÐµÑ€ Ð²Ñ‹Ñ…Ð¾Ð´Ð° Ñ‚Ñ€Ð°Ð½ÑÑ„Ð¾Ñ€Ð¼ÐµÑ€Ð°
-        analyzer = ShikhtaAnalyzer(
+        analyzer = AnalyzerClass(
             polygon=polygon,
             target_size=(transformer.dst_width, transformer.dst_height),
-            perspective_transformer=transformer
+            perspective_transformer=transformer,
+            **extra_params
         )
     else:
-        analyzer = ShikhtaAnalyzer(polygon=polygon)
+        analyzer = AnalyzerClass(
+            polygon=polygon,
+            **extra_params
+        )
 
     # Ð¡Ð¾Ð·Ð´Ð°Ð½Ð¸Ðµ Ð¿Ð¾Ð´Ð´Ð¸Ñ€ÐµÐºÑ‚Ð¾Ñ€Ð¸Ð¹
     vis_dir = os.path.join(
