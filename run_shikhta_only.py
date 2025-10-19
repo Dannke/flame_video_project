@@ -185,76 +185,75 @@ def setup_perspective_after_main_polygon(video_name, first_frame_path, polygons_
                 "  Убедитесь, что файл perspective_transform_hexagon.py находится в директории проекта")
             print("  Попытка использовать стандартный метод...")
             perspective_method = 'standard'
-        else:
-            print(f"✓ Модуль HexagonPerspectiveTransformer доступен")
+        # Убрали print("✓ Модуль HexagonPerspectiveTransformer доступен") отсюда, чтобы избежать повторений
 
-            # Путь к конфигу шестиугольной перспективы
-            hexagon_config_path = os.path.join(
-                polygons_save_dir, f"{video_name}_hexagon_perspective.json"
-            )
+        # Путь к конфигу шестиугольной перспективы
+        hexagon_config_path = os.path.join(
+            polygons_save_dir, f"{video_name}_hexagon_perspective.json"
+        )
 
-            # Попытка загрузить существующий конфиг
-            if os.path.exists(hexagon_config_path):
-                try:
-                    perspective_transformer = HexagonPerspectiveTransformer.load_config(
-                        hexagon_config_path)
-                    print(
-                        f"✓ Загружена 6-точечная конфигурация: {hexagon_config_path}")
-                    return perspective_transformer, None
-                except Exception as e:
-                    print(f"⚠ Ошибка загрузки 6-точечной конфигурации: {e}")
+        # Попытка загрузить существующий конфиг
+        if os.path.exists(hexagon_config_path):
+            try:
+                perspective_transformer = HexagonPerspectiveTransformer.load_config(
+                    hexagon_config_path)
+                print(
+                    f"✓ Загружена 6-точечная конфигурация: {hexagon_config_path}")
+                return perspective_transformer, None
+            except Exception as e:
+                print(f"⚠ Ошибка загрузки 6-точечной конфигурации: {e}")
 
-            # Если нет сохраненного конфига и нужна авто-настройка
-            if auto_setup_perspective:
-                print("Откроется GUI для настройки 6-точечной перспективы")
-                img = cv2.imread(first_frame_path)
-                if img is None:
-                    print(f"✗ Не удалось загрузить кадр: {first_frame_path}")
-                    return None, None
-
-                # Показываем основной полигон для ориентира (если есть)
-                if main_polygon is not None:
-                    try:
-                        vis = img.copy()
-                        cv2.polylines(vis, [main_polygon],
-                                      True, (0, 255, 0), 2)
-                        cv2.putText(vis, "Main polygon (reference)", (10, 30),
-                                    cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
-                        img = vis
-                    except Exception as e:
-                        print(f"⚠ Не удалось отобразить основной полигон: {e}")
-
-                try:
-                    points = setup_hexagon_perspective_gui(img)
-
-                    if points:
-                        perspective_transformer = HexagonPerspectiveTransformer(
-                            points,
-                            dst_width=1920,
-                            dst_height=1080
-                        )
-                        # Сохраняем конфиг
-                        os.makedirs(polygons_save_dir, exist_ok=True)
-                        perspective_transformer.save_config(
-                            hexagon_config_path)
-                        print(
-                            f"✓ 6-точечная конфигурация сохранена: {hexagon_config_path}")
-                        return perspective_transformer, None
-                    else:
-                        print("⚠ Настройка 6-точечной перспективы отменена")
-                        return None, None
-
-                except Exception as e:
-                    print(
-                        f"✗ Ошибка при настройке 6-точечной перспективы: {e}")
-                    import traceback
-                    traceback.print_exc()
-                    return None, None
-            else:
-                print("ℹ Авто-настройка перспективы отключена")
+        # Если нет сохраненного конфига и нужна авто-настройка
+        if auto_setup_perspective:
+            print("Откроется GUI для настройки 6-точечной перспективы")
+            img = cv2.imread(first_frame_path)
+            if img is None:
+                print(f"✗ Не удалось загрузить кадр: {first_frame_path}")
                 return None, None
 
-    # ========== МЕТОД: STANDARD (4 ТОЧКИ) ==========
+            # Показываем основной полигон для ориентира (если есть)
+            if main_polygon is not None:
+                try:
+                    vis = img.copy()
+                    cv2.polylines(vis, [main_polygon],
+                                  True, (0, 255, 0), 2)
+                    cv2.putText(vis, "Main polygon (reference)", (10, 30),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
+                    img = vis
+                except Exception as e:
+                    print(f"⚠ Не удалось отобразить основной полигон: {e}")
+
+            try:
+                points = setup_hexagon_perspective_gui(img)
+
+                if points:
+                    perspective_transformer = HexagonPerspectiveTransformer(
+                        points,
+                        dst_width=1920,
+                        dst_height=1080
+                    )
+                    # Сохраняем конфиг
+                    os.makedirs(polygons_save_dir, exist_ok=True)
+                    perspective_transformer.save_config(
+                        hexagon_config_path)
+                    print(
+                        f"✓ 6-точечная конфигурация сохранена: {hexagon_config_path}")
+                    return perspective_transformer, None
+                else:
+                    print("⚠ Настройка 6-точечной перспективы отменена")
+                    return None, None
+
+            except Exception as e:
+                print(
+                    f"✗ Ошибка при настройке 6-точечной перспективы: {e}")
+                import traceback
+                traceback.print_exc()
+                return None, None
+        else:
+            print("ℹ Авто-настройка перспективы отключена")
+            return None, None
+
+    # ========== МЕТОД: STANDARD (4 ТОЧЕК) ==========
     if perspective_method == 'standard':
         if not PERSPECTIVE_AVAILABLE:
             print("⚠ Модуль perspective_transform недоступен")
@@ -262,7 +261,7 @@ def setup_perspective_after_main_polygon(video_name, first_frame_path, polygons_
                 "  Убедитесь, что файл perspective_transform.py находится в директории проекта")
             return None, None
 
-        print(f"✓ Модуль PerspectiveTransformer доступен")
+        # Убрали print("✓ Модуль PerspectiveTransformer доступен") отсюда
 
         # Путь к стандартному конфигу
         standard_config_path = os.path.join(
@@ -306,8 +305,9 @@ def setup_perspective_after_main_polygon(video_name, first_frame_path, polygons_
 def analyze_all_videos(force_reanalyze=False, save_every_n=20,
                        use_parallel=True, max_workers=8,
                        use_perspective=True, auto_setup_perspective=True, perspective_method='hexagon',
-                       min_contour_area=100,
-                       near_zone_ratio=0.5):
+                       min_contour_area=100, near_zone_ratio=0.5, near_zone_c_offset=-5, far_zone_c_offset=5,
+                       near_zone_area_multiplier=3, use_adaptive_flame_detection=True, far_c_boost_no_flame=5,
+                       flame_detection_threshold=10.0):
     """
     Анализ шихты для всех видео — первым шагом всегда основной полигон.
     """
@@ -322,6 +322,25 @@ def analyze_all_videos(force_reanalyze=False, save_every_n=20,
 
     print("\nЗапуск анализа (перспектива: {})".format(
         "вкл" if use_perspective and PERSPECTIVE_AVAILABLE else "выкл"))
+
+    # Проверяем доступность модулей перспективы ОДИН РАЗ перед циклом
+    if use_perspective:
+        if perspective_method == 'hexagon':
+            if HEXAGON_PERSPECTIVE_AVAILABLE:
+                print(
+                    f"✓ Модуль HexagonPerspectiveTransformer доступен (проверено перед анализом)")
+            else:
+                print(
+                    "⚠ Модуль perspective_transform_hexagon недоступен (проверено перед анализом)")
+                print("  Попытка использовать стандартный метод...")
+                perspective_method = 'standard'
+        if perspective_method == 'standard':
+            if PERSPECTIVE_AVAILABLE:
+                print(
+                    f"✓ Модуль PerspectiveTransformer доступен (проверено перед анализом)")
+            else:
+                print(
+                    "⚠ Модуль perspective_transform недоступен (проверено перед анализом)")
 
     results = []
 
@@ -393,7 +412,13 @@ def analyze_all_videos(force_reanalyze=False, save_every_n=20,
                     perspective_transformer if perspective_transformer is not None else persp_polygon),
                 perspective_method=perspective_method,
                 min_contour_area=min_contour_area,
-                near_zone_ratio=near_zone_ratio
+                near_zone_ratio=near_zone_ratio,
+                near_zone_c_offset=near_zone_c_offset,
+                far_zone_c_offset=far_zone_c_offset,
+                near_zone_area_multiplier=near_zone_area_multiplier,
+                use_adaptive_flame_detection=use_adaptive_flame_detection,
+                far_c_boost_no_flame=far_c_boost_no_flame,
+                flame_detection_threshold=flame_detection_threshold
             )
 
             if summary:
@@ -487,6 +512,8 @@ def print_summary(results):
 def _parse_args(argv=None):
     p = argparse.ArgumentParser(
         description="run_shikhta_only — анализ шихты с GUI полигона")
+
+    # Основные опции
     p.add_argument("--force", action="store_true",
                    help="принудительно перезапустить анализ")
     p.add_argument("--no-perspective", action="store_true",
@@ -503,13 +530,50 @@ def _parse_args(argv=None):
                    choices=['standard', 'hexagon'],
                    default='hexagon',
                    help="метод перспективной коррекции: standard (4 точки) или hexagon (6 точек)")
-    p.add_argument("--min-area", type=int, default=100,
-                   help="минимальная площадь контура (пикс²)")
-    p.add_argument("--near-zone", type=float, default=0.5,
-                   help="доля ближней зоны (0.0-1.0)")
+
+    # Параметры детекции шихты
+    detection_group = p.add_argument_group('Параметры детекции шихты')
+
+    detection_group.add_argument("--min-area", type=int, default=100,
+                                 help="минимальная площадь контура (пикс²) для базовой фильтрации (рекомендуется 50-300)")
+
+    detection_group.add_argument("--near-zone", type=float, default=0.5,
+                                 help="доля ближней зоны (0.0-1.0), где применяются более строгие критерии (по умолчанию 0.5 = 50%%)")
+
+    detection_group.add_argument("--near-c", type=int, default=-5,
+                                 help="порог C для adaptiveThreshold в БЛИЖНЕЙ зоне: "
+                                 "чем меньше, тем строже детекция. "
+                                 "Рекомендуется от -15 (очень строго) до -3 (мягко). По умолчанию: -5")
+
+    detection_group.add_argument("--far-c", type=int, default=5,
+                                 help="порог C для adaptiveThreshold в ДАЛЬНЕЙ зоне: "
+                                 "чем больше, тем чувствительнее детекция. "
+                                 "Рекомендуется от 3 до 12. По умолчанию: 5")
+
+    detection_group.add_argument("--near-multiplier", type=float, default=2.0,
+                                 help="множитель для минимальной площади контура в БЛИЖНЕЙ зоне. "
+                                 "Например, при min-area=100 и near-multiplier=4.0 в ближней зоне "
+                                 "будут отфильтрованы контуры < 400 пикс². "
+                                 "Рекомендуется 2.0-5.0. По умолчанию: 2.0")
+
+    flame_group = p.add_argument_group('Адаптивная детекция пламени')
+
+    flame_group.add_argument("--no-adaptive-flame", action="store_true",
+                             help="отключить адаптивную детекцию пламени (использовать статические параметры)")
+
+    flame_group.add_argument("--far-c-boost", type=int, default=6,
+                             help="насколько повысить far_c в кадрах БЕЗ пламени для увеличения чувствительности. "
+                             "Рекомендуется 3-8. По умолчанию: 5. "
+                             "Например, если far_c=7 и far_c_boost=5, то без пламени будет использоваться far_c=12")
+    
+    flame_group.add_argument("--flame-threshold", type=float, default=10.0,
+                            help="минимальный процент площади пламени для определения кадра как 'с пламенем'. "
+                                 "Рекомендуется 10-20. По умолчанию: 15.0")
+
     return p.parse_args(argv)
 
 
+# САМОЕ ОПТИМАЛЬНОЕ (ПОКА) = python run_shikhta_only.py --force --min-area 120  --near-c 9 --far-c 7 --near-multiplier 4.0 --near-zone 0.7
 if __name__ == "__main__":
     args = _parse_args()
     setup_directories()
@@ -522,6 +586,12 @@ if __name__ == "__main__":
         auto_setup_perspective=(not args.no_auto_persp),
         perspective_method=args.persp_method,
         min_contour_area=args.min_area,
-        near_zone_ratio=args.near_zone
+        near_zone_ratio=args.near_zone,
+        near_zone_c_offset=args.near_c,
+        far_zone_c_offset=args.far_c,
+        near_zone_area_multiplier=args.near_multiplier,
+        flame_detection_threshold=args.flame_threshold
+
+
     )
     print("\nГотово.")

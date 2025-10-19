@@ -53,8 +53,10 @@ def analyze_video_shikhta(frames_dir, output_dir, polygon=None,
                           save_visualizations=True, save_every_n=10,
                           use_parallel=True, max_workers=4,
                           use_perspective=True, perspective_config=None,
-                          perspective_method='hexagon',min_contour_area=100,
-                          near_zone_ratio=0.5):
+                          perspective_method='hexagon', min_contour_area=100,
+                          near_zone_ratio=0.5, near_zone_c_offset=-5, far_zone_c_offset=5,
+                          near_zone_area_multiplier=2, use_adaptive_flame_detection=True, far_c_boost_no_flame=5,
+                          flame_detection_threshold=15.0):
     """
     Главная функция для анализа шихты в видео с перспективной коррекцией
 
@@ -69,6 +71,11 @@ def analyze_video_shikhta(frames_dir, output_dir, polygon=None,
         use_perspective: использовать ли перспективную коррекцию
         perspective_config: путь к конфигурации перспективы или объект трансформера
         perspective_method: 'standard' (4 точки) или 'hexagon' (6 точек)
+        min_contour_area: минимальная площадь контура (пикс²) для фильтрации ложных срабатываний
+        near_zone_ratio: доля ближней зоны (0.0-1.0), где применяются более строгие критерии детекции
+        near_zone_c_offset: параметр C для adaptiveThreshold в ближней зоне (отрицательное значение = строже)
+        far_zone_c_offset: параметр C для adaptiveThreshold в дальней зоне
+        near_zone_area_multiplier: множитель для min_contour_area в ближней зоне
 
     Returns:
         summary: словарь со статистикой
@@ -159,32 +166,49 @@ def analyze_video_shikhta(frames_dir, output_dir, polygon=None,
         else:
             print("ℹ Перспективная коррекция не настроена")
 
-    # Создание анализатора
-        if USE_IMPROVED_ANALYZER and IMPROVED_AVAILABLE:
-            AnalyzerClass = ImprovedShikhtaAnalyzer
-            print("Используется улучшенный анализатор")
-            extra_params = {
-                'min_contour_area': min_contour_area,
-                'near_zone_ratio': near_zone_ratio
-            }
+    # ========== СОЗДАНИЕ АНАЛИЗАТОРА ==========
+    # Выбор класса анализатора
+    if USE_IMPROVED_ANALYZER and IMPROVED_AVAILABLE:
+        AnalyzerClass = ImprovedShikhtaAnalyzer
+        print("Используется улучшенный анализатор")
     else:
         AnalyzerClass = ShikhtaAnalyzer
         print("Используется стандартный анализатор")
-        extra_params = {}
-    
+
     # Создание экземпляра
     if transformer:
-        analyzer = AnalyzerClass(
-            polygon=polygon,
-            target_size=(transformer.dst_width, transformer.dst_height),
-            perspective_transformer=transformer,
-            **extra_params
-        )
+        if USE_IMPROVED_ANALYZER and IMPROVED_AVAILABLE:
+            analyzer = AnalyzerClass(
+                polygon=polygon,
+                target_size=(transformer.dst_width, transformer.dst_height),
+                perspective_transformer=transformer,
+                min_contour_area=min_contour_area,
+                near_zone_ratio=near_zone_ratio,
+                near_zone_c_offset=near_zone_c_offset,
+                far_zone_c_offset=far_zone_c_offset,
+                near_zone_area_multiplier=near_zone_area_multiplier,
+                use_adaptive_flame_detection=use_adaptive_flame_detection, 
+                far_c_boost_no_flame=far_c_boost_no_flame,
+                flame_detection_threshold=flame_detection_threshold
+            )
+        else:
+            analyzer = AnalyzerClass(
+                polygon=polygon,
+                target_size=(transformer.dst_width, transformer.dst_height),
+                perspective_transformer=transformer
+            )
     else:
-        analyzer = AnalyzerClass(
-            polygon=polygon,
-            **extra_params
-        )
+        if USE_IMPROVED_ANALYZER and IMPROVED_AVAILABLE:
+            analyzer = AnalyzerClass(
+                polygon=polygon,
+                min_contour_area=min_contour_area,
+                near_zone_ratio=near_zone_ratio,
+                near_zone_c_offset=near_zone_c_offset,
+                far_zone_c_offset=far_zone_c_offset,
+                near_zone_area_multiplier=near_zone_area_multiplier
+            )
+        else:
+            analyzer = AnalyzerClass(polygon=polygon)
 
     # Ð¡Ð¾Ð·Ð´Ð°Ð½Ð¸Ðµ Ð¿Ð¾Ð´Ð´Ð¸Ñ€ÐµÐºÑ‚Ð¾Ñ€Ð¸Ð¹
     vis_dir = os.path.join(
@@ -231,6 +255,51 @@ def analyze_video_shikhta(frames_dir, output_dir, polygon=None,
         f"  Мин/Макс: {summary['right']['min']:.2f}% / {summary['right']['max']:.2f}%")
     print(f"  Медиана: {summary['right']['median']:.2f}%")
     print("="*70 + "\n")
+
+    print("\n" + "="*60)
+    print(f"СТАТИСТИКА ПО ШИХТЕ: {video_name}")
+    if transformer:
+        method_name = "6-точечная" if perspective_method == 'hexagon' else "4-точечная"
+        print(f"(с перспективной коррекцией: {method_name})")
+    print("="*60)
+    print(f"Всего кадров: {summary['total_frames']}")
+    print(f"Время обработки: {elapsed_time:.1f} сек ({summary['total_frames']/elapsed_time:.1f} кадров/сек)")
+    
+    # Статистика пламени (если доступна)
+    if 'flame_stats' in summary:
+        fs = summary['flame_stats']
+        print("\nДЕТЕКЦИЯ ПЛАМЕНИ:")
+        print(f"  Кадров с пламенем: {fs['frames_with_flame']}")
+        print(f"  Кадров без пламени: {fs['frames_without_flame']}")
+        print(f"  Средний % пламени: {fs['avg_flame_percent']:.2f}%")
+        print(f"  Средняя яркость: {fs['avg_brightness']:.1f}")
+    
+    print("\nЛевая часть:")
+    print(f"  Среднее: {summary['left']['mean']:.2f}%")
+    print(f"  Мин/Макс: {summary['left']['min']:.2f}% / {summary['left']['max']:.2f}%")
+    print(f"  Медиана: {summary['left']['median']:.2f}%")
+    
+    print("\nПравая часть:")
+    print(f"  Среднее: {summary['right']['mean']:.2f}%")
+    print(f"  Мин/Макс: {summary['right']['min']:.2f}% / {summary['right']['max']:.2f}%")
+    print(f"  Медиана: {summary['right']['median']:.2f}%")
+    
+    # НОВОЕ: Статистика по 3 зонам
+    if 'zone1' in summary and 'zone2' in summary and 'zone3' in summary:
+        print("\nРАСПРЕДЕЛЕНИЕ ПО ЗОНАМ ПЕЧИ:")
+        print(f"  {summary['zone1']['name']}:")
+        print(f"    Среднее: {summary['zone1']['mean']:.2f}%")
+        print(f"    Мин/Макс: {summary['zone1']['min']:.2f}% / {summary['zone1']['max']:.2f}%")
+        
+        print(f"  {summary['zone2']['name']}:")
+        print(f"    Среднее: {summary['zone2']['mean']:.2f}%")
+        print(f"    Мин/Макс: {summary['zone2']['min']:.2f}% / {summary['zone2']['max']:.2f}%")
+        
+        print(f"  {summary['zone3']['name']}:")
+        print(f"    Среднее: {summary['zone3']['mean']:.2f}%")
+        print(f"    Мин/Макс: {summary['zone3']['min']:.2f}% / {summary['zone3']['max']:.2f}%")
+    
+    print("="*60 + "\n")
 
     return summary
 

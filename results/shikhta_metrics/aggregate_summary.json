@@ -1,29 +1,29 @@
 {
-  "generated_at": "2025-10-16T12:53:22.877870",
+  "generated_at": "2025-10-17T13:15:52.235725",
   "videos": [
     {
       "video": "1video",
       "frames": 420,
-      "left_mean": 51.67834215506544,
-      "right_mean": 48.32165784493457,
+      "left_mean": 44.856482059987236,
+      "right_mean": 55.143517940012764,
       "perspective": true
     },
     {
       "video": "2video",
       "frames": 872,
-      "left_mean": 52.33351933543751,
-      "right_mean": 47.66648066456249,
-      "perspective": false
+      "left_mean": 56.26129936816888,
+      "right_mean": 43.73870063183113,
+      "perspective": true
     },
     {
       "video": "3video",
       "frames": 344,
-      "left_mean": 56.15878963081726,
-      "right_mean": 43.84121036918274,
-      "perspective": false
+      "left_mean": 67.21991980774908,
+      "right_mean": 32.78008019225092,
+      "perspective": true
     }
   ],
-  "avg_left": 53.39021704044007,
-  "avg_right": 46.609782959559936,
-  "perspective_count": 1
+  "avg_left": 56.11256707863507,
+  "avg_right": 43.88743292136494,
+  "perspective_count": 3
 }

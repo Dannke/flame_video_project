@@ -1,6 +1,6 @@
 """
 Улучшенный анализатор шихты с зональной адаптивной обработкой
-ПОЛНАЯ ВЕРСИЯ с всеми методами для интеграции
+ИСПРАВЛЕННАЯ ФИНАЛЬНАЯ ВЕРСИЯ
 """
 
 import cv2
@@ -15,14 +15,28 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from skimage import img_as_float64, restoration, img_as_ubyte
 import scipy.signal
 
+# Попытка импорта детектора пламени
+try:
+    from image_processing import detect_flame_color_improved
+    FLAME_DETECTOR_AVAILABLE = True
+except ImportError:
+    FLAME_DETECTOR_AVAILABLE = False
+    print("⚠ Модуль image_processing не найден, адаптивная детекция пламени недоступна")
+
 
 class ImprovedShikhtaAnalyzer:
     """Улучшенный анализатор с зональной обработкой"""
     
     def __init__(self, polygon=None, target_size=(928, 576), 
                  perspective_transformer=None,
-                 min_contour_area=100,  # Минимальная площадь контура
-                 near_zone_ratio=0.5):  # Доля "ближней" зоны
+                 min_contour_area=100,
+                 near_zone_ratio=0.5,
+                 near_zone_c_offset=-5,
+                 far_zone_c_offset=5,
+                 near_zone_area_multiplier=2,
+                 use_adaptive_flame_detection=True,
+                 far_c_boost_no_flame=5,
+                 flame_detection_threshold=15.0):
         
         self.polygon = polygon if polygon is not None else self._get_default_polygon()
         if not isinstance(self.polygon, np.ndarray):
@@ -37,7 +51,18 @@ class ImprovedShikhtaAnalyzer:
         self.perspective_transformer = perspective_transformer
         self.min_contour_area = min_contour_area
         self.near_zone_ratio = near_zone_ratio
+        self.near_zone_c_offset = near_zone_c_offset
+        self.far_zone_c_offset = far_zone_c_offset
+        self.near_zone_area_multiplier = near_zone_area_multiplier
+        self.use_adaptive_flame_detection = use_adaptive_flame_detection and FLAME_DETECTOR_AVAILABLE
+        self.far_c_boost_no_flame = far_c_boost_no_flame
+        self.flame_detection_threshold = flame_detection_threshold
         self.frame_metrics = []
+        
+        # Статистика детекции пламени
+        self._last_frame_has_flame = False
+        self._last_frame_brightness = 0.0
+        self._last_flame_percent = 0.0
         
         # Предвычисленные маски
         self._polygon_mask = None
@@ -46,6 +71,12 @@ class ImprovedShikhtaAnalyzer:
         self._near_mask = None
         self._far_mask = None
         self._mid_x = None
+        
+        # Маски для 3 зон
+        self._zone1_mask = None
+        self._zone2_mask = None
+        self._zone3_mask = None
+        
         self._setup_masks()
     
     def _get_default_polygon(self):
@@ -55,7 +86,7 @@ class ImprovedShikhtaAnalyzer:
         ], np.int32)
     
     def _setup_masks(self):
-        """Создание масок включая зональное разделение"""
+        """Создание масок включая зональное разделение и 3 зоны для статистики"""
         dummy = np.zeros(self.target_size[::-1], dtype=np.uint8)
         
         # Основная маска полигона
@@ -81,7 +112,7 @@ class ImprovedShikhtaAnalyzer:
         cv2.fillPoly(self._left_mask, [left_polygon], 255)
         cv2.fillPoly(self._right_mask, [right_polygon], 255)
         
-        # Зональное разделение (ближняя/дальняя части)
+        # Зональное разделение по Y (ближняя/дальняя для алгоритма)
         y_coords = self.polygon[:, 1]
         y_min, y_max = y_coords.min(), y_coords.max()
         y_threshold = y_min + (y_max - y_min) * self.near_zone_ratio
@@ -93,6 +124,22 @@ class ImprovedShikhtaAnalyzer:
         # Маска для дальней зоны (верхняя часть)
         self._far_mask = self._polygon_mask.copy()
         self._far_mask[int(y_threshold):, :] = 0
+        
+        # === МАСКИ ДЛЯ 3 ЗОН СТАТИСТИКИ ===
+        # Зона 1: 0-30% от верха (дальняя)
+        y_zone1 = y_min + (y_max - y_min) * 0.3
+        self._zone1_mask = self._polygon_mask.copy()
+        self._zone1_mask[int(y_zone1):, :] = 0
+        
+        # Зона 2: 30-70% (средняя)
+        y_zone2 = y_min + (y_max - y_min) * 0.7
+        self._zone2_mask = self._polygon_mask.copy()
+        self._zone2_mask[:int(y_zone1), :] = 0
+        self._zone2_mask[int(y_zone2):, :] = 0
+        
+        # Зона 3: 70-100% (ближняя)
+        self._zone3_mask = self._polygon_mask.copy()
+        self._zone3_mask[:int(y_zone2), :] = 0
     
     def preprocess_frame(self, frame):
         """Предобработка с перспективной коррекцией"""
@@ -123,39 +170,107 @@ class ImprovedShikhtaAnalyzer:
         
         return img, image_filtered
     
-    def detect_flame_regions(self, preprocessed_img):
-        """Детекция областей с ярким пламенем"""
+    def detect_flame_presence(self, frame, preprocessed_img):
+        """Определяет наличие яркого пламени используя готовый детектор"""
+        masked_img = cv2.bitwise_and(preprocessed_img, self._polygon_mask)
+        pixels = masked_img[self._polygon_mask > 0]
+        
+        if len(pixels) == 0:
+            return False, 0.0, 0.0
+        
+        brightness_level = float(np.mean(pixels))
+        
+        # Метод 2: Цветовая детекция пламени (если доступен модуль)
+        flame_percent = 0.0
+        has_flame_color = False
+        
+        if FLAME_DETECTOR_AVAILABLE and self.use_adaptive_flame_detection:
+            try:
+                flame_mask = detect_flame_color_improved(frame)
+                flame_mask_roi = cv2.bitwise_and(flame_mask, self._polygon_mask)
+                flame_pixels = cv2.countNonZero(flame_mask_roi)
+                total_pixels = cv2.countNonZero(self._polygon_mask)
+                flame_percent = (flame_pixels / total_pixels * 100) if total_pixels > 0 else 0.0
+                
+                # Пламя есть если процент > threshold И яркость высокая
+                has_flame_color = flame_percent > self.flame_detection_threshold and brightness_level > 110
+                
+            except Exception as e:
+                print(f"⚠ Ошибка детекции пламени: {e}")
+                has_flame_color = False
+        
+        # Комбинированное решение
+        if FLAME_DETECTOR_AVAILABLE and self.use_adaptive_flame_detection:
+            has_flame = has_flame_color
+        else:
+            bright_pixels = np.sum(pixels > 200)
+            bright_ratio = bright_pixels / len(pixels)
+            has_flame = (bright_ratio > 0.05) and (brightness_level > 120)
+        
+        return has_flame, brightness_level, flame_percent
+    
+    def detect_flame_regions_for_exclusion(self, preprocessed_img):
+        """Детекция областей с ярким пламенем для исключения из анализа шихты"""
         _, flame_mask = cv2.threshold(preprocessed_img, 220, 255, cv2.THRESH_BINARY)
         kernel = np.ones((15, 15), np.uint8)
         flame_mask = cv2.dilate(flame_mask, kernel, iterations=2)
         return flame_mask
     
-    def segment_shikhta(self, preprocessed_img, polygon_mask):
+    def segment_shikhta(self, preprocessed_img, polygon_mask, frame=None):
         """СТАРЫЙ метод для обратной совместимости"""
-        return self.segment_shikhta_adaptive(preprocessed_img, polygon_mask)
+        return self.segment_shikhta_adaptive(preprocessed_img, polygon_mask, frame)
     
-    def segment_shikhta_adaptive(self, preprocessed_img, polygon_mask):
-        """Адаптивная сегментация шихты с зональными параметрами"""
-        # 1. Детекция пламени
-        flame_mask = self.detect_flame_regions(preprocessed_img)
+    def segment_shikhta_adaptive(self, preprocessed_img, polygon_mask, frame=None):
+        """Адаптивная сегментация с автоматической подстройкой под наличие пламени"""
+        # 1. ОПРЕДЕЛЯЕМ НАЛИЧИЕ ПЛАМЕНИ
+        if frame is not None and self.use_adaptive_flame_detection:
+            has_flame, brightness, flame_percent = self.detect_flame_presence(frame, preprocessed_img)
+            self._last_frame_has_flame = has_flame
+            self._last_frame_brightness = brightness
+            self._last_flame_percent = flame_percent
+        else:
+            masked_img = cv2.bitwise_and(preprocessed_img, polygon_mask)
+            pixels = masked_img[polygon_mask > 0]
+            brightness = float(np.mean(pixels)) if len(pixels) > 0 else 0.0
+            bright_pixels = np.sum(pixels > 200) if len(pixels) > 0 else 0
+            bright_ratio = bright_pixels / len(pixels) if len(pixels) > 0 else 0
+            has_flame = (bright_ratio > 0.05) and (brightness > 120)
+            flame_percent = bright_ratio * 100
+            
+            self._last_frame_has_flame = has_flame
+            self._last_frame_brightness = brightness
+            self._last_flame_percent = flame_percent
         
-        # 2. Сегментация для ближней зоны (более строгие параметры)
+        # 2. АДАПТИВНЫЕ ПАРАМЕТРЫ
+        if has_flame:
+            far_c = self.far_zone_c_offset
+            far_min_area = self.min_contour_area
+            detection_mode = "FLAME"
+        else:
+            far_c = self.far_zone_c_offset + self.far_c_boost_no_flame
+            far_min_area = max(self.min_contour_area // 2, 30)
+            detection_mode = "NO_FLAME"
+        
+        # 3. Детекция областей с ярким пламенем (для исключения)
+        flame_mask = self.detect_flame_regions_for_exclusion(preprocessed_img)
+        
+        # 4. Сегментация для ближней зоны
         near_thresh = cv2.adaptiveThreshold(
             preprocessed_img, 255,
             cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
             cv2.THRESH_BINARY_INV, 
-            191, -5  # C = -5 (более строгий порог)
+            191, self.near_zone_c_offset
         )
         
-        # 3. Сегментация для дальней зоны (более мягкие параметры)
+        # 5. Сегментация для дальней зоны (АДАПТИВНЫЕ параметры!)
         far_thresh = cv2.adaptiveThreshold(
             preprocessed_img, 255,
             cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
             cv2.THRESH_BINARY_INV,
-            191, 5  # C = 5 (более мягкий порог)
+            191, far_c
         )
         
-        # 4. Комбинируем результаты по зонам
+        # 6. Комбинируем результаты по зонам
         combined_thresh = np.zeros_like(near_thresh)
         combined_thresh = cv2.bitwise_or(
             combined_thresh,
@@ -166,13 +281,13 @@ class ImprovedShikhtaAnalyzer:
             cv2.bitwise_and(far_thresh, self._far_mask)
         )
         
-        # 5. Исключаем области с пламенем
+        # 7. Исключаем области с пламенем
         combined_thresh = cv2.bitwise_and(
             combined_thresh,
             cv2.bitwise_not(flame_mask)
         )
         
-        # 6. Морфологическая обработка
+        # 8. Морфологическая обработка
         kernel_close = np.ones((7, 7), np.uint8)
         combined_thresh = cv2.morphologyEx(
             combined_thresh, 
@@ -180,25 +295,29 @@ class ImprovedShikhtaAnalyzer:
             kernel_close
         )
         
-        # 7. Удаление мелких объектов в ближней зоне
+        # 9. Удаление мелких объектов в ближней зоне
         near_region = cv2.bitwise_and(combined_thresh, self._near_mask)
         near_region = self._remove_small_contours(
             near_region, 
-            min_area=self.min_contour_area * 2
+            min_area=int(self.min_contour_area * self.near_zone_area_multiplier)
         )
         
-        # 8. Удаление мелких объектов в дальней зоне
+        # 10. Удаление мелких объектов в дальней зоне
         far_region = cv2.bitwise_and(combined_thresh, self._far_mask)
         far_region = self._remove_small_contours(
             far_region,
-            min_area=self.min_contour_area
+            min_area=far_min_area
         )
         
-        # 9. Объединяем обработанные зоны
+        # 11. Объединяем обработанные зоны
         combined_thresh = cv2.bitwise_or(near_region, far_region)
         
-        # 10. Применяем маску полигона
+        # 12. Применяем маску полигона
         combined_thresh = cv2.bitwise_and(combined_thresh, polygon_mask)
+        
+        # Сохраняем режим детекции для логов
+        self._last_detection_mode = detection_mode
+        self._last_far_c_used = far_c
         
         return combined_thresh
     
@@ -219,21 +338,23 @@ class ImprovedShikhtaAnalyzer:
     
     def analyze_frame(self, frame, frame_idx=0, save_visualization=False, 
                      output_path=None):
-        """Анализ кадра с улучшенной сегментацией"""
+        """Анализ кадра с адаптивной детекцией пламени"""
         original_frame = frame.copy()
         
         # Предобработка
         img_gray, preprocessed = self.preprocess_frame(frame)
         
-        # Улучшенная сегментация
-        thresh = self.segment_shikhta_adaptive(preprocessed, self._polygon_mask)
+        # Улучшенная сегментация с адаптацией под пламя
+        thresh = self.segment_shikhta_adaptive(
+            preprocessed, self._polygon_mask, frame=original_frame
+        )
         
         # Поиск контуров
         contours, _ = cv2.findContours(
             thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
         )
         
-        # Разделение контуров
+        # Разделение контуров (лево/право)
         left_thresh = cv2.bitwise_and(thresh, self._left_mask)
         right_thresh = cv2.bitwise_and(thresh, self._right_mask)
         
@@ -244,17 +365,40 @@ class ImprovedShikhtaAnalyzer:
             right_thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
         )
         
-        # Расчет площадей
+        # Расчет площадей (лево/право)
         left_area = sum(cv2.contourArea(cnt) for cnt in left_contours)
         right_area = sum(cv2.contourArea(cnt) for cnt in right_contours)
         total_area = left_area + right_area
+        
+        # Расчёт площадей по 3 зонам
+        zone1_thresh = cv2.bitwise_and(thresh, self._zone1_mask)
+        zone2_thresh = cv2.bitwise_and(thresh, self._zone2_mask)
+        zone3_thresh = cv2.bitwise_and(thresh, self._zone3_mask)
+        
+        zone1_contours, _ = cv2.findContours(
+            zone1_thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+        )
+        zone2_contours, _ = cv2.findContours(
+            zone2_thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+        )
+        zone3_contours, _ = cv2.findContours(
+            zone3_thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
+        )
+        
+        zone1_area = sum(cv2.contourArea(cnt) for cnt in zone1_contours)
+        zone2_area = sum(cv2.contourArea(cnt) for cnt in zone2_contours)
+        zone3_area = sum(cv2.contourArea(cnt) for cnt in zone3_contours)
         
         # Процентное соотношение
         if total_area > 0:
             left_percent = (left_area / total_area) * 100
             right_percent = (right_area / total_area) * 100
+            zone1_percent = (zone1_area / total_area) * 100
+            zone2_percent = (zone2_area / total_area) * 100
+            zone3_percent = (zone3_area / total_area) * 100
         else:
             left_percent = right_percent = 0
+            zone1_percent = zone2_percent = zone3_percent = 0
         
         metrics = {
             'frame_idx': frame_idx,
@@ -265,21 +409,41 @@ class ImprovedShikhtaAnalyzer:
             'right_percent': float(right_percent),
             'left_contours_count': len(left_contours),
             'right_contours_count': len(right_contours),
-            'perspective_corrected': self.perspective_transformer is not None
+            # Метрики по 3 зонам
+            'zone1_area': float(zone1_area),
+            'zone2_area': float(zone2_area),
+            'zone3_area': float(zone3_area),
+            'zone1_percent': float(zone1_percent),
+            'zone2_percent': float(zone2_percent),
+            'zone3_percent': float(zone3_percent),
+            'zone1_contours_count': len(zone1_contours),
+            'zone2_contours_count': len(zone2_contours),
+            'zone3_contours_count': len(zone3_contours),
+            'perspective_corrected': self.perspective_transformer is not None,
+            # Метрики о пламени
+            'has_flame': getattr(self, '_last_frame_has_flame', False),
+            'brightness': getattr(self, '_last_frame_brightness', 0.0),
+            'flame_percent': getattr(self, '_last_flame_percent', 0.0),
+            'detection_mode': getattr(self, '_last_detection_mode', 'UNKNOWN'),
+            'far_c_used': getattr(self, '_last_far_c_used', self.far_zone_c_offset)
         }
         
         # Визуализация
         if save_visualization and output_path:
             self._save_visualization(
                 original_frame, contours, 
-                left_percent, right_percent, output_path
+                left_percent, right_percent, output_path,
+                has_flame=metrics['has_flame'],
+                flame_percent=metrics['flame_percent'],
+                detection_mode=metrics['detection_mode']
             )
         
         return metrics
     
     def _save_visualization(self, original_frame, contours, 
-                           left_percent, right_percent, output_path):
-        """Сохранение визуализации с дополнительной информацией"""
+                           left_percent, right_percent, output_path,
+                           has_flame=False, flame_percent=0.0, detection_mode='UNKNOWN'):
+        """Сохранение визуализации с информацией о пламени"""
         if self.perspective_transformer:
             img_color = self.perspective_transformer.transform(original_frame)
         else:
@@ -306,9 +470,21 @@ class ImprovedShikhtaAnalyzer:
         cv2.putText(img_color, text, (10, 30), 
                    cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
         
+        # Информация о пламени и режиме детекции
+        if self.use_adaptive_flame_detection:
+            flame_text = f"Flame: {'YES' if has_flame else 'NO'} ({flame_percent:.1f}%)"
+            flame_color = (0, 255, 255) if has_flame else (128, 128, 128)
+            cv2.putText(img_color, flame_text, (10, 60),
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.6, flame_color, 2)
+            
+            mode_text = f"Mode: {detection_mode}"
+            mode_color = (0, 200, 0) if detection_mode == "FLAME" else (200, 200, 0)
+            cv2.putText(img_color, mode_text, (10, 90),
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.6, mode_color, 2)
+        
         # Дополнительная информация
         info_text = f"Contours: {len(contours)} | MinArea: {self.min_contour_area}"
-        cv2.putText(img_color, info_text, (10, 60),
+        cv2.putText(img_color, info_text, (10, 120 if self.use_adaptive_flame_detection else 60),
                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
         
         # Композитное изображение если используется перспектива
@@ -361,7 +537,13 @@ class ImprovedShikhtaAnalyzer:
         if self.perspective_transformer:
             print("  • Перспективная коррекция: включена")
         print(f"  • Зональная адаптация: включена (порог={self.near_zone_ratio:.0%})")
-        print(f"  • Мин. площадь контура: {self.min_contour_area} пикс²")
+        print(f"  • Мин. площадь: {self.min_contour_area} пикс² (ближняя зона: x{self.near_zone_area_multiplier})")
+        print(f"  • Пороги C: ближняя={self.near_zone_c_offset}, дальняя={self.far_zone_c_offset}")
+        if self.use_adaptive_flame_detection:
+            print(f"  • АДАПТИВНАЯ детекция пламени: включена (boost без пламени: +{self.far_c_boost_no_flame})")
+            print(f"  • Порог определения пламени: {self.flame_detection_threshold}%")
+        else:
+            print(f"  • Адаптивная детекция пламени: выключена")
         
         if use_parallel and len(frame_files) > 50:
             # Параллельная обработка
@@ -410,7 +592,7 @@ class ImprovedShikhtaAnalyzer:
         return self.frame_metrics
     
     def compute_summary_statistics(self):
-        """Вычисление сводной статистики"""
+        """Вычисление сводной статистики с 3 зонами"""
         if not self.frame_metrics:
             return None
         
@@ -418,11 +600,29 @@ class ImprovedShikhtaAnalyzer:
         right_percents = [m['right_percent'] for m in self.frame_metrics]
         total_areas = [m['total_area'] for m in self.frame_metrics]
         
+        # Статистика по 3 зонам
+        zone1_percents = [m['zone1_percent'] for m in self.frame_metrics]
+        zone2_percents = [m['zone2_percent'] for m in self.frame_metrics]
+        zone3_percents = [m['zone3_percent'] for m in self.frame_metrics]
+        
         summary = {
             'total_frames': len(self.frame_metrics),
             'perspective_corrected': self.perspective_transformer is not None,
             'min_contour_area': self.min_contour_area,
             'near_zone_ratio': self.near_zone_ratio,
+            'near_zone_c_offset': self.near_zone_c_offset,
+            'far_zone_c_offset': self.far_zone_c_offset,
+            'near_zone_area_multiplier': self.near_zone_area_multiplier,
+            'adaptive_flame_detection': self.use_adaptive_flame_detection,
+            'far_c_boost_no_flame': self.far_c_boost_no_flame,
+            'flame_detection_threshold': self.flame_detection_threshold,
+            # СТАТИСТИКА ПО ПЛАМЕНИ
+            'flame_stats': {
+                'frames_with_flame': sum(1 for m in self.frame_metrics if m.get('has_flame', False)),
+                'frames_without_flame': sum(1 for m in self.frame_metrics if not m.get('has_flame', False)),
+                'avg_flame_percent': float(np.mean([m.get('flame_percent', 0) for m in self.frame_metrics])),
+                'avg_brightness': float(np.mean([m.get('brightness', 0) for m in self.frame_metrics]))
+            },
             'left': {
                 'mean': float(np.mean(left_percents)),
                 'std': float(np.std(left_percents)),
@@ -436,6 +636,31 @@ class ImprovedShikhtaAnalyzer:
                 'min': float(np.min(right_percents)),
                 'max': float(np.max(right_percents)),
                 'median': float(np.median(right_percents))
+            },
+            # СТАТИСТИКА ПО 3 ЗОНАМ
+            'zone1': {
+                'name': 'Дальняя зона (0-30%)',
+                'mean': float(np.mean(zone1_percents)),
+                'std': float(np.std(zone1_percents)),
+                'min': float(np.min(zone1_percents)),
+                'max': float(np.max(zone1_percents)),
+                'median': float(np.median(zone1_percents))
+            },
+            'zone2': {
+                'name': 'Средняя зона (30-70%)',
+                'mean': float(np.mean(zone2_percents)),
+                'std': float(np.std(zone2_percents)),
+                'min': float(np.min(zone2_percents)),
+                'max': float(np.max(zone2_percents)),
+                'median': float(np.median(zone2_percents))
+            },
+            'zone3': {
+                'name': 'Ближняя зона (70-100%)',
+                'mean': float(np.mean(zone3_percents)),
+                'std': float(np.std(zone3_percents)),
+                'min': float(np.min(zone3_percents)),
+                'max': float(np.max(zone3_percents)),
+                'median': float(np.median(zone3_percents))
             },
             'total_area': {
                 'mean': float(np.mean(total_areas)),
@@ -480,6 +705,11 @@ class ImprovedShikhtaAnalyzer:
         left_percents = [m['left_percent'] for m in self.frame_metrics]
         right_percents = [m['right_percent'] for m in self.frame_metrics]
         total_areas = [m['total_area'] for m in self.frame_metrics]
+        
+        # Данные по 3 зонам
+        zone1_percents = [m.get('zone1_percent', 0) for m in self.frame_metrics]
+        zone2_percents = [m.get('zone2_percent', 0) for m in self.frame_metrics]
+        zone3_percents = [m.get('zone3_percent', 0) for m in self.frame_metrics]
         
         # Поиск экстремумов
         left_min_idx = np.argmin(left_percents)
@@ -532,12 +762,22 @@ class ImprovedShikhtaAnalyzer:
         ax1.grid(True, alpha=0.3, linestyle=':', linewidth=0.8)
         ax1.set_ylim(0, 100)
         
-        # Статистика
+        # Статистика по 3 зонам
+        zone1_text = (f'Зона 1 (дальняя 0-30%): μ={np.mean(zone1_percents):.1f}% '
+                     f'σ={np.std(zone1_percents):.1f}%')
+        zone2_text = (f'Зона 2 (средняя 30-70%): μ={np.mean(zone2_percents):.1f}% '
+                     f'σ={np.std(zone2_percents):.1f}%')
+        zone3_text = (f'Зона 3 (ближняя 70-100%): μ={np.mean(zone3_percents):.1f}% '
+                     f'σ={np.std(zone3_percents):.1f}%')
+        
+        # Статистика лево/право + зоны
         stats_text = (f'Левая: μ={np.mean(left_percents):.1f}% σ={np.std(left_percents):.1f}%\n'
                      f'Правая: μ={np.mean(right_percents):.1f}% σ={np.std(right_percents):.1f}%\n'
-                     f'MinArea={self.min_contour_area} | Zone={self.near_zone_ratio:.0%}')
+                     f'{zone1_text}\n{zone2_text}\n{zone3_text}\n'
+                     f'MinArea={self.min_contour_area} (x{self.near_zone_area_multiplier} ближ.) | Zone={self.near_zone_ratio:.0%}\n'
+                     f'C: ближ={self.near_zone_c_offset} дал={self.far_zone_c_offset}')
         ax1.text(0.02, 0.98, stats_text, transform=ax1.transAxes,
-                fontsize=9, verticalalignment='top',
+                fontsize=8, verticalalignment='top',
                 bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.7))
         
         # График 2: Общая площадь шихты
