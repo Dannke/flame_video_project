@@ -30,7 +30,7 @@ except ImportError:
 
 # Ð˜Ð¼Ð¿Ð¾Ñ€Ñ‚ Ð¼Ð¾Ð´ÑƒÐ»Ñ Ð¿ÐµÑ€ÑÐ¿ÐµÐºÑ‚Ð¸Ð²Ð½Ð¾Ð¹ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ†Ð¸Ð¸
 try:
-    from perspective_transform import PerspectiveTransformer, load_or_setup_perspective
+    from old.perspective_transform import PerspectiveTransformer, load_or_setup_perspective
 except ImportError:
     print("Модуль perspective_transform.py не найден. Работа без перспективной коррекции.")
     PerspectiveTransformer = None

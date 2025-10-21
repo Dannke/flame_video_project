@@ -249,11 +249,11 @@ def setup_hexagon_perspective_gui(image, window_name="Setup Hexagon Perspective"
     cv2.setMouseCallback(window_name, mouse_callback)
 
     instructions = [
-        "НАСТРОЙКА ПЕРСПЕКТИВЫ ШЕСТИУГОЛЬНИКА",
-        "Выберите 6 угловых точек печи (по часовой стрелке):",
-        "ЛКМ - добавить точку | ПКМ - удалить последнюю",
-        "D - использовать по умолчанию | R - сброс",
-        "S - сохранить | ESC - отмена"
+        "SETTING HEXAGON PERSPECTIVE",
+        "Select 6 corner points of the oven (clockwise):",
+        "LMB - add point | RMB - delete last",
+        "D - use default | R - reset",
+        "S - save | ESC - cancel"
     ]
 
     while True:
