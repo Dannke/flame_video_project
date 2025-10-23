@@ -10,7 +10,7 @@ ROOT = os.path.abspath(os.path.dirname(__file__))
 sys.path.insert(0, ROOT)
 
 try:
-    from src.shikhta_analysis import ShikhtaAnalyzer
+    from shikhta_analysis import ShikhtaAnalyzer
 except ImportError:
     print("Модуль shikhta_analysis.py не найден")
     sys.exit(1)

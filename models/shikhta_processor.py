@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 try:
     from shikhta_analysis import ShikhtaAnalyzer, analyze_video_shikhta
 except ImportError:
-    from src.shikhta_analysis import ShikhtaAnalyzer, analyze_video_shikhta
+    from shikhta_analysis import ShikhtaAnalyzer, analyze_video_shikhta
 
 
 class ShikhtaProcessor:
