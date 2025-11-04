@@ -38,7 +38,8 @@ logger = logging.getLogger(__name__)
 try:
     from shikhta_analysis import analyze_video_shikhta
 except Exception as exc:  # pragma: no cover - требуется в рантайме
-    logger.error("Не найден модуль анализа шихты (shikhta_analysis.py): %s", exc)
+    logger.error(
+        "Не найден модуль анализа шихты (shikhta_analysis.py): %s", exc)
     raise
 
 try:
@@ -51,7 +52,8 @@ except Exception:
     HEXAGON_PERSPECTIVE_AVAILABLE = False
     HexagonPerspectiveTransformer = None  # type: ignore
     setup_hexagon_perspective_gui = None  # type: ignore
-    logger.info("Модуль perspective_transform_hexagon.py не найден — перспективная коррекция недоступна")
+    logger.info(
+        "Модуль perspective_transform_hexagon.py не найден — перспективная коррекция недоступна")
 
 # GUI для рисования полигона (опционально)
 try:
@@ -61,7 +63,8 @@ except Exception:
     POLYGON_GUI_AVAILABLE = False
     prompt_polygon_on_image = None  # type: ignore
     load_saved_polygon = None  # type: ignore
-    logger.info("Модуль polygon_gui не найден — выбор полигона через GUI недоступен")
+    logger.info(
+        "Модуль polygon_gui не найден — выбор полигона через GUI недоступен")
 
 # ---------------------------------------------------------------------------
 # Константы — пути
@@ -74,6 +77,7 @@ RESULTS_SHIKHTA_DIR = os.path.join(ROOT, "results", "shikhta_metrics")
 # ---------------------------------------------------------------------------
 # Утилиты
 # ---------------------------------------------------------------------------
+
 
 def setup_directories() -> None:
     """Создать необходимые директории, если их нет."""
@@ -108,7 +112,8 @@ def _save_polygon_to_file(polygon: np.ndarray, save_path: str) -> bool:
     try:
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
         with open(save_path, "w", encoding="utf-8") as f:
-            json.dump({"polygon": [list(map(int, p)) for p in polygon]}, f, indent=2, ensure_ascii=False)
+            json.dump({"polygon": [list(map(int, p))
+                      for p in polygon]}, f, indent=2, ensure_ascii=False)
         return True
     except Exception as exc:
         logger.exception("Ошибка при сохранении полигона: %s", exc)
@@ -144,7 +149,8 @@ def prepare_main_polygon_via_gui(first_frame_path: str, polygons_save_dir: str, 
 
     Возвращает основный полигон (np.ndarray) или None.
     """
-    main_polygon_path = os.path.join(polygons_save_dir, f"{video_name}_polygon.json")
+    main_polygon_path = os.path.join(
+        polygons_save_dir, f"{video_name}_polygon.json")
 
     # 1) Попытка получить из polygon_gui
     main_polygon = None
@@ -153,7 +159,8 @@ def prepare_main_polygon_via_gui(first_frame_path: str, polygons_save_dir: str, 
             loaded = load_saved_polygon(polygons_save_dir, video_name)
             if loaded is not None:
                 main_polygon = np.array(loaded, dtype=np.int32)
-                logger.info("Загружен полигон через polygon_gui для %s", video_name)
+                logger.info(
+                    "Загружен полигон через polygon_gui для %s", video_name)
         except Exception:
             logger.exception("load_saved_polygon вернул исключение")
 
@@ -165,10 +172,12 @@ def prepare_main_polygon_via_gui(first_frame_path: str, polygons_save_dir: str, 
 
     # 3) Рисуем через GUI если всё ещё нет
     if main_polygon is None and POLYGON_GUI_AVAILABLE and prompt_polygon_on_image:
-        logger.info("Откроется GUI для выбора основного полигона (шестиугольник)")
+        logger.info(
+            "Откроется GUI для выбора основного полигона (шестиугольник)")
         img = cv2.imread(first_frame_path)
         try:
-            polygon_raw = prompt_polygon_on_image(img, default_polygon=None, video_name=video_name, save_dir=polygons_save_dir)
+            polygon_raw = prompt_polygon_on_image(
+                img, default_polygon=None, video_name=video_name, save_dir=polygons_save_dir)
         except Exception:
             logger.exception("prompt_polygon_on_image вернула исключение")
             polygon_raw = None
@@ -204,29 +213,86 @@ def setup_perspective_after_main_polygon(video_name: str,
 
     hexagon_config_path = os.path.join(polygons_save_dir, f"{video_name}_hexagon_perspective.json")
 
-    # Попытка загрузить существующую конфигурацию
-    if os.path.exists(hexagon_config_path):
+    # === ИНТЕГРАЦИЯ: Автоматическая генерация с проверкой существующего ===
+    if auto_setup_perspective and main_polygon is not None:
+        logger.info("Запуск генерации hexagon полигона (с проверкой существующего)")
+        
+        img = cv2.imread(first_frame_path)
+        if img is None:
+            logger.error("Не удалось загрузить кадр: %s", first_frame_path)
+            return None, None
+        
         try:
-            transformer = HexagonPerspectiveTransformer.load_config(hexagon_config_path)
-            logger.info("Загружена 6-точечная конфигурация: %s", hexagon_config_path)
-            return transformer, None
+            # Импортируем модуль автоматической генерации
+            from auto_hexagon_perspective import integrate_with_existing_gui
+            
+            # КЛЮЧЕВОЕ ИЗМЕНЕНИЕ: Передаём изображение С base_polygon
+            # Сначала рисуем base_polygon на изображении для контекста
+            img_with_base = img.copy()
+            try:
+                cv2.polylines(img_with_base, [main_polygon], True, (0, 255, 0), 2)
+                cv2.putText(
+                    img_with_base, 
+                    "Base polygon (furnace zone)", 
+                    (10, img.shape[0] - 20), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 
+                    0.6, 
+                    (0, 255, 0), 
+                    2
+                )
+            except Exception as e:
+                logger.warning("Не удалось нарисовать base_polygon: %s", e)
+                img_with_base = img
+            
+            # Запускаем с предпросмотром (включая проверку существующего конфига)
+            hexagon_points = integrate_with_existing_gui(
+                image=img_with_base,  # ПЕРЕДАЁМ ИЗОБРАЖЕНИЕ С БАЗОВЫМ ПОЛИГОНОМ
+                base_polygon=main_polygon,  # И САМ ПОЛИГОН ДЛЯ ФУНКЦИЙ
+                video_name=video_name,
+                save_dir=polygons_save_dir,
+                existing_config_path=hexagon_config_path
+            )
+            
+            if hexagon_points:
+                # Пользователь принял полигон (существующий или новый)
+                logger.info("✓ Hexagon полигон принят пользователем")
+                
+                transformer = HexagonPerspectiveTransformer(
+                    hexagon_points, dst_width=1920, dst_height=1080)
+                os.makedirs(polygons_save_dir, exist_ok=True)
+                transformer.save_config(hexagon_config_path)
+                logger.info("6-точечная конфигурация сохранена: %s", hexagon_config_path)
+                return transformer, None
+            
+            else:
+                # Пользователь отменил (ESC)
+                logger.warning("Генерация hexagon отменена пользователем")
+                return None, None
+        
+        except ImportError:
+            logger.warning("Модуль auto_hexagon_perspective не найден, используется стандартный GUI")
+            # Откатываемся на стандартный ручной GUI
+            pass
         except Exception:
-            logger.exception("Не удалось загрузить hexagon конфигурацию %s", hexagon_config_path)
+            logger.exception("Ошибка при автоматической генерации hexagon полигона")
+            # Откатываемся на стандартный ручной GUI
+            pass
 
-    # Запустить GUI для настройки, если разрешено
+    # Запустить GUI для настройки, если разрешено (стандартный путь - fallback)
     if auto_setup_perspective:
-        logger.info("Откроется GUI для настройки 6-точечной перспективы")
+        logger.info("Открывается GUI для настройки 6-точечной перспективы")
         img = cv2.imread(first_frame_path)
         if img is None:
             logger.error("Не удалось загрузить кадр: %s", first_frame_path)
             return None, None
 
-        # Наложим основной полигон для ориентира (без изменения исходного кадра)
+        # Наложим основной полигон для ориентира
         vis = img.copy()
         if main_polygon is not None:
             try:
                 cv2.polylines(vis, [main_polygon], True, (0, 255, 0), 2)
-                cv2.putText(vis, "Main polygon (reference)", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
+                cv2.putText(vis, "Main polygon (reference)", (10, 30), 
+                           cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 255), 2)
             except Exception:
                 logger.exception("Не удалось отобразить основной полигон для GUI")
 
@@ -236,7 +302,8 @@ def setup_perspective_after_main_polygon(video_name: str,
                 logger.warning("Настройка 6-точечной перспективы отменена пользователем")
                 return None, None
 
-            transformer = HexagonPerspectiveTransformer(points, dst_width=1920, dst_height=1080)
+            transformer = HexagonPerspectiveTransformer(
+                points, dst_width=1920, dst_height=1080)
             os.makedirs(polygons_save_dir, exist_ok=True)
             transformer.save_config(hexagon_config_path)
             logger.info("6-точечная конфигурация сохранена: %s", hexagon_config_path)
@@ -267,7 +334,8 @@ def analyze_all_videos(force_reanalyze: bool = False,
                        near_zone_area_multiplier: float = 3.0,
                        use_adaptive_flame_detection: bool = True,
                        far_c_boost_no_flame: int = 5,
-                       flame_detection_threshold: float = 10.0) -> List[Tuple[str, str, str]]:
+                       flame_detection_threshold: float = 10.0,
+                       perspective_profile: str = 'perspective') -> List[Tuple[str, str, str]]:
     """Проход по всем директориям с кадрами и запуск анализа для каждого видео.
 
     Возвращает список кортежей (video_name, output_dir, metrics_file)
@@ -281,23 +349,28 @@ def analyze_all_videos(force_reanalyze: bool = False,
 
     # Проверяем доступность hexagon-перспективы
     if use_perspective and HEXAGON_PERSPECTIVE_AVAILABLE:
-        logger.info("6-точечная перспектива доступна и будет использована при запросе")
+        logger.info(
+            "6-точечная перспектива доступна и будет использована при запросе")
     elif use_perspective:
-        logger.warning("Перспектива запрошена, но модуль hexagon-perspective недоступен")
+        logger.warning(
+            "Перспектива запрошена, но модуль hexagon-perspective недоступен")
 
     results: List[Tuple[str, str, str]] = []
 
     for video_name, frames_dir, frames_count in frame_dirs:
         shikhta_output = os.path.join(SHIKHTA_RESULTS_ROOT, video_name)
-        metrics_file = os.path.join(shikhta_output, f"{video_name}_metrics.json")
+        metrics_file = os.path.join(
+            shikhta_output, f"{video_name}_metrics.json")
         polygons_save_dir = os.path.join(shikhta_output, "polygons")
 
         if os.path.exists(metrics_file) and not force_reanalyze:
-            logger.info("Анализ уже есть для %s — пропускаю (use --force для повтора)", video_name)
+            logger.info(
+                "Анализ уже есть для %s — пропускаю (use --force для повтора)", video_name)
             results.append((video_name, shikhta_output, metrics_file))
             continue
 
-        logger.info("\nProcessing video: %s — frames: %d", video_name, frames_count)
+        logger.info("\nProcessing video: %s — frames: %d",
+                    video_name, frames_count)
 
         # Первый кадр
         imgs = sorted([os.path.join(frames_dir, p) for p in os.listdir(frames_dir)
@@ -310,9 +383,11 @@ def analyze_all_videos(force_reanalyze: bool = False,
         os.makedirs(polygons_save_dir, exist_ok=True)
 
         # Шаг 1: основной полигон
-        main_polygon = prepare_main_polygon_via_gui(first_frame_path, polygons_save_dir, video_name)
+        main_polygon = prepare_main_polygon_via_gui(
+            first_frame_path, polygons_save_dir, video_name)
         if main_polygon is None:
-            logger.info("Основной полигон не задан — будет использован дефолт в анализаторе (если есть)")
+            logger.info(
+                "Основной полигон не задан — будет использован дефолт в анализаторе (если есть)")
 
         # Шаг 2: перспектива (после выбора основного полигона)
         perspective_transformer = None
@@ -325,7 +400,8 @@ def analyze_all_videos(force_reanalyze: bool = False,
             if perspective_transformer:
                 logger.info("Перспектива настроена и будет применяться")
             else:
-                logger.info("Перспектива не настроена — анализ будет выполнен без коррекции перспективы")
+                logger.info(
+                    "Перспектива не настроена — анализ будет выполнен без коррекции перспективы")
 
         # Шаг 3: собственно запуск анализа
         try:
@@ -338,7 +414,8 @@ def analyze_all_videos(force_reanalyze: bool = False,
                 use_parallel=use_parallel,
                 max_workers=max_workers,
                 use_perspective=(perspective_transformer is not None),
-                perspective_config=(perspective_transformer if perspective_transformer is not None else persp_polygon),
+                perspective_config=(
+                    perspective_transformer if perspective_transformer is not None else persp_polygon),
                 perspective_method="hexagon",
                 min_contour_area=min_contour_area,
                 near_zone_ratio=near_zone_ratio,
@@ -354,12 +431,14 @@ def analyze_all_videos(force_reanalyze: bool = False,
                 results.append((video_name, shikhta_output, metrics_file))
                 # сохраняем краткую сводку
                 try:
-                    summary_copy = os.path.join(RESULTS_SHIKHTA_DIR, f"{video_name}_summary.json")
+                    summary_copy = os.path.join(
+                        RESULTS_SHIKHTA_DIR, f"{video_name}_summary.json")
                     os.makedirs(os.path.dirname(summary_copy), exist_ok=True)
                     with open(summary_copy, "w", encoding="utf-8") as f:
                         json.dump(summary, f, indent=2, ensure_ascii=False)
                 except Exception:
-                    logger.exception("Не удалось сохранить краткую сводку для %s", video_name)
+                    logger.exception(
+                        "Не удалось сохранить краткую сводку для %s", video_name)
 
         except Exception:
             logger.exception("Ошибка при анализе %s", video_name)
@@ -407,7 +486,8 @@ def print_summary(results: List[Tuple[str, str, str]]) -> None:
                 "right_mean": rm,
                 "perspective": bool(pused),
             })
-            logger.info("%s: frames=%d; left=%.2f%%; right=%.2f%%; persp=%s", video_name, summary.get("total_frames", 0), lm, rm, pused)
+            logger.info("%s: frames=%d; left=%.2f%%; right=%.2f%%; persp=%s",
+                        video_name, summary.get("total_frames", 0), lm, rm, pused)
         except Exception:
             logger.exception("Ошибка чтения метрик из %s", metrics_file)
 
@@ -415,10 +495,13 @@ def print_summary(results: List[Tuple[str, str, str]]) -> None:
     agg_right = float(np.mean(all_right_means)) if all_right_means else 0.0
 
     logger.info("--- Aggregated ---")
-    logger.info("Videos: %d, perspective used: %d", len(per_video), perspective_count)
-    logger.info("Avg left mean: %.2f%%, Avg right mean: %.2f%%", agg_left, agg_right)
+    logger.info("Videos: %d, perspective used: %d",
+                len(per_video), perspective_count)
+    logger.info("Avg left mean: %.2f%%, Avg right mean: %.2f%%",
+                agg_left, agg_right)
 
-    aggregate_path = os.path.join(RESULTS_SHIKHTA_DIR, "aggregate_summary.json")
+    aggregate_path = os.path.join(
+        RESULTS_SHIKHTA_DIR, "aggregate_summary.json")
     try:
         os.makedirs(os.path.dirname(aggregate_path), exist_ok=True)
         with open(aggregate_path, "w", encoding="utf-8") as f:
@@ -441,25 +524,44 @@ def print_summary(results: List[Tuple[str, str, str]]) -> None:
 def _parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
     p = argparse.ArgumentParser(description="run_shikhta_only — анализ шихты")
 
-    p.add_argument("--force", action="store_true", help="принудительно перезапустить анализ")
-    p.add_argument("--no-perspective", action="store_true", help="выключить попытки настройки перспективы/GUI для неё")
-    p.add_argument("--no-parallel", action="store_true", help="не использовать многопоточность")
-    p.add_argument("--workers", "-w", type=int, default=8, help="количество потоков")
-    p.add_argument("--save-every", "-s", type=int, default=20, help="сохранять визуализацию каждого N кадра")
-    p.add_argument("--no-auto-persp", action="store_true", help="не выполнять авто-настройку перспективы (если модуль доступен)")
+    p.add_argument("--force", action="store_true",
+                   help="принудительно перезапустить анализ")
+    p.add_argument("--no-perspective", action="store_true",
+                   help="выключить попытки настройки перспективы/GUI для неё")
+    p.add_argument("--no-parallel", action="store_true",
+                   help="не использовать многопоточность")
+    p.add_argument("--workers", "-w", type=int,
+                   default=8, help="количество потоков")
+    p.add_argument("--save-every", "-s", type=int, default=20,
+                   help="сохранять визуализацию каждого N кадра")
+    p.add_argument("--no-auto-persp", action="store_true",
+                   help="не выполнять авто-настройку перспективы (если модуль доступен)")
+
+    # === НОВЫЙ ПАРАМЕТР ===
+    p.add_argument("--persp-profile", type=str, default='perspective',
+                   choices=['uniform', 'perspective', 'wide', 'conservative'],
+                   help="профиль расширения для автоматического hexagon полигона")
 
     # Параметры детекции
     detection_group = p.add_argument_group("Параметры детекции шихты")
-    detection_group.add_argument("--min-area", type=int, default=100, help="минимальная площадь контура (пикс²)")
-    detection_group.add_argument("--near-zone", type=float, default=0.5, help="доля ближней зоны (0.0-1.0)")
-    detection_group.add_argument("--near-c", type=int, default=-5, help="порог C для adaptiveThreshold в ближней зоне")
-    detection_group.add_argument("--far-c", type=int, default=5, help="порог C для adaptiveThreshold в далёкой зоне")
-    detection_group.add_argument("--near-multiplier", type=float, default=2.0, help="множитель для минимальной площади в ближней зоне")
+    detection_group.add_argument(
+        "--min-area", type=int, default=100, help="минимальная площадь контура (пикс²)")
+    detection_group.add_argument(
+        "--near-zone", type=float, default=0.5, help="доля ближней зоны (0.0-1.0)")
+    detection_group.add_argument(
+        "--near-c", type=int, default=-5, help="порог C для adaptiveThreshold в ближней зоне")
+    detection_group.add_argument(
+        "--far-c", type=int, default=5, help="порог C для adaptiveThreshold в далёкой зоне")
+    detection_group.add_argument("--near-multiplier", type=float, default=2.0,
+                                 help="множитель для минимальной площади в ближней зоне")
 
     flame_group = p.add_argument_group("Адаптивная детекция пламени")
-    flame_group.add_argument("--no-adaptive-flame", action="store_true", help="отключить адаптивную детекцию пламени")
-    flame_group.add_argument("--far-c-boost", type=int, default=6, help="насколько повысить far_c в кадрах без пламени")
-    flame_group.add_argument("--flame-threshold", type=float, default=10.0, help="минимальный процент площади пламени для отметки кадра как \"с пламенем\"")
+    flame_group.add_argument("--no-adaptive-flame", action="store_true",
+                             help="отключить адаптивную детекцию пламени")
+    flame_group.add_argument("--far-c-boost", type=int, default=6,
+                             help="насколько повысить far_c в кадрах без пламени")
+    flame_group.add_argument("--flame-threshold", type=float, default=10.0,
+                             help="минимальный процент площади пламени для отметки кадра как \"с пламенем\"")
 
     return p.parse_args(argv)
 
@@ -467,6 +569,8 @@ def _parse_args(argv: Optional[List[str]] = None) -> argparse.Namespace:
 if __name__ == "__main__":
     args = _parse_args()
     setup_directories()
+    
+    # === ПЕРЕДАЁМ ПРОФИЛЬ В analyze_all_videos ===
     analyze_all_videos(
         force_reanalyze=args.force,
         save_every_n=args.save_every,
@@ -480,6 +584,7 @@ if __name__ == "__main__":
         far_zone_c_offset=args.far_c,
         near_zone_area_multiplier=args.near_multiplier,
         flame_detection_threshold=args.flame_threshold,
+        perspective_profile=args.persp_profile  # НОВЫЙ ПАРАМЕТР
     )
     logger.info("Готово.")
 
